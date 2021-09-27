@@ -10,25 +10,30 @@ public class ConnectionDB {
 	private String url = "jdbc:mysql://localhost/" + bd;
 	
 	private Connection connection = null;
+	private PreparedStatement sentence;
 	
-	public Connection getConnection() {
-		
+	public ConnectionDB() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			connection = DriverManager.getConnection(url, login, password);
 			if (connection != null) {
 				System.out.println("Conexion a base de datos " + bd + " OK\n");
 			}
-		} catch (SQLException e) {
-			System.out.println(e);
-		} catch (ClassNotFoundException e) {
-			System.out.println(e);
-		} catch (Exception e) {
-			System.out.println(e);
+		} catch (ClassNotFoundException ex) {
+			ex.printStackTrace();;
+		} catch (SQLException ex) {
+			ex.printStackTrace();
 		}
-		
-		return connection;
-		
+	}
+	
+	public PreparedStatement pStimp(String sql) {
+		try {
+			this.sentence = connection.prepareStatement(sql);
+			return this.sentence;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
 	}
 	
 	public void disconnect() {
