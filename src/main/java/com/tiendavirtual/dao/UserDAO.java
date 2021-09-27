@@ -36,7 +36,6 @@ public class UserDAO {
 		try {
 			Statement stmt = con.getConnection().createStatement();
 			userFound = stmt.executeQuery("SELECT * FROM usuarios WHERE cedula_usuario = '"+ cedula +"';");
-			user = new UserDTO();
 			while (userFound.next()) {
 				user = new UserDTO(userFound.getString("cedula_usuario"), userFound.getString("nombre_usuario"),
 						userFound.getString("email_usuario"), userFound.getString("usuario"), userFound.getString("password"));

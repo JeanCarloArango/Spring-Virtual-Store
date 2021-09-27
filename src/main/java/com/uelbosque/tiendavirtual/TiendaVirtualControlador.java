@@ -10,10 +10,10 @@ import com.tiendavirtual.dto.UserDTO;
 public class TiendaVirtualControlador {
 	
 	@RequestMapping("/crearUsuario")
-	public String InsertarCliente(UserDTO nUser) {
+	public void InsertarCliente(UserDTO nUser) {
 		UserDAO uDao = new UserDAO();
 		uDao.createUser(nUser);
-		return "Microservicio de insersión de clientes";
+		System.out.println("Microservicio de insersión de clientes");
 	}
 	
 	@RequestMapping("/buscarCliente")

@@ -41,7 +41,7 @@ usrsLink.addEventListener("click", () => {
 	setTimeout(() => {
 		const usrsAddBtn = document.getElementById("usrAddBtn");
 		usrsAddBtn.addEventListener("click", () => {
-			validateUsr();
+			submitUser();
 		});
 	}, 1000);
 });
@@ -149,15 +149,15 @@ function shSuccess() {
 // Submit Forms
 
 function submitUser() {
-	const usrDni = document.getElementById("txtDni");
-	const usrName = document.getElementById("txtName");
-	const usrEmail = document.getElementById("txtEmail");
-	const usrNick = document.getElementById("txtUsr");
-	const usrPass = document.getElementById("txtPass");
-	let valid = validetevalidateUsr();
+	const usrDni = document.getElementById("txtDni").value.trim();
+	const usrName = document.getElementById("txtName").value.trim();
+	const usrEmail = document.getElementById("txtEmail").value.trim();
+	const usrNick = document.getElementById("txtUsr").value.trim();
+	const usrPass = document.getElementById("txtPass").value.trim();
+	let valid = validateUsr();
 	if (valid) {
 		var url = '/crearUsuario';
-		var params = "userDni=" + usrDni + "&" + "userName=" + usrName + "userEmail=" + usrEmail + "&" + "userNick=" + usrNick + "&" + "userPass=" + usrPass;
+		var params = "userDni=" + usrDni + "&" + "userName=" + usrName + "&" + "userEmail=" + usrEmail + "&" + "userNick=" + usrNick + "&" + "userPass=" + usrPass;
 		xhttp.open('POST', url, true);
 
 		xhttp.setRequestHeader('Content-type',
@@ -168,6 +168,9 @@ function submitUser() {
 				shSuccess();
 			}
 		}
+		
 		xhttp.send(params);
+		
 	}
+
 }

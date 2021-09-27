@@ -8,8 +8,6 @@ public class UserDTO {
     private String userNick;
     private String userPass;
 
-    public UserDTO() {}
-
 	public UserDTO(String userDni, String userName, String userEmail, String userNick, String userPass) {
 		super();
 		this.userDni = userDni;
