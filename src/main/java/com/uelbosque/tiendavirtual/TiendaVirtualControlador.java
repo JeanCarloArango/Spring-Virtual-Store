@@ -6,24 +6,23 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tiendavirtual.dao.CustomerDAO;
 import com.tiendavirtual.dao.UserDAO;
 import com.tiendavirtual.dto.CustomerDTO;
+import com.tiendavirtual.dto.SuppliersDTO;
 import com.tiendavirtual.dto.UserDTO;
 
 @RestController
 public class TiendaVirtualControlador {
 	
 	@RequestMapping("/crearUsuario")
-	public String InsertarCliente(UserDTO nUser) {
+	public String InsertarUsuario(UserDTO nUser) {
 		UserDAO uDao = new UserDAO();
 		uDao.createUser(nUser);
 		return "Microservicio de insersión de usuarios";
 	}
 	
-	
 	@RequestMapping("/buscarUsuario")
-	public String BuscarUsuario(String cedula) {
+	public UserDTO BuscarUsuario(String cedula) {
 		UserDAO uDao = new UserDAO();
-		uDao.searchUser(cedula);
-		return "Microservicio buscar de usuarios";
+		return uDao.searchUser(cedula);
 	}
 	
 	@RequestMapping("/actualizarUsuario")
@@ -40,14 +39,19 @@ public class TiendaVirtualControlador {
 		return "Microservicio eliminiar de usuarios";
 	}
 	
-
+	// Clientes
 	
+	@RequestMapping("/crearCliente")
+	public String InsertarCliente(CustomerDTO customer) {
+		CustomerDAO cDao=new CustomerDAO();
+		cDao.createCustomer(customer);
+		return "Microservicio de insersión de usuarios";
+	}
 	
 	@RequestMapping("/buscarCliente")
-	public String ConsultarCliente(String cedula) {
+	public CustomerDTO ConsultarCliente(String cedula) {
 		CustomerDAO cDao=new CustomerDAO();
-		cDao.searchCustomer(cedula);
-		return "Microservicio de consulta de clientes";
+		return cDao.searchCustomer(cedula);
 	}
 	
 	@RequestMapping("/actualizarCliente")
@@ -58,9 +62,14 @@ public class TiendaVirtualControlador {
 	}
 	
 	@RequestMapping("/eliminarCliente")
-	public String EliminarCliente() {
-		
+	public String EliminarCliente(String cedula) {
+		CustomerDAO CDao=new CustomerDAO();
+		CDao.delCustomer(cedula);
 		return "Microservicio de eliminar  clientes";
 	}
+	
+	
+	
+	
 	
 }
