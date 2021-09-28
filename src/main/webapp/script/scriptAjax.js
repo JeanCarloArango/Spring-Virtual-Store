@@ -172,4 +172,7 @@ function submitUser() {
 		}
 		xhttp.send(params);
 	}
+	
+//  Esta vaina es lo que  edité ( por si se daña borrar)	
+
 }
