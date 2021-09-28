@@ -13,7 +13,6 @@ public class TiendaVirtualControlador {
 	public void InsertarCliente(UserDTO nUser) {
 		UserDAO uDao = new UserDAO();
 		uDao.createUser(nUser);
-		System.out.println("Microservicio de insersión de clientes");
 	}
 	
 	@RequestMapping("/buscarCliente")

@@ -1,6 +1,5 @@
 const ajaxCont = document.getElementById("ajax");
-let alertSh = document.createElement("div");
-alertSh.classList.add("alert-sh");;
+let alertSh = document.getElementById("alertCont");
 
 // Cargar Formularios
 const xhttp = new XMLHttpRequest;
@@ -105,6 +104,7 @@ function validateUsr() {
 // Errors Dialogs
 
 function shErrors(txtContent) {
+	alertSh.innerHTML = "";
 	let errorCont = document.createElement("div");
 	errorCont.classList.add("error-cont");
 	let errorMsg = document.createElement("span");
@@ -112,8 +112,7 @@ function shErrors(txtContent) {
 	let content = document.createTextNode(txtContent);
 	errorMsg.appendChild(content);
 	errorCont.appendChild(errorMsg);
-	alertSh.appendChild(errorCont)
-	ajaxCont.appendChild(alertSh);
+	alertSh.appendChild(errorCont);
 }
 
 function hideErrors() {
@@ -128,22 +127,19 @@ function hideErrors() {
 
 // Success Dialogs
 
-function shSuccess(txtContent) {
+function shSuccess() {
 	alertSh.innerHTML = "";
 	let successCont = document.createElement("div");
 	successCont.classList.add("success-cont");
 	let successMsg = document.createElement("span");
 	successMsg.classList.add("success-msg");
-	let content = document.createTextNode(txtContent);
+	let content = document.createTextNode("Datos enviados con éxito");
 	successMsg.appendChild(content);
 	successCont.appendChild(successMsg);
-	alertSh.appendChild(successCont)
-	ajaxCont.appendChild(alertSh);
-	const inputs = document.querySelectorAll(".txt");
-	// console.log(inputs);
-	inputs.forEach((input) => {
-		input.value = "";
-	});
+	alertSh.appendChild(successCont);
+	setTimeout(() => {
+		alertSh.innerHTML = "";
+	}, 4000);
 }
 
 // Submit Forms
@@ -166,11 +162,20 @@ function submitUser() {
 		xhttp.onreadystatechange = function() {//Call a function when the state changes.
 			if (xhttp.readyState == 4 && xhttp.status == 200) {
 				shSuccess();
+			} else {
+				shErrors("Datos no enviados");
 			}
 		}
-		
+
 		xhttp.send(params);
-		
+
+		const links = document.querySelectorAll(".link");
+		links.forEach((link) => {
+			link.classList.remove("active");
+		});
+
 	}
+
+	return;
 
 }
