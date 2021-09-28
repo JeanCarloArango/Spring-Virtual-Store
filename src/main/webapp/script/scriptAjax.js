@@ -38,11 +38,32 @@ usrsLink.addEventListener("click", () => {
 	setTimeout(() => {
 		const usrsAddBtn = document.getElementById("usrAddBtn");
 		const usrsUpBtn = document.getElementById("usrUpBtn");
+		const usrsDelBtn = document.getElementById("usrDelBtn");
 		usrsAddBtn.addEventListener("click", () => {
 			submitCreateUser();
 		});
 		usrsUpBtn.addEventListener("click", () => {
 			submitUpdateUser();
+		});
+		usrsDelBtn.addEventListener("click", () => {
+			submitDelUser();
+		});
+	}, 1000);
+});
+
+cstmrLink.addEventListener("click", () => {
+	setTimeout(() => {
+		const cstmrAddBtn = document.getElementById("cstmrAddBtn");
+		const cstmrUpBtn = document.getElementById("cstmrUpBtn");
+		const cstmrDelBtn = document.getElementById("cstmrDelBtn");
+		cstmrAddBtn.addEventListener("click", () => {
+			submitCreateCstmr();
+		});
+		cstmrUpBtn.addEventListener("click", () => {
+			submitUpdateCstmr();
+		});
+		cstmrDelBtn.addEventListener("click", () => {
+			submitDelCstmr();
 		});
 	}, 1000);
 });
@@ -79,7 +100,6 @@ function validateUsr() {
 		shErrors("Contraseña no puede estar vacío");
 		return false;
 	} else {
-		shSuccess();
 		return true;
 	}
 
@@ -89,9 +109,9 @@ function validateUsr() {
 function validateCstmr() {
 	const cstmrDni = document.getElementById("txtDni");
 	const cstmrName = document.getElementById("txtName");
+	const cstmrAddr = document.getElementById("txtAddr");
+	const cstmrPhone = document.getElementById("txtPhone");
 	const cstmrEmail = document.getElementById("txtEmail");
-	const cstmrNick = document.getElementById("txtUsr");
-	const cstmrPass = document.getElementById("txtPass");
 
 	hideErrors();
 	if (cstmrDni.value.trim().length == 0) {
@@ -102,20 +122,19 @@ function validateCstmr() {
 		cstmrName.focus();
 		shErrors("Nombre no puede estar vacío");
 		return false;
+	} else if (cstmrAddr.value.trim().length == 0) {
+		cstmrAddr.focus();
+		shErrors("Dirección no puede estar vacío");
+		return false;
+	} else if (cstmrPhone.value.trim().length == 0) {
+		cstmrPhone.focus();
+		shErrors("Teléfono no puede estar vacío");
+		return false;
 	} else if (cstmrEmail.value.trim().length == 0) {
 		cstmrEmail.focus();
 		shErrors("E-mail no puede estar vacío");
 		return false;
-	} else if (cstmrNick.value.trim().length == 0) {
-		cstmrNick.focus();
-		shErrors("Usuario no puede estar vacío");
-		return false;
-	} else if (cstmrPass.value.trim().length == 0) {
-		cstmrPass.focus();
-		shErrors("Contraseña no puede estar vacío");
-		return false;
 	} else {
-		shSuccess();
 		return true;
 	}
 
@@ -267,14 +286,14 @@ function submitDelUser() {
 function submitCreateCstmr() {
 	const cstmrDni = document.getElementById("txtDni").value.trim();
 	const cstmrName = document.getElementById("txtName").value.trim();
+	const cstmrAddr = document.getElementById("txtAddr").value.trim();
+	const cstmrPhone = document.getElementById("txtPhone").value.trim();
 	const cstmrEmail = document.getElementById("txtEmail").value.trim();
-	const cstmrNick = document.getElementById("txtUsr").value.trim();
-	const cstmrPass = document.getElementById("txtPass").value.trim();
 	const xhttpServer = new XMLHttpRequest();
-	let valid = validateUsr();
+	let valid = validateCstmr();
 	if (valid) {
 		var url = '/crearCliente';
-		var params = "userDni=" + usrDni + "&" + "userName=" + usrName + "&" + "userEmail=" + usrEmail + "&" + "userNick=" + usrNick + "&" + "userPass=" + usrPass;
+		var params = "identifyCustomer=" + cstmrDni + "&" + "nameCustomer=" + cstmrName + "&" + "addressCustomer=" + cstmrAddr + "&" + "phoneCustomer=" + cstmrPhone + "&" + "emailCustomer=" + cstmrEmail;
 		xhttpServer.open('POST', url, true);
 
 		xhttpServer.setRequestHeader('Content-type',
@@ -282,7 +301,7 @@ function submitCreateCstmr() {
 
 		xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
 			if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
-				shSuccess("Usuario creado satisfactoriamente");
+				shSuccess("Cliente creado satisfactoriamente");
 				setTimeout(() => {
 					alertSh.innerHTML = "";
 				}, 4000);
@@ -299,17 +318,17 @@ function submitCreateCstmr() {
 
 }
 
-function submitUpdateUser() {
-	const usrDni = document.getElementById("txtDni").value.trim();
-	const usrName = document.getElementById("txtName").value.trim();
-	const usrEmail = document.getElementById("txtEmail").value.trim();
-	const usrNick = document.getElementById("txtUsr").value.trim();
-	const usrPass = document.getElementById("txtPass").value.trim();
+function submitUpdateCstmr() {
+	const cstmrDni = document.getElementById("txtDni").value.trim();
+	const cstmrName = document.getElementById("txtName").value.trim();
+	const cstmrAddr = document.getElementById("txtAddr").value.trim();
+	const cstmrPhone = document.getElementById("txtPhone").value.trim();
+	const cstmrEmail = document.getElementById("txtEmail").value.trim();
 	const xhttpServer = new XMLHttpRequest();
-	let valid = validateUsr();
+	let valid = validateCstmr();
 	if (valid) {
-		var url = '/actualizarUsuario';
-		var params = "userDni=" + usrDni + "&" + "userName=" + usrName + "&" + "userEmail=" + usrEmail + "&" + "userNick=" + usrNick + "&" + "userPass=" + usrPass;
+		var url = '/actualizarCliente';
+		var params = "identifyCustomer=" + cstmrDni + "&" + "nameCustomer=" + cstmrName + "&" + "addressCustomer=" + cstmrAddr + "&" + "phoneCustomer=" + cstmrPhone + "&" + "emailCustomer=" + cstmrEmail;
 		xhttpServer.open('POST', url, true);
 
 		xhttpServer.setRequestHeader('Content-type',
@@ -317,7 +336,7 @@ function submitUpdateUser() {
 
 		xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
 			if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
-				shSuccess("Usuario actualizado con éxito");
+				shSuccess("Cliente actualizado satisfactoriamente");
 				setTimeout(() => {
 					alertSh.innerHTML = "";
 				}, 4000);
@@ -334,12 +353,12 @@ function submitUpdateUser() {
 
 }
 
-function submitDelUser() {
-	const usrDni = document.getElementById("txtDni").value.trim();
+function submitDelCstmr() {
+	const cstmrDni = document.getElementById("txtDni").value.trim();
 	const xhttpServer = new XMLHttpRequest();
 	if (valid) {
-		var url = '/eliminarUsuario';
-		var params = "userDni=" + usrDni;
+		var url = '/eliminarCliente';
+		var params = "identifyCustomer=" + cstmrDni;
 		xhttpServer.open('POST', url, true);
 
 		xhttpServer.setRequestHeader('Content-type',
@@ -347,7 +366,7 @@ function submitDelUser() {
 
 		xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
 			if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
-				shSuccess("Usuario eliminado con éxito");
+				shSuccess("Cliente eliminado satisfactoriamente");
 				setTimeout(() => {
 					alertSh.innerHTML = "";
 				}, 4000);
@@ -363,3 +382,4 @@ function submitDelUser() {
 	return;
 
 }
+
