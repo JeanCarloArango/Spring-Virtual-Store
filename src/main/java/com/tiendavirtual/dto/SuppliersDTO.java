@@ -2,6 +2,7 @@ package com.tiendavirtual.dto;
 
 public class SuppliersDTO {
   
+	private String supplierNit;
   private String supplierCity;
   private String supplierAddress;
   private String supplierName;
@@ -9,11 +10,16 @@ public class SuppliersDTO {
 
   public SuppliersDTO() {}
 
-  public SuppliersDTO(String supplierCity, String supplierAddress, String supplierName, String supplierPhone) {
+  public SuppliersDTO(String supplierNit, String supplierCity, String supplierAddress, String supplierName, String supplierPhone) {
+	this.supplierNit = supplierNit;
     this.supplierCity = supplierCity;
     this.supplierAddress = supplierAddress;
     this.supplierName = supplierName;
     this.supplierPhone = supplierPhone;
+  }
+  
+  public String getSupplierNit() {
+	  return supplierNit;
   }
 
   public String getSupplierCity() {
