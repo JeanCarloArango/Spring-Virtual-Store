@@ -128,13 +128,13 @@ function hideErrors() {
 
 // Success Dialogs
 
-function shSuccess() {
+function shSuccess(txtContent) {
 	alertSh.innerHTML = "";
 	let successCont = document.createElement("div");
 	successCont.classList.add("success-cont");
 	let successMsg = document.createElement("span");
 	successMsg.classList.add("success-msg");
-	let content = document.createTextNode("Datos enviados con éxito");
+	let content = document.createTextNode(txtContent);
 	successMsg.appendChild(content);
 	successCont.appendChild(successMsg);
 	alertSh.appendChild(successCont)
