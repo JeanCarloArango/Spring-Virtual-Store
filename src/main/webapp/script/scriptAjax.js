@@ -2,21 +2,20 @@ const ajaxCont = document.getElementById("ajax");
 let alertSh = document.getElementById("alertCont");
 
 // Cargar Formularios
-const xhttp = new XMLHttpRequest;
-xhttp.onload = function() {
+const xhttpForms = new XMLHttpRequest;
+xhttpForms.onload = function() {
 	ajaxCont.innerHTML = this.responseText;
 }
 
-document.querySelectorAll(".link").forEach(el => {
+document.querySelectorAll(".link").forEach((el) => {
 	el.addEventListener("click", e => {
 		let id = e.target.getAttribute("id");
-		xhttp.open("GET", id + ".html", true);
-		xhttp.send();
+		xhttpForms.open("GET", id + ".html", true);
+		xhttpForms.send();
 	});
 });
 
 // Nombre archivo subido
-
 const prLink = document.getElementById("Products_mgmt");
 
 prLink.addEventListener("click", () => {
@@ -31,7 +30,6 @@ prLink.addEventListener("click", () => {
 })
 
 // Eventos AJAX
-
 const usrsLink = document.getElementById("CRUD_Users");
 const cstmrLink = document.getElementById("CRUD_Customers");
 const supLink = document.getElementById("CRUD_Suppliers");
@@ -39,33 +37,19 @@ const supLink = document.getElementById("CRUD_Suppliers");
 usrsLink.addEventListener("click", () => {
 	setTimeout(() => {
 		const usrsAddBtn = document.getElementById("usrAddBtn");
+		const usrsUpBtn = document.getElementById("usrUpBtn");
 		usrsAddBtn.addEventListener("click", () => {
-			submitUser();
+			submitCreateUser();
 		});
-	}, 1000);
-});
-
-cstmrLink.addEventListener("click", () => {
-	setTimeout(() => {
-		const cstmrAddBtn = document.getElementById("cstmrAddBtn");
-		cstmrAddBtn.addEventListener("click", () => {
-			validateCstmr();
-		});
-	}, 1000);
-});
-
-supLink.addEventListener("click", () => {
-	setTimeout(() => {
-		const supAddBtn = document.getElementById("supAddBtn");
-		supAddBtn.addEventListener("click", () => {
-			errorSh.innerHTML = "";
-			validateSup();
+		usrsUpBtn.addEventListener("click", () => {
+			submitUpdateUser();
 		});
 	}, 1000);
 });
 
 // Validaciones
 
+// Usuarios
 function validateUsr() {
 	const usrDni = document.getElementById("txtDni");
 	const usrName = document.getElementById("txtName");
@@ -101,8 +85,43 @@ function validateUsr() {
 
 }
 
-// Errors Dialogs
+// Clientes
+function validateCstmr() {
+	const cstmrDni = document.getElementById("txtDni");
+	const cstmrName = document.getElementById("txtName");
+	const cstmrEmail = document.getElementById("txtEmail");
+	const cstmrNick = document.getElementById("txtUsr");
+	const cstmrPass = document.getElementById("txtPass");
 
+	hideErrors();
+	if (cstmrDni.value.trim().length == 0) {
+		cstmrDni.focus();
+		shErrors("Cédula no puede estar vacío");
+		return false;
+	} else if (cstmrName.value.trim().length == 0) {
+		cstmrName.focus();
+		shErrors("Nombre no puede estar vacío");
+		return false;
+	} else if (cstmrEmail.value.trim().length == 0) {
+		cstmrEmail.focus();
+		shErrors("E-mail no puede estar vacío");
+		return false;
+	} else if (cstmrNick.value.trim().length == 0) {
+		cstmrNick.focus();
+		shErrors("Usuario no puede estar vacío");
+		return false;
+	} else if (cstmrPass.value.trim().length == 0) {
+		cstmrPass.focus();
+		shErrors("Contraseña no puede estar vacío");
+		return false;
+	} else {
+		shSuccess();
+		return true;
+	}
+
+}
+
+// Errors Dialogs
 function shErrors(txtContent) {
 	alertSh.innerHTML = "";
 	let errorCont = document.createElement("div");
@@ -126,53 +145,218 @@ function hideErrors() {
 }
 
 // Success Dialogs
-
-function shSuccess() {
+function shSuccess(txtContent) {
 	alertSh.innerHTML = "";
 	let successCont = document.createElement("div");
 	successCont.classList.add("success-cont");
 	let successMsg = document.createElement("span");
 	successMsg.classList.add("success-msg");
-	let content = document.createTextNode("Datos enviados con éxito");
+	let content = document.createTextNode(txtContent);
 	successMsg.appendChild(content);
 	successCont.appendChild(successMsg);
 	alertSh.appendChild(successCont);
-	setTimeout(() => {
-		alertSh.innerHTML = "";
-	}, 4000);
+	document.querySelectorAll(".txt").forEach((el) => {
+		el.value = "";
+	});
 }
 
 // Submit Forms
 
-function submitUser() {
+// Usuarios
+function submitCreateUser() {
 	const usrDni = document.getElementById("txtDni").value.trim();
 	const usrName = document.getElementById("txtName").value.trim();
 	const usrEmail = document.getElementById("txtEmail").value.trim();
 	const usrNick = document.getElementById("txtUsr").value.trim();
 	const usrPass = document.getElementById("txtPass").value.trim();
+	const xhttpServer = new XMLHttpRequest();
 	let valid = validateUsr();
 	if (valid) {
 		var url = '/crearUsuario';
 		var params = "userDni=" + usrDni + "&" + "userName=" + usrName + "&" + "userEmail=" + usrEmail + "&" + "userNick=" + usrNick + "&" + "userPass=" + usrPass;
-		xhttp.open('POST', url, true);
+		xhttpServer.open('POST', url, true);
 
-		xhttp.setRequestHeader('Content-type',
+		xhttpServer.setRequestHeader('Content-type',
 			'application/x-www-form-urlencoded');
 
-		xhttp.onreadystatechange = function() {//Call a function when the state changes.
-			if (xhttp.readyState == 4 && xhttp.status == 200) {
-				shSuccess();
+		xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
+			if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
+				shSuccess("Usuario creado satisfactoriamente");
+				setTimeout(() => {
+					alertSh.innerHTML = "";
+				}, 4000);
 			} else {
 				shErrors("Datos no enviados");
 			}
 		}
 
-		xhttp.send(params);
+		xhttpServer.send(params);
 
-		const links = document.querySelectorAll(".link");
-		links.forEach((link) => {
-			link.classList.remove("active");
-		});
+	}
+
+	return;
+
+}
+
+function submitUpdateUser() {
+	const usrDni = document.getElementById("txtDni").value.trim();
+	const usrName = document.getElementById("txtName").value.trim();
+	const usrEmail = document.getElementById("txtEmail").value.trim();
+	const usrNick = document.getElementById("txtUsr").value.trim();
+	const usrPass = document.getElementById("txtPass").value.trim();
+	const xhttpServer = new XMLHttpRequest();
+	let valid = validateUsr();
+	if (valid) {
+		var url = '/actualizarUsuario';
+		var params = "userDni=" + usrDni + "&" + "userName=" + usrName + "&" + "userEmail=" + usrEmail + "&" + "userNick=" + usrNick + "&" + "userPass=" + usrPass;
+		xhttpServer.open('POST', url, true);
+
+		xhttpServer.setRequestHeader('Content-type',
+			'application/x-www-form-urlencoded');
+
+		xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
+			if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
+				shSuccess("Usuario actualizado con éxito");
+				setTimeout(() => {
+					alertSh.innerHTML = "";
+				}, 4000);
+			} else {
+				shErrors("Datos no enviados");
+			}
+		}
+
+		xhttpServer.send(params);
+
+	}
+
+	return;
+
+}
+
+function submitDelUser() {
+	const usrDni = document.getElementById("txtDni").value.trim();
+	const xhttpServer = new XMLHttpRequest();
+	if (valid) {
+		var url = '/eliminarUsuario';
+		var params = "userDni=" + usrDni;
+		xhttpServer.open('POST', url, true);
+
+		xhttpServer.setRequestHeader('Content-type',
+			'application/x-www-form-urlencoded');
+
+		xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
+			if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
+				shSuccess("Usuario eliminado con éxito");
+				setTimeout(() => {
+					alertSh.innerHTML = "";
+				}, 4000);
+			} else {
+				shErrors("Datos no enviados");
+			}
+		}
+
+		xhttpServer.send(params);
+
+	}
+
+	return;
+
+}
+
+// Clientes
+function submitCreateCstmr() {
+	const cstmrDni = document.getElementById("txtDni").value.trim();
+	const cstmrName = document.getElementById("txtName").value.trim();
+	const cstmrEmail = document.getElementById("txtEmail").value.trim();
+	const cstmrNick = document.getElementById("txtUsr").value.trim();
+	const cstmrPass = document.getElementById("txtPass").value.trim();
+	const xhttpServer = new XMLHttpRequest();
+	let valid = validateUsr();
+	if (valid) {
+		var url = '/crearCliente';
+		var params = "userDni=" + usrDni + "&" + "userName=" + usrName + "&" + "userEmail=" + usrEmail + "&" + "userNick=" + usrNick + "&" + "userPass=" + usrPass;
+		xhttpServer.open('POST', url, true);
+
+		xhttpServer.setRequestHeader('Content-type',
+			'application/x-www-form-urlencoded');
+
+		xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
+			if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
+				shSuccess("Usuario creado satisfactoriamente");
+				setTimeout(() => {
+					alertSh.innerHTML = "";
+				}, 4000);
+			} else {
+				shErrors("Datos no enviados");
+			}
+		}
+
+		xhttpServer.send(params);
+
+	}
+
+	return;
+
+}
+
+function submitUpdateUser() {
+	const usrDni = document.getElementById("txtDni").value.trim();
+	const usrName = document.getElementById("txtName").value.trim();
+	const usrEmail = document.getElementById("txtEmail").value.trim();
+	const usrNick = document.getElementById("txtUsr").value.trim();
+	const usrPass = document.getElementById("txtPass").value.trim();
+	const xhttpServer = new XMLHttpRequest();
+	let valid = validateUsr();
+	if (valid) {
+		var url = '/actualizarUsuario';
+		var params = "userDni=" + usrDni + "&" + "userName=" + usrName + "&" + "userEmail=" + usrEmail + "&" + "userNick=" + usrNick + "&" + "userPass=" + usrPass;
+		xhttpServer.open('POST', url, true);
+
+		xhttpServer.setRequestHeader('Content-type',
+			'application/x-www-form-urlencoded');
+
+		xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
+			if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
+				shSuccess("Usuario actualizado con éxito");
+				setTimeout(() => {
+					alertSh.innerHTML = "";
+				}, 4000);
+			} else {
+				shErrors("Datos no enviados");
+			}
+		}
+
+		xhttpServer.send(params);
+
+	}
+
+	return;
+
+}
+
+function submitDelUser() {
+	const usrDni = document.getElementById("txtDni").value.trim();
+	const xhttpServer = new XMLHttpRequest();
+	if (valid) {
+		var url = '/eliminarUsuario';
+		var params = "userDni=" + usrDni;
+		xhttpServer.open('POST', url, true);
+
+		xhttpServer.setRequestHeader('Content-type',
+			'application/x-www-form-urlencoded');
+
+		xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
+			if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
+				shSuccess("Usuario eliminado con éxito");
+				setTimeout(() => {
+					alertSh.innerHTML = "";
+				}, 4000);
+			} else {
+				shErrors("Datos no enviados");
+			}
+		}
+
+		xhttpServer.send(params);
 
 	}
 
