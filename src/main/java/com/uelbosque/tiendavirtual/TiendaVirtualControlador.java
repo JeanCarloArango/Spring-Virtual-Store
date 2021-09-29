@@ -47,7 +47,6 @@ public class TiendaVirtualControlador {
 		CustomerDAO cDao=new CustomerDAO();
 		cDao.createCustomer(customer);
 		return "Microservicio de insersión de usuarios";
->>>>>>> branch 'master' of https://github.com/JeanCarloArango/Spring-Virtual-Store.git
 	}
 	
 	@RequestMapping("/buscarCliente")
