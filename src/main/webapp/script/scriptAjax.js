@@ -68,6 +68,23 @@ cstmrLink.addEventListener("click", () => {
 	}, 1000);
 });
 
+supLink.addEventListener("click", () => {
+	setTimeout(() => {
+		const supAddBtn = document.getElementById("supAddBtn");
+		const supUpBtn = document.getElementById("supUpBtn");
+		const supDelBtn = document.getElementById("supDelBtn");
+		supAddBtn.addEventListener("click", () => {
+			submitCreateSup();
+		});
+		supUpBtn.addEventListener("click", () => {
+			submitUpdateSup();
+		});
+		supDelBtn.addEventListener("click", () => {
+			submitDelSup();
+		});
+	}, 1000);
+});
+
 // Validaciones
 
 // Usuarios
@@ -133,6 +150,41 @@ function validateCstmr() {
 	} else if (cstmrEmail.value.trim().length == 0) {
 		cstmrEmail.focus();
 		shErrors("E-mail no puede estar vacío");
+		return false;
+	} else {
+		return true;
+	}
+
+}
+
+// Proveedores
+function validateSup() {
+	const supNit = document.getElementById("txtNit");
+	const supName = document.getElementById("txtName");
+	const supAddr = document.getElementById("txtAddr");
+	const supPhone = document.getElementById("txtPhone");
+	const supCity = document.getElementById("txtCity");
+
+	hideErrors();
+	if (supNit.value.trim().length == 0) {
+		supNit.focus();
+		shErrors("NIT no puede estar vacío");
+		return false;
+	} else if (supName.value.trim().length == 0) {
+		supName.focus();
+		shErrors("Nombre no puede estar vacío");
+		return false;
+	} else if (supAddr.value.trim().length == 0) {
+		supAddr.focus();
+		shErrors("Dirección no puede estar vacío");
+		return false;
+	} else if (supPhone.value.trim().length == 0) {
+		supPhone.focus();
+		shErrors("Teléfono no puede estar vacío");
+		return false;
+	} else if (supCity.value.trim().length == 0) {
+		supCity.focus();
+		shErrors("Ciudad no puede estar vacío");
 		return false;
 	} else {
 		return true;
@@ -371,6 +423,107 @@ function submitDelCstmr() {
 			}, 4000);
 		} else {
 			shErrors("Datos no enviados.");
+		}
+	}
+
+	xhttpServer.send(params);
+
+	return;
+
+}
+
+// Proveedores
+function submitCreateSup() {
+	const supNit = document.getElementById("txtNit").value.trim();
+	const supName = document.getElementById("txtName").value.trim();
+	const supAddr = document.getElementById("txtAddr").value.trim();
+	const supPhone = document.getElementById("txtPhone").value.trim();
+	const supCity = document.getElementById("txtCity").value.trim();
+	const xhttpServer = new XMLHttpRequest();
+	let valid = validateSup();
+	if (valid) {
+		var url = '/crearProveedor';
+		var params = "supplierNit=" + supNit + "&" + "supplierName=" + supName + "&" + "supplierAddress=" + supAddr + "&" + "supplierPhone=" + supPhone + "&" + "supplierCity=" + supCity;
+		xhttpServer.open('POST', url, true);
+
+		xhttpServer.setRequestHeader('Content-type',
+			'application/x-www-form-urlencoded');
+
+		xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
+			if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
+				shSuccess("Proveedor creado satisfactoriamente");
+				setTimeout(() => {
+					alertSh.innerHTML = "";
+				}, 4000);
+			} else {
+				shErrors("Datos no enviados");
+				setTimeout(() => {
+					alertSh.innerHTML = "";
+				}, 4000);
+			}
+		}
+
+		xhttpServer.send(params);
+
+	}
+
+	return;
+
+}
+
+function submitUpdateSup() {
+	const supNit = document.getElementById("txtNit").value.trim();
+	const supName = document.getElementById("txtName").value.trim();
+	const supAddr = document.getElementById("txtAddr").value.trim();
+	const supPhone = document.getElementById("txtPhone").value.trim();
+	const supCity = document.getElementById("txtCity").value.trim();
+	const xhttpServer = new XMLHttpRequest();
+	let valid = validateSup();
+	if (valid) {
+		var url = '/actualizarProveedor';
+		var params = "supplierNit=" + supNit + "&" + "supplierName=" + supName + "&" + "supplierAddress=" + supAddr + "&" + "supplierPhone=" + supPhone + "&" + "supplierCity=" + supCity;
+		xhttpServer.open('POST', url, true);
+
+		xhttpServer.setRequestHeader('Content-type',
+			'application/x-www-form-urlencoded');
+
+		xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
+			if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
+				shSuccess("Proveedor actualizado satisfactoriamente");
+				setTimeout(() => {
+					alertSh.innerHTML = "";
+				}, 4000);
+			} else {
+				shErrors("Datos no enviados");
+			}
+		}
+
+		xhttpServer.send(params);
+
+	}
+
+	return;
+
+}
+
+function submitDelSup() {
+	const supNit = document.getElementById("txtNit").value.trim();
+	const xhttpServer = new XMLHttpRequest();
+	var url = '/eliminarProveedor';
+	var params = "nit=" + supNit;
+	xhttpServer.open('POST', url, true);
+
+	xhttpServer.setRequestHeader('Content-type',
+		'application/x-www-form-urlencoded');
+
+	xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
+		if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
+			shSuccess("Proveedor eliminado satisfactoriamente");
+			setTimeout(() => {
+				alertSh.innerHTML = "";
+			}, 4000);
+		} else {
+			shErrors("Datos no enviados");
 		}
 	}
 

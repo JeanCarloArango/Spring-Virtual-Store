@@ -71,30 +71,30 @@ public class TiendaVirtualControlador {
 	}
 	// provedores
 
-		@RequestMapping("/buscarProvedor")
+		@RequestMapping("/buscarProveedor")
 		public SuppliersDTO ConsultarProvedor(String nit) {
 			SuppliersDAO pDao = new SuppliersDAO();
 			return pDao.searchSupplier(nit);
 		}
 
-		@RequestMapping("/crearProvedor")
+		@RequestMapping("/crearProveedor")
 		public String InsertarProvedor(SuppliersDTO supplier) {
 			SuppliersDAO pDao = new SuppliersDAO();
 			pDao.createSupplier(supplier);
 			return "Microservicio de insersi�nn de Provedores";
 		}
 
-		@RequestMapping("/actualizarProvedor")
+		@RequestMapping("/actualizarProveedor")
 		public String ActualizarProvedor(SuppliersDTO supplier) {
 			SuppliersDAO pDao = new SuppliersDAO();
 			pDao.updateSupplier(supplier);
 			return "Microservicio de actualizaci�n de Provedores";
 		}
 
-		@RequestMapping("/eliminarProvedor")
-		public String EliminarProvedores(String  nit) {
+		@RequestMapping("/eliminarProveedor")
+		public String EliminarProvedores(String nit) {
 			SuppliersDAO pDao = new SuppliersDAO();
-			pDao.delSupplier( nit);
+			pDao.delSupplier(nit);
 			return "Microservicio de eliminar  Provedores";
 		}
 
