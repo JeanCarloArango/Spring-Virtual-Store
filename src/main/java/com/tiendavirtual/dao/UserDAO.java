@@ -1,46 +1,61 @@
 package com.tiendavirtual.dao;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 import com.tiendavirtual.dto.UserDTO;
 
-
 public class UserDAO {
 	
-	ConnectionDB con = null;
-	UserDTO user = null;
+	private ConnectionDB con = new ConnectionDB();
+	private PreparedStatement sentence;
+	private String sql;
 	
-	public void createUser(UserDTO user) {
-
-		con = new ConnectionDB();
+	public boolean createUser(UserDTO user) {
 
 		try {
-			Statement stmt = con.getConnection().createStatement();
-			stmt.executeUpdate("INSERT INTO usuarios(cedula, nombre, email, usuario, password) VALUES ('"
-					+ user.getUserDni() + "','" + user.getUserName() + "','" + user.getUserEmail() + "','"
-					+ user.getUserNick() + "','" + user.getUserPass() + "');");
-			con.disconnect();
+			sql = "INSERT INTO usuarios (cedula, email, nombre, password, usuario) VALUES (?,?,?,?,?);";
+			sentence = this.con.pStimp(sql);
+			sentence.setString(1, user.getUserDni());
+			sentence.setString(2, user.getUserEmail());
+			sentence.setString(3, user.getUserName());
+			sentence.setString(4, user.getUserPass());
+			sentence.setString(5, user.getUserNick());
+			
+			Boolean res = false;
+			if (!sentence.execute()) {
+				res = true;
+			}
+			this.con.disconnect();
+			return res;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// TODO: handle exception
+			System.out.println(e);
+			return false;
 		}
-
 	}
 
 	public UserDTO searchUser(String cedula) {
-		con = new ConnectionDB();
 		ResultSet userFound = null;
 		
 		try {
+<<<<<<< HEAD
 			Statement stmt = con.getConnection().createStatement();
 			userFound = stmt.executeQuery("SELECT * FROM usuarios WHERE cedula_usuario = '"+ cedula +"';");
+=======
+			sql = "SELECT * FROM usuarios WHERE cedula = ?;";
+			
+			sentence = this.con.pStimp(sql);
+			sentence.setString(1, cedula);
+			userFound = sentence.executeQuery();
+			UserDTO user = null;
+>>>>>>> branch 'master' of https://github.com/JeanCarloArango/Spring-Virtual-Store.git
 			while (userFound.next()) {
-				user = new UserDTO(userFound.getString("cedula_usuario"), userFound.getString("nombre_usuario"),
-						userFound.getString("email_usuario"), userFound.getString("usuario"), userFound.getString("password"));
+				//String userDni, String userName, String userEmail, String userNick, String userPass
+				user = new UserDTO(userFound.getString("cedula"), userFound.getString("nombre"),
+						userFound.getString("email"), userFound.getString("usuario"), userFound.getString("password"));
 			}
-			System.out.println("Encontrado");
+			System.out.println("Encontrado: "+ user.getUserDni() + user.getUserName() + user.getUserEmail()+ 
+					user.getUserNick() + user.getUserPass());
 			con.disconnect();
 			return user;
 		} catch (SQLException e) {
@@ -50,28 +65,46 @@ public class UserDAO {
 		}
 	}
 
-	public void updateUser(UserDTO user) {
+	public Boolean updateUser(UserDTO user) {
 		try {
+			sql = "UPDATE usuarios SET cedula=?, email=?, nombre=?, password=?, usuario=? WHERE cedula = ?;";
+			sentence = this.con.pStimp(sql);
+			sentence.setString(1, user.getUserDni());
+			sentence.setString(2, user.getUserEmail());
+			sentence.setString(3, user.getUserName());
+			sentence.setString(4, user.getUserPass());
+			sentence.setString(5, user.getUserNick());
+			sentence.setString(6, user.getUserDni());
 			
-			Statement stmt = con.getConnection().createStatement();
-			stmt.executeUpdate("UPDATE usuarios SET (cedula_usuario, nombre_usuario, email_usuario, usuario, password) VALUES ('"
-					+ user.getUserDni() + "','" + user.getUserName() + "','" + user.getUserEmail() + "','"
-					+ user.getUserNick() + "','" + user.getUserPass() + "' WHERE cedula_usuario = '"+ user.getUserDni() +"');");
-			con.disconnect();
+			Boolean res = false;
+			if (!sentence.execute()) {
+				res = true;
+			}
+			this.con.disconnect();
+			return res;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return false;
 		}
 	}
 
-	public void delUser(String cedula) {
+	public Boolean delUser(String cedula) {
 		try {
-			Statement stmt = con.getConnection().createStatement();
-			stmt.executeUpdate("DELETE FROM usuarios WHERE cedula_usuario = '"+ cedula +"';");
-			con.disconnect();
+			sql = "UPDATE usuarios SET estado='D' WHERE cedula = ?;";
+			sentence = this.con.pStimp(sql);
+			sentence.setString(1, cedula);
+			
+			Boolean res = false;
+			if (!sentence.execute()) {
+				res = true;
+			}
+			this.con.disconnect();
+			return res;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return false;
 		}
 	}
 

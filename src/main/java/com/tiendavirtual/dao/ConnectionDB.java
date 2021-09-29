@@ -26,9 +26,6 @@ public class ConnectionDB {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-		
-		return connection;
-		
 	}
 	
 	public void disconnect() {
