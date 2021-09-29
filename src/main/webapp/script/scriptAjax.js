@@ -257,7 +257,7 @@ function submitDelUser() {
 	const xhttpServer = new XMLHttpRequest();
 	if (valid) {
 		var url = '/eliminarUsuario';
-		var params = "userDni=" + usrDni;
+		var params = "cedula=" + usrDni;
 		xhttpServer.open('POST', url, true);
 
 		xhttpServer.setRequestHeader('Content-type',
