@@ -36,9 +36,13 @@ const supLink = document.getElementById("CRUD_Suppliers");
 
 usrsLink.addEventListener("click", () => {
 	setTimeout(() => {
+		const usrsSerBtn = document.getElementById("usrSerBtn");
 		const usrsAddBtn = document.getElementById("usrAddBtn");
 		const usrsUpBtn = document.getElementById("usrUpBtn");
 		const usrsDelBtn = document.getElementById("usrDelBtn");
+		usrsSerBtn.addEventListener("click", () => {
+			submitSerUser();
+		});
 		usrsAddBtn.addEventListener("click", () => {
 			submitCreateUser();
 		});
@@ -234,6 +238,35 @@ function shSuccess(txtContent) {
 // Submit Forms
 
 // Usuarios
+function submitSerUser() {
+	const usrDni = document.getElementById("txtDni").value.trim();
+	const xhttpServer = new XMLHttpRequest();
+	
+	var url = '/buscarUsuario';
+	var params = "cedula=" + usrDni;
+	xhttpServer.open('POST', url, true);
+
+	xhttpServer.setRequestHeader('Content-type',
+		'application/x-www-form-urlencoded');
+
+	xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
+		if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
+			shSuccess("Usuario encontrado");
+			// alert(xhttpServer.responseText);
+			setTimeout(() => {
+				alertSh.innerHTML = "";
+			}, 4000);
+		} else {
+			shErrors("Datos no enviados");
+		}
+	}
+
+	xhttpServer.send(params);
+
+	return;
+
+}
+
 function submitCreateUser() {
 	const usrDni = document.getElementById("txtDni").value.trim();
 	const usrName = document.getElementById("txtName").value.trim();
