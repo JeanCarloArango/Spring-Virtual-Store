@@ -371,7 +371,7 @@ function submitDelCstmr() {
 					alertSh.innerHTML = "";
 				}, 4000);
 			} else {
-				shErrors("Datos no enviados");
+				shErrors("Datos no enviados.");
 			}
 		}
 
