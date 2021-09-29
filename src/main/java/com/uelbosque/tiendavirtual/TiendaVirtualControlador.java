@@ -35,6 +35,7 @@ public class TiendaVirtualControlador {
 	
 	@RequestMapping("/eliminarUsuario")
 	public String EliminarUsuario(String cedula) {
+		System.out.println(cedula);
 		UserDAO uDao = new UserDAO();
 		uDao.delUser(cedula);
 		return "Microservicio eliminiar de usuarios";

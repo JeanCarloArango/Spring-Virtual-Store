@@ -255,6 +255,7 @@ function submitUpdateUser() {
 function submitDelUser() {
 	const usrDni = document.getElementById("txtDni").value.trim();
 	const xhttpServer = new XMLHttpRequest();
+	let valid = validateUsr();
 	if (valid) {
 		var url = '/eliminarUsuario';
 		var params = "userDni=" + usrDni;
@@ -279,8 +280,9 @@ function submitDelUser() {
 	}
 
 	return;
-
 }
+
+
 
 // Clientes
 function submitCreateCstmr() {
