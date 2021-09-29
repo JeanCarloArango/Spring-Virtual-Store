@@ -153,3 +153,14 @@ label, .label{
 	font-weight: bolder;
 	color: #00ff00;
 }
+
+/* Estilos tabla de consultas */
+
+.sh-queries {
+	display: flex;
+	width: 100%;
+	max-height: 50%;
+	margin: 10% 0;
+	justify-content: center;
+	overflow: scroll;
+}
