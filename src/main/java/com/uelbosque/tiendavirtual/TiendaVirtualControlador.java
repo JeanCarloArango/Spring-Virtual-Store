@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tiendavirtual.dao.CustomerDAO;
+import com.tiendavirtual.dao.SuppliersDAO;
 import com.tiendavirtual.dao.UserDAO;
 import com.tiendavirtual.dto.CustomerDTO;
 import com.tiendavirtual.dto.SuppliersDTO;
@@ -46,6 +47,7 @@ public class TiendaVirtualControlador {
 		CustomerDAO cDao=new CustomerDAO();
 		cDao.createCustomer(customer);
 		return "Microservicio de insersiÃ³n de usuarios";
+>>>>>>> branch 'master' of https://github.com/JeanCarloArango/Spring-Virtual-Store.git
 	}
 	
 	@RequestMapping("/buscarCliente")
@@ -58,7 +60,7 @@ public class TiendaVirtualControlador {
 	public String ActualizarCliente(CustomerDTO cliente) {
 		CustomerDAO CDao=new CustomerDAO();
 		CDao.updateCustomer(cliente);
-		return "Microservicio de actualización de clientes";
+		return "Microservicio de actualizaciï¿½n de clientes";
 	}
 	
 	@RequestMapping("/eliminarCliente")
@@ -67,7 +69,35 @@ public class TiendaVirtualControlador {
 		CDao.delCustomer(cedula);
 		return "Microservicio de eliminar  clientes";
 	}
-	
+	// provedores
+
+		@RequestMapping("/buscarProvedor")
+		public SuppliersDTO ConsultarProvedor(String nit) {
+			SuppliersDAO pDao = new SuppliersDAO();
+			return pDao.searchSupplier(nit);
+		}
+
+		@RequestMapping("/crearProvedor")
+		public String InsertarProvedor(SuppliersDTO supplier) {
+			SuppliersDAO pDao = new SuppliersDAO();
+			pDao.createSupplier(supplier);
+			return "Microservicio de insersiï¿½nn de Provedores";
+		}
+
+		@RequestMapping("/actualizarProvedor")
+		public String ActualizarProvedor(SuppliersDTO supplier) {
+			SuppliersDAO pDao = new SuppliersDAO();
+			pDao.updateSupplier(supplier);
+			return "Microservicio de actualizaciï¿½n de Provedores";
+		}
+
+		@RequestMapping("/eliminarProvedor")
+		public String EliminarProvedores(String  nit) {
+			SuppliersDAO pDao = new SuppliersDAO();
+			pDao.delSupplier( nit);
+			return "Microservicio de eliminar  Provedores";
+		}
+
 	
 	
 	
