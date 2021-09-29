@@ -255,28 +255,26 @@ function submitUpdateUser() {
 function submitDelUser() {
 	const usrDni = document.getElementById("txtDni").value.trim();
 	const xhttpServer = new XMLHttpRequest();
-	if (valid) {
-		var url = '/eliminarUsuario';
-		var params = "cedula=" + usrDni;
-		xhttpServer.open('POST', url, true);
 
-		xhttpServer.setRequestHeader('Content-type',
-			'application/x-www-form-urlencoded');
+	var url = '/eliminarUsuario';
+	var params = "cedula=" + usrDni;
+	xhttpServer.open('POST', url, true);
 
-		xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
-			if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
-				shSuccess("Usuario eliminado con éxito");
-				setTimeout(() => {
-					alertSh.innerHTML = "";
-				}, 4000);
-			} else {
-				shErrors("Datos no enviados");
-			}
+	xhttpServer.setRequestHeader('Content-type',
+		'application/x-www-form-urlencoded');
+
+	xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
+		if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
+			shSuccess("Usuario eliminado con éxito");
+			setTimeout(() => {
+				alertSh.innerHTML = "";
+			}, 4000);
+		} else {
+			shErrors("Datos no enviados");
 		}
-
-		xhttpServer.send(params);
-
 	}
+
+	xhttpServer.send(params);
 
 	return;
 
@@ -356,28 +354,25 @@ function submitUpdateCstmr() {
 function submitDelCstmr() {
 	const cstmrDni = document.getElementById("txtDni").value.trim();
 	const xhttpServer = new XMLHttpRequest();
-	if (valid) {
-		var url = '/eliminarCliente';
-		var params = "cedula=" + cstmrDni;
-		xhttpServer.open('POST', url, true);
+	var url = '/eliminarCliente';
+	var params = "cedula=" + cstmrDni;
+	xhttpServer.open('POST', url, true);
 
-		xhttpServer.setRequestHeader('Content-type',
-			'application/x-www-form-urlencoded');
+	xhttpServer.setRequestHeader('Content-type',
+		'application/x-www-form-urlencoded');
 
-		xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
-			if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
-				shSuccess("Cliente eliminado satisfactoriamente");
-				setTimeout(() => {
-					alertSh.innerHTML = "";
-				}, 4000);
-			} else {
-				shErrors("Datos no enviados.");
-			}
+	xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
+		if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
+			shSuccess("Cliente eliminado satisfactoriamente");
+			setTimeout(() => {
+				alertSh.innerHTML = "";
+			}, 4000);
+		} else {
+			shErrors("Datos no enviados.");
 		}
-
-		xhttpServer.send(params);
-
 	}
+
+	xhttpServer.send(params);
 
 	return;
 
