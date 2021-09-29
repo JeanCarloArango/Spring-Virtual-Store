@@ -358,7 +358,7 @@ function submitDelCstmr() {
 	const xhttpServer = new XMLHttpRequest();
 	if (valid) {
 		var url = '/eliminarCliente';
-		var params = "identifyCustomer=" + cstmrDni;
+		var params = "cedula=" + cstmrDni;
 		xhttpServer.open('POST', url, true);
 
 		xhttpServer.setRequestHeader('Content-type',
