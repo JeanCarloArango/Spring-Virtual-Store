@@ -40,7 +40,6 @@ usrsLink.addEventListener("click", () => {
 		const usrsUpBtn = document.getElementById("usrUpBtn");
 		const usrsDelBtn = document.getElementById("usrDelBtn");
 		usrsAddBtn.addEventListener("click", () => {
-<<<<<<< HEAD
 			submitCreateUser();
 		});
 		usrsUpBtn.addEventListener("click", () => {
@@ -48,9 +47,6 @@ usrsLink.addEventListener("click", () => {
 		});
 		usrsDelBtn.addEventListener("click", () => {
 			submitDelUser();
-=======
-			submitUser();
->>>>>>> branch 'master' of https://github.com/JeanCarloArango/Spring-Virtual-Store.git
 		});
 	}, 1000);
 });
@@ -185,7 +181,6 @@ function shSuccess(txtContent) {
 
 // Submit Forms
 
-<<<<<<< HEAD
 // Usuarios
 function submitCreateUser() {
 	const usrDni = document.getElementById("txtDni").value.trim();
@@ -194,27 +189,11 @@ function submitCreateUser() {
 	const usrNick = document.getElementById("txtUsr").value.trim();
 	const usrPass = document.getElementById("txtPass").value.trim();
 	const xhttpServer = new XMLHttpRequest();
-=======
-function submitUser() {
-	const usrDni = document.getElementById("txtDni").value.trim();
-	const usrName = document.getElementById("txtName").value.trim();
-	const usrEmail = document.getElementById("txtEmail").value.trim();
-	const usrNick = document.getElementById("txtUsr").value.trim();
-	const usrPass = document.getElementById("txtPass").value.trim();
->>>>>>> branch 'master' of https://github.com/JeanCarloArango/Spring-Virtual-Store.git
 	let valid = validateUsr();
 	if (valid) {
-<<<<<<< HEAD
 		var url = '/crearUsuario';
 		var params = "userDni=" + usrDni + "&" + "userName=" + usrName + "&" + "userEmail=" + usrEmail + "&" + "userNick=" + usrNick + "&" + "userPass=" + usrPass;
 		xhttpServer.open('POST', url, true);
-=======
-		var url = 'http://localhost:8080/crearUsuario?';
-		var params = "userDni=" + usrDni + "&" + "userName=" + usrName + "&" + 
-			"userEmail=" + usrEmail + "&" + "userNick=" + usrNick + "&" + "userPass=" +
-		 	usrPass;
-		xhttp.open('POST', url, true);
->>>>>>> branch 'master' of https://github.com/JeanCarloArango/Spring-Virtual-Store.git
 
 		xhttpServer.setRequestHeader('Content-type',
 			'application/x-www-form-urlencoded');
@@ -403,10 +382,3 @@ function submitDelCstmr() {
 	return;
 
 }
-
-=======
-	
-//  Esta vaina es lo que  edité ( por si se daña borrar)	
-
-}
->>>>>>> branch 'master' of https://github.com/JeanCarloArango/Spring-Virtual-Store.git
