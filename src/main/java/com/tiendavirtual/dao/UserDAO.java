@@ -3,6 +3,8 @@ package com.tiendavirtual.dao;
 import java.sql.*;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import com.tiendavirtual.dto.UserDTO;
 
 public class UserDAO {
@@ -34,31 +36,30 @@ public class UserDAO {
 			return false;
 		}
 	}
+	
+	public ArrayList<UserDTO> searchUser(String cedula) {
+		ArrayList<UserDTO> users = new ArrayList<UserDTO>();
 
-	public UserDTO searchUser(String cedula) {
-		ResultSet userFound = null;
-		
 		try {
 			sql = "SELECT * FROM usuarios WHERE cedula = ?;";
-			
 			sentence = this.con.pStimp(sql);
 			sentence.setString(1, cedula);
-			userFound = sentence.executeQuery();
-			UserDTO user = null;
+			
+			ResultSet userFound = sentence.executeQuery();
+			
 			while (userFound.next()) {
-				//String userDni, String userName, String userEmail, String userNick, String userPass
-				user = new UserDTO(userFound.getString("cedula"), userFound.getString("nombre"),
+				UserDTO us = new UserDTO(userFound.getString("cedula"), userFound.getString("nombre"),
 						userFound.getString("email"), userFound.getString("usuario"), userFound.getString("password"));
+				users.add(us);
 			}
-			System.out.println("Encontrado: "+ user.getUserDni() + user.getUserName() + user.getUserEmail()+ 
-					user.getUserNick() + user.getUserPass());
-			con.disconnect();
-			return user;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
+			userFound.close();
+			sentence.close();
+			this.con.disconnect();
+			JOptionPane.showMessageDialog(null, "Usuario encontrado");
+		} catch (Exception e) {
+			System.out.println(e);
 		}
+		return users;
 	}
 
 	public Boolean updateUser(UserDTO user) {

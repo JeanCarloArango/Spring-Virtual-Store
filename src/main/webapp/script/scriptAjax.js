@@ -302,7 +302,7 @@ function submitSerUser() {
 		if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
 			shSuccess("Usuario encontrado");
 			//alert(xhttpServer.responseText);
-			CreateTableFromJSON(xhttpServer.responseText);
+			CreateTableFromJSON(xhttpServer.response);
 			setTimeout(() => {
 				alertSh.innerHTML = "";
 			}, 4000);

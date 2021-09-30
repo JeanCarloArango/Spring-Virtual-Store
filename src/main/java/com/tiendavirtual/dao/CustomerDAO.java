@@ -3,6 +3,7 @@ package com.tiendavirtual.dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import com.tiendavirtual.dto.CustomerDTO;
 
@@ -34,28 +35,27 @@ public class CustomerDAO {
 		}
 	}
 	
-	public CustomerDTO searchCustomer(String cedula) {
-		ResultSet customerFound = null;
+	public ArrayList<CustomerDTO> searchCustomer(String cedula) {
+		ArrayList<CustomerDTO> custoAr = new ArrayList<CustomerDTO>();
 		
 		try {
 			sql = "SELECT * FROM clientes WHERE cedula = ?;";
+			sentence = this.con.pStimp(cedula);
 			sentence.setString(1, cedula);
 			
-			customerFound = sentence.executeQuery();
-			CustomerDTO customer = null;
+			ResultSet customerFound = sentence.executeQuery();
 			while (customerFound.next()) {
-				customer = new CustomerDTO(customerFound.getString("cedula"), customerFound.getString("direccion"), 
+				CustomerDTO customer = new CustomerDTO(customerFound.getString("cedula"), customerFound.getString("direccion"), 
 						customerFound.getString("email"), customerFound.getString("nombre"), customerFound.getString("telefono"));
+				custoAr.add(customer);
 			}
-			System.out.println("Encontrado: "+ customer.getIdentifyCustomer() + customer.getAddressCustomer() + customer.getEmailCustomer() + 
-					customer.getNameCustomer() + customer.getPhoneCustomer());
+			customerFound.close();
+			sentence.close();
 			this.con.disconnect();
-			return customer;
 		} catch (SQLException e) {
-			// TODO: handle exception
 			e.printStackTrace();
-			return null;
 		}
+		return custoAr;
 	}
 	
 	public Boolean updateCustomer(CustomerDTO customer) {
