@@ -89,6 +89,55 @@ supLink.addEventListener("click", () => {
 	}, 1000);
 });
 
+// Creación tabla de consultas
+function CreateTableFromJSON(json_result) {
+
+	const json_arr = JSON.parse(json_result);
+
+	// EXTRACT VALUE FOR HTML HEADER. 	
+	let col = [];
+	for (let i = 0; i < json_arr.length; i++) {
+		for (let key in json_arr[i]) {
+			if (col.indexOf(key) === -1) {
+				col.push(key);
+			}
+		}
+	}
+
+	// CREATE DYNAMIC TABLE.
+	let table = document.createElement("table");
+	table.setAttribute("border", "1");
+
+	// CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE.
+
+	let tr = table.insertRow(-1); // TABLE ROW.
+
+
+	for (let i = 0; i < col.length; i++) {
+		let th = document.createElement("th"); // TABLE HEADER.
+		th.innerHTML = col[i];
+		tr.appendChild(th);
+	}
+
+	// ADD JSON DATA TO THE TABLE AS ROWS.
+	for (let i = 0; i < json_arr.length; i++) {
+
+		tr = table.insertRow(-1);
+
+		for (let j = 0; j < col.length; j++) {
+			let tabCell = tr.insertCell(-1);
+			tabCell.innerHTML = json_arr[i][col[j]];
+		}
+	}
+
+	// FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
+	let divContainer = document.getElementById("shQueries");
+	//divContainer.innerHTML = "";
+	divContainer.appendChild(table);
+	//alert(divContainer);
+
+}
+
 // Validaciones
 
 // Usuarios
@@ -241,7 +290,7 @@ function shSuccess(txtContent) {
 function submitSerUser() {
 	const usrDni = document.getElementById("txtDni").value.trim();
 	const xhttpServer = new XMLHttpRequest();
-	
+
 	var url = '/buscarUsuario';
 	var params = "cedula=" + usrDni;
 	xhttpServer.open('POST', url, true);
@@ -252,7 +301,8 @@ function submitSerUser() {
 	xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
 		if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
 			shSuccess("Usuario encontrado");
-			// alert(xhttpServer.responseText);
+			//alert(xhttpServer.responseText);
+			CreateTableFromJSON(xhttpServer.responseText);
 			setTimeout(() => {
 				alertSh.innerHTML = "";
 			}, 4000);
@@ -340,7 +390,7 @@ function submitUpdateUser() {
 function submitDelUser() {
 	const usrDni = document.getElementById("txtDni").value.trim();
 	const xhttpServer = new XMLHttpRequest();
-	
+
 	var url = '/eliminarUsuario';
 	var params = "cedula=" + usrDni;
 	xhttpServer.open('POST', url, true);
@@ -364,8 +414,6 @@ function submitDelUser() {
 	return;
 
 }
-
-
 
 // Clientes
 function submitCreateCstmr() {
