@@ -1,5 +1,7 @@
 package com.uelbosque.tiendavirtual;
 
+import java.util.ArrayList;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,7 +29,7 @@ public class TiendaVirtualControlador {
 	}
 
 	@RequestMapping("/buscarUsuario")
-	public UserDTO BuscarUsuario(String cedula) {
+	public ArrayList<UserDTO> BuscarUsuario(String cedula) {
 		UserDAO uDao = new UserDAO();
 		return uDao.searchUser(cedula);
 	}
@@ -57,7 +59,7 @@ public class TiendaVirtualControlador {
 	}
 
 	@RequestMapping("/buscarCliente")
-	public CustomerDTO ConsultarCliente(String cedula) {
+	public ArrayList<CustomerDTO> ConsultarCliente(String cedula) {
 		CustomerDAO cDao = new CustomerDAO();
 		return cDao.searchCustomer(cedula);
 	}
@@ -75,10 +77,10 @@ public class TiendaVirtualControlador {
 		CDao.delCustomer(cedula);
 		return "Microservicio de eliminar  clientes";
 	}
-	// Proveeores
+	// Proveedores
 
 	@RequestMapping("/buscarProveedor")
-	public SuppliersDTO ConsultarProvedor(String nit) {
+	public ArrayList<SuppliersDTO> ConsultarProvedor(String nit) {
 		SuppliersDAO pDao = new SuppliersDAO();
 		return pDao.searchSupplier(nit);
 	}
