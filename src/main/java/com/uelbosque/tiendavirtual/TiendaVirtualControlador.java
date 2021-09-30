@@ -113,7 +113,7 @@ public class TiendaVirtualControlador {
 		return "Microservicio de insersi�nn de Productos";
 	}
 
-	@RequestMapping("/buscarPrudcts")
+	@RequestMapping("/buscarProuductos")
 	public ProductsDTO ConsultarPrductos(String name) {
 		ProductsDAO prDao = new ProductsDAO();
 		return prDao.searchProducts(name);
@@ -126,7 +126,7 @@ public class TiendaVirtualControlador {
 		return "Microservicio de actualizaci�n de Productos";
 	}
 
-	@RequestMapping("/eliminarProveedor")
+	@RequestMapping("/eliminarProductos")
 	public String EliminarProductos(String cedula) {
 		ProductsDAO prDao = new ProductsDAO();
 		prDao.delUser(cedula);
