@@ -132,7 +132,7 @@ function CreateTableFromJSON(json_result) {
 
 	// FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
 	let divContainer = document.getElementById("shQueries");
-	divContainer.innerHTML = "";
+	//divContainer.innerHTML = "";
 	divContainer.appendChild(table);
 	//alert(divContainer);
 
@@ -301,7 +301,7 @@ function submitSerUser() {
 	xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
 		if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
 			shSuccess("Usuario encontrado");
-			alert(xhttpServer.responseText);
+			//alert(xhttpServer.responseText);
 			CreateTableFromJSON(xhttpServer.responseText);
 			setTimeout(() => {
 				alertSh.innerHTML = "";
