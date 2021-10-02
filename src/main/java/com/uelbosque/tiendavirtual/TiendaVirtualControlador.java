@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tiendavirtual.dao.CustomerDAO;
+import com.tiendavirtual.dao.LoginDAO;
 import com.tiendavirtual.dao.ProductsDAO;
 import com.tiendavirtual.dao.SalesDetailsDAO;
 import com.tiendavirtual.dao.SuppliersDAO;
@@ -18,6 +19,13 @@ import com.tiendavirtual.dto.UserDTO;
 
 @RestController
 public class TiendaVirtualControlador {
+	//Login
+	
+	@RequestMapping("/loginUser")
+	public boolean Login(String userNick, String userPass) {
+		LoginDAO lDao = new LoginDAO();
+		return lDao.login(userNick, userPass);
+	}
 	
 	//Usuarios
 
