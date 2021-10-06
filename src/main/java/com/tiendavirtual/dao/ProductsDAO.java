@@ -22,7 +22,7 @@ public class ProductsDAO {
 			sentence.setString(2, products.getProductName());
 			sentence.setDouble(3, products.getPruchasePrice());
 			sentence.setDouble(4, products.getSellingPrice());
-			// sentence.setString(5, products.);
+			sentence.setInt(5, products.getIdProveedor());
 
 			Boolean res = false;
 			if (!sentence.execute()) {
@@ -37,14 +37,14 @@ public class ProductsDAO {
 		}
 	}
 
-	public void fileUpload() {
+	public void fileUpload(File fileProduct) {
 		try {
-			FileReader file = new FileReader("");
+			FileReader file = new FileReader(fileProduct);
 			BufferedReader buffer = new BufferedReader(file);
 			String line;
 			while ((line = buffer.readLine()) != null) {
-				String[] tokens = line.replace("\"", "").split(",");
-				ProductsDTO z = new ProductsDTO(Double.parseDouble(tokens[0]), tokens[1], Double.parseDouble(tokens[2]), Double.parseDouble(tokens[3]));
+				String[] tokens = line.split(";");
+				ProductsDTO z = new ProductsDTO(Double.parseDouble(tokens[0]), tokens[1], Double.parseDouble(tokens[2]), Double.parseDouble(tokens[3]), Integer.parseInt(tokens[4]));
 				this.createProducts(z);
 			}
 			buffer.close();
@@ -60,17 +60,15 @@ public class ProductsDAO {
 		ResultSet productsFound = null;
 
 		try {
-			sql = "SELECT * FROM productos WHERE producto = ?;";
+			sql = "SELECT pro.*, prove.nombre from productos pro join proveedores prove on pro.proveedores_id = prove.id;";
 
 			sentence = this.con.pStimp(sql);
 			sentence.setString(1, name);
 			productsFound = sentence.executeQuery();
 			ProductsDTO user = null;
 			while (productsFound.next()) {
-				// String userDni, String userName, String userEmail, String userNick, String
-				// userPass
 				user = new ProductsDTO(productsFound.getDouble("ivacompra"), productsFound.getString("producto"),
-						productsFound.getDouble("precio_compra"), productsFound.getDouble("precio_venta"));
+						productsFound.getDouble("precio_compra"), productsFound.getDouble("precio_venta"), productsFound.getInt("nombre"));
 			}
 			con.disconnect();
 			return user;

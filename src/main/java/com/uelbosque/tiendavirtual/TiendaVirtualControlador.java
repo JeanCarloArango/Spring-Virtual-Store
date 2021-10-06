@@ -1,9 +1,15 @@
 package com.uelbosque.tiendavirtual;
 
+import java.io.File;
 import java.util.ArrayList;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.tiendavirtual.dao.CustomerDAO;
 import com.tiendavirtual.dao.LoginDAO;
@@ -116,11 +122,18 @@ public class TiendaVirtualControlador {
 
 	// Productos
 
-	@RequestMapping("/crearProductos")
-	public String InsertarProductos(ProductsDTO prod) {
-		ProductsDAO prDao = new ProductsDAO();
-		prDao.createProducts(prod);
-		return "Microservicio de insersi�nn de Productos";
+	@PostMapping("/cargarArchivo")
+	public ResponseEntity<?> handleFileUpload(@RequestParam("file") MultipartFile file) {
+		String fileName = file.getOriginalFilename();
+		try {
+			File fl = new File("C:\\ArchivosRecibidos\\" + fileName);
+			file.transferTo(fl);
+			ProductsDAO prDao = new ProductsDAO();
+			prDao.fileUpload(fl);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+		return ResponseEntity.ok("Archivo cargado con exito.");
 	}
 
 	@RequestMapping("/buscarPrudcts")
