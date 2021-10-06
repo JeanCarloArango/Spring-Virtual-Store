@@ -41,7 +41,7 @@ public class SuppliersDAO {
 		
 		try {
 			sql = "SELECT * FROM proveedores WHERE nit = ?;";
-			sentence = this.con.pStimp(nit);
+			sentence = this.con.pStimp(sql);
 			sentence.setString(1, nit);
 			
 			ResultSet supplierFound = sentence.executeQuery();

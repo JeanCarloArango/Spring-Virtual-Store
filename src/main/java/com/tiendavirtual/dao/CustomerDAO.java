@@ -29,7 +29,6 @@ public class CustomerDAO {
 			}
 			return res;
 		} catch (SQLException e) {
-			// TODO: handle exception
 			System.out.println(e);
 			return false;
 		}
@@ -40,7 +39,7 @@ public class CustomerDAO {
 		
 		try {
 			sql = "SELECT * FROM clientes WHERE cedula = ?;";
-			sentence = this.con.pStimp(cedula);
+			sentence = this.con.pStimp(sql);
 			sentence.setString(1, cedula);
 			
 			ResultSet customerFound = sentence.executeQuery();

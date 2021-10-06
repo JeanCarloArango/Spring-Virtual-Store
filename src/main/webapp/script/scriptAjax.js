@@ -1,5 +1,6 @@
 const ajaxCont = document.getElementById("ajax");
 let alertSh = document.getElementById("alertCont");
+let divContainer = document.getElementById("shQueries");
 
 // Cargar Formularios
 const xhttpForms = new XMLHttpRequest;
@@ -7,8 +8,8 @@ xhttpForms.onload = function() {
 	ajaxCont.innerHTML = this.responseText;
 }
 
-document.querySelectorAll(".link").forEach((el) => {
-	el.addEventListener("click", e => {
+document.querySelectorAll(".link").forEach(function(el) {
+	el.addEventListener("click", function(e) {
 		let id = e.target.getAttribute("id");
 		xhttpForms.open("GET", id + ".html", true);
 		xhttpForms.send();
@@ -18,16 +19,16 @@ document.querySelectorAll(".link").forEach((el) => {
 // Nombre archivo subido
 const prLink = document.getElementById("Products_mgmt");
 
-prLink.addEventListener("click", () => {
+prLink.addEventListener("click", function() {
 	setTimeout(() => {
 		const inBtn = document.getElementById("file-input");
 		const lblFile = document.getElementById("file-name");
 		inBtn.addEventListener("change", () => {
 			// console.log(inBtn.files[0].name);
 			lblFile.textContent = inBtn.files[0].name;
-		})
+		});
 	}, 1000);
-})
+});
 
 // Eventos AJAX
 const usrsLink = document.getElementById("CRUD_Users");
@@ -57,9 +58,13 @@ usrsLink.addEventListener("click", () => {
 
 cstmrLink.addEventListener("click", () => {
 	setTimeout(() => {
+		const cstmrSerBtn = document.getElementById("cstmrSerBtn");
 		const cstmrAddBtn = document.getElementById("cstmrAddBtn");
 		const cstmrUpBtn = document.getElementById("cstmrUpBtn");
 		const cstmrDelBtn = document.getElementById("cstmrDelBtn");
+		cstmrSerBtn.addEventListener("click", () => {
+			submitSerCustomer();
+		});
 		cstmrAddBtn.addEventListener("click", () => {
 			submitCreateCstmr();
 		});
@@ -74,9 +79,13 @@ cstmrLink.addEventListener("click", () => {
 
 supLink.addEventListener("click", () => {
 	setTimeout(() => {
+		const supSerBtn = document.getElementById("supSerBtn");
 		const supAddBtn = document.getElementById("supAddBtn");
 		const supUpBtn = document.getElementById("supUpBtn");
 		const supDelBtn = document.getElementById("supDelBtn");
+		supSerBtn.addEventListener("click", () => {
+			submitSerSup();
+		});
 		supAddBtn.addEventListener("click", () => {
 			submitCreateSup();
 		});
@@ -131,8 +140,7 @@ function CreateTableFromJSON(json_result) {
 	}
 
 	// FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
-	let divContainer = document.getElementById("shQueries");
-	//divContainer.innerHTML = "";
+	divContainer.innerHTML = "";
 	divContainer.appendChild(table);
 	//alert(divContainer);
 
@@ -268,6 +276,16 @@ function hideErrors() {
 	});
 }
 
+function hideTable() {
+	const inputs = document.querySelectorAll(".txt");
+	// console.log(inputs);
+	inputs.forEach((input) => {
+		input.addEventListener("input", () => {
+			divContainer.innerHTML = "";
+		});
+	});
+}
+
 // Success Dialogs
 function shSuccess(txtContent) {
 	alertSh.innerHTML = "";
@@ -291,7 +309,7 @@ function submitSerUser() {
 	const usrDni = document.getElementById("txtDni").value.trim();
 	const xhttpServer = new XMLHttpRequest();
 
-	var url = '/buscarUsuario';
+	var url = '/TiendaVirtualApp/buscarUsuario';
 	var params = "cedula=" + usrDni;
 	xhttpServer.open('POST', url, true);
 
@@ -300,12 +318,19 @@ function submitSerUser() {
 
 	xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
 		if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
-			shSuccess("Usuario encontrado");
 			//alert(xhttpServer.responseText);
-			CreateTableFromJSON(xhttpServer.response);
-			setTimeout(() => {
-				alertSh.innerHTML = "";
-			}, 4000);
+			if(xhttpServer.responseText === "[]") {
+				shErrors("Usuario con cedula " + usrDni + " no existe");
+				hideErrors();
+				return false;
+			} else {
+				shSuccess("Usuario encontrado");
+				CreateTableFromJSON(xhttpServer.responseText);
+				hideTable();
+				setTimeout(() => {
+					alertSh.innerHTML = "";
+				}, 4000);
+			}
 		} else {
 			shErrors("Datos no enviados");
 		}
@@ -326,7 +351,7 @@ function submitCreateUser() {
 	const xhttpServer = new XMLHttpRequest();
 	let valid = validateUsr();
 	if (valid) {
-		var url = '/crearUsuario';
+		var url = '/TiendaVirtualApp/crearUsuario';
 		var params = "userDni=" + usrDni + "&" + "userName=" + usrName + "&" + "userEmail=" + usrEmail + "&" + "userNick=" + usrNick + "&" + "userPass=" + usrPass;
 		xhttpServer.open('POST', url, true);
 
@@ -361,7 +386,7 @@ function submitUpdateUser() {
 	const xhttpServer = new XMLHttpRequest();
 	let valid = validateUsr();
 	if (valid) {
-		var url = '/actualizarUsuario';
+		var url = '/TiendaVirtualApp/actualizarUsuario';
 		var params = "userDni=" + usrDni + "&" + "userName=" + usrName + "&" + "userEmail=" + usrEmail + "&" + "userNick=" + usrNick + "&" + "userPass=" + usrPass;
 		xhttpServer.open('POST', url, true);
 
@@ -391,7 +416,7 @@ function submitDelUser() {
 	const usrDni = document.getElementById("txtDni").value.trim();
 	const xhttpServer = new XMLHttpRequest();
 
-	var url = '/eliminarUsuario';
+	var url = '/TiendaVirtualApp/eliminarUsuario';
 	var params = "cedula=" + usrDni;
 	xhttpServer.open('POST', url, true);
 
@@ -416,6 +441,42 @@ function submitDelUser() {
 }
 
 // Clientes
+function submitSerCustomer() {
+	const cstmrDni = document.getElementById("txtDni").value.trim();
+	const xhttpServer = new XMLHttpRequest();
+
+	var url = '/TiendaVirtualApp/buscarCliente';
+	var params = "cedula=" + cstmrDni;
+	xhttpServer.open('POST', url, true);
+
+	xhttpServer.setRequestHeader('Content-type',
+		'application/x-www-form-urlencoded');
+
+	xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
+		if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
+			if(xhttpServer.responseText === "[]") {
+				shErrors("Cliente con cedula " + cstmrDni + " no existe");
+				hideErrors();
+				return false;
+			} else {				
+				shSuccess("Cliente encontrado");
+				CreateTableFromJSON(xhttpServer.responseText);
+				hideTable();
+				setTimeout(() => {
+					alertSh.innerHTML = "";
+				}, 4000);
+			}
+		} else {
+			shErrors("Datos no enviados");
+		}
+	}
+
+	xhttpServer.send(params);
+
+	return;
+
+}
+
 function submitCreateCstmr() {
 	const cstmrDni = document.getElementById("txtDni").value.trim();
 	const cstmrName = document.getElementById("txtName").value.trim();
@@ -425,7 +486,7 @@ function submitCreateCstmr() {
 	const xhttpServer = new XMLHttpRequest();
 	let valid = validateCstmr();
 	if (valid) {
-		var url = '/crearCliente';
+		var url = '/TiendaVirtualApp/crearCliente';
 		var params = "identifyCustomer=" + cstmrDni + "&" + "nameCustomer=" + cstmrName + "&" + "addressCustomer=" + cstmrAddr + "&" + "phoneCustomer=" + cstmrPhone + "&" + "emailCustomer=" + cstmrEmail;
 		xhttpServer.open('POST', url, true);
 
@@ -460,7 +521,7 @@ function submitUpdateCstmr() {
 	const xhttpServer = new XMLHttpRequest();
 	let valid = validateCstmr();
 	if (valid) {
-		var url = '/actualizarCliente';
+		var url = '/TiendaVirtualApp/actualizarCliente';
 		var params = "identifyCustomer=" + cstmrDni + "&" + "nameCustomer=" + cstmrName + "&" + "addressCustomer=" + cstmrAddr + "&" + "phoneCustomer=" + cstmrPhone + "&" + "emailCustomer=" + cstmrEmail;
 		xhttpServer.open('POST', url, true);
 
@@ -470,12 +531,12 @@ function submitUpdateCstmr() {
 		xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
 			if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
 				shSuccess("Cliente actualizado satisfactoriamente");
-				setTimeout(() => {
+				setTimeout(function() {
 					alertSh.innerHTML = "";
 				}, 4000);
 			} else {
 				shErrors("Datos no enviados");
-			}
+			};
 		}
 
 		xhttpServer.send(params);
@@ -489,7 +550,7 @@ function submitUpdateCstmr() {
 function submitDelCstmr() {
 	const cstmrDni = document.getElementById("txtDni").value.trim();
 	const xhttpServer = new XMLHttpRequest();
-	var url = '/eliminarCliente';
+	var url = '/TiendaVirtualApp/eliminarCliente';
 	var params = "cedula=" + cstmrDni;
 	xhttpServer.open('POST', url, true);
 
@@ -514,6 +575,42 @@ function submitDelCstmr() {
 }
 
 // Proveedores
+function submitSerSup() {
+	const supNit = document.getElementById("txtNit").value.trim();
+	const xhttpServer = new XMLHttpRequest();
+
+	var url = '/TiendaVirtualApp/buscarProveedor';
+	var params = "nit=" + supNit;
+	xhttpServer.open('POST', url, true);
+
+	xhttpServer.setRequestHeader('Content-type',
+		'application/x-www-form-urlencoded');
+
+	xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
+		if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
+			if(xhttpServer.responseText === "[]") {
+				shErrors("Proveedor con nit " + supNit + " no existe");
+				hideErrors();
+				return false;
+			} else {
+				shSuccess("Proveedor encontrado");
+				CreateTableFromJSON(xhttpServer.responseText);
+				hideTable();
+				setTimeout(() => {
+					alertSh.innerHTML = "";
+				}, 4000);
+			}
+		} else {
+			shErrors("Datos no enviados");
+		}
+	}
+
+	xhttpServer.send(params);
+
+	return;
+
+}
+
 function submitCreateSup() {
 	const supNit = document.getElementById("txtNit").value.trim();
 	const supName = document.getElementById("txtName").value.trim();
@@ -523,7 +620,7 @@ function submitCreateSup() {
 	const xhttpServer = new XMLHttpRequest();
 	let valid = validateSup();
 	if (valid) {
-		var url = '/crearProveedor';
+		var url = '/TiendaVirtualApp/crearProveedor';
 		var params = "supplierNit=" + supNit + "&" + "supplierName=" + supName + "&" + "supplierAddress=" + supAddr + "&" + "supplierPhone=" + supPhone + "&" + "supplierCity=" + supCity;
 		xhttpServer.open('POST', url, true);
 
@@ -561,7 +658,7 @@ function submitUpdateSup() {
 	const xhttpServer = new XMLHttpRequest();
 	let valid = validateSup();
 	if (valid) {
-		var url = '/actualizarProveedor';
+		var url = '/TiendaVirtualApp/actualizarProveedor';
 		var params = "supplierNit=" + supNit + "&" + "supplierName=" + supName + "&" + "supplierAddress=" + supAddr + "&" + "supplierPhone=" + supPhone + "&" + "supplierCity=" + supCity;
 		xhttpServer.open('POST', url, true);
 
@@ -590,7 +687,7 @@ function submitUpdateSup() {
 function submitDelSup() {
 	const supNit = document.getElementById("txtNit").value.trim();
 	const xhttpServer = new XMLHttpRequest();
-	var url = '/eliminarProveedor';
+	var url = '/TiendaVirtualApp/eliminarProveedor';
 	var params = "nit=" + supNit;
 	xhttpServer.open('POST', url, true);
 
