@@ -47,6 +47,9 @@ label, .label{
     border-bottom: 2px solid #3e6de6;
     outline: none;
 }
+.txtLogin {
+	width: 50%;
+}
 
 /* Estilos Administración */
 
@@ -160,7 +163,13 @@ label, .label{
 	display: flex;
 	width: 100%;
 	max-height: 50%;
-	margin: 10% 0;
 	justify-content: center;
 	overflow: scroll;
+}
+th, td {
+	padding: 1em;
+}
+th {
+	background-color: #3e6de6;
+	color: #fff;
 }

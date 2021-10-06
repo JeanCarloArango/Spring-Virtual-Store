@@ -41,7 +41,7 @@ public class UserDAO {
 		ArrayList<UserDTO> users = new ArrayList<UserDTO>();
 
 		try {
-			sql = "SELECT * FROM usuarios WHERE cedula = ?;";
+			sql = "SELECT * FROM usuarios WHERE cedula = ? AND estado = 'E';";
 			sentence = this.con.pStimp(sql);
 			sentence.setString(1, cedula);
 			
