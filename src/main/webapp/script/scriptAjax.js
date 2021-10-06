@@ -21,14 +21,36 @@ const prLink = document.getElementById("Products_mgmt");
 
 prLink.addEventListener("click", function() {
 	setTimeout(() => {
-		const inBtn = document.getElementById("file-input");
+		const inBtn = document.getElementById("fileupload");
 		const lblFile = document.getElementById("file-name");
+		const senFile = document.getElementById("Button-sent");
 		inBtn.addEventListener("change", () => {
-			// console.log(inBtn.files[0].name);
 			lblFile.textContent = inBtn.files[0].name;
+<<<<<<< HEAD
 		});
+=======
+		}),
+			senFile.addEventListener("click", () => {
+				CargarArchivo();
+			})
+>>>>>>> refs/heads/camilo
 	}, 1000);
 });
+
+// file async 
+
+async function CargarArchivo() {
+	let formData = new FormData();
+	formData.append("file", fileupload.files[0]);
+	let response = await
+		fetch('/TiendaVirtualApp/cargarArchivo', {
+			method: "POST",
+			body: formData
+		});
+	if (response.status == 200) {
+		alert(response.responseText);
+	}
+};
 
 // Eventos AJAX
 const usrsLink = document.getElementById("CRUD_Users");
