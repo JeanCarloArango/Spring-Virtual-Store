@@ -1,5 +1,7 @@
 package com.tiendavirtual.dao;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -13,7 +15,32 @@ public class UserDAO {
 	private PreparedStatement sentence;
 	private String sql;
 	
+	//Encriptado de contraseña
+	public String convertirSHA256(String password) {
+		MessageDigest md = null;
+		try {
+			md = MessageDigest.getInstance("SHA-256");
+		} 
+		catch (NoSuchAlgorithmException e) {		
+			e.printStackTrace();
+			return null;
+		}
+		    
+		byte[] hash = md.digest(password.getBytes());
+		StringBuffer sb = new StringBuffer();
+		    
+		for(byte b : hash) {        
+			sb.append(String.format("%02x", b));
+		}
+		    
+		return sb.toString();
+	}
+	
+	
+	
 	public boolean createUser(UserDTO user) {
+		String pass = convertirSHA256(user.getUserPass());
+		System.out.println(pass);
 		con = new ConnectionDB();
 		try {
 			sql = "INSERT INTO usuarios (cedula, email, nombre, password, usuario) VALUES (?,?,?,?,?);";
@@ -21,8 +48,8 @@ public class UserDAO {
 			sentence.setString(1, user.getUserDni());
 			sentence.setString(2, user.getUserEmail());
 			sentence.setString(3, user.getUserName());
-			sentence.setString(4, user.getUserPass());
-			sentence.setString(5, user.getUserNick());
+			sentence.setString(4, pass);
+			sentence.setString(5, user.getUserName());
 			
 			Boolean res = false;
 			if (!sentence.execute()) {

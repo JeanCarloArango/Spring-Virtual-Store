@@ -2,6 +2,11 @@ const ajaxCont = document.getElementById("ajax");
 let alertSh = document.getElementById("alertCont");
 let divContainer = document.getElementById("shQueries");
 
+setTimeout(() => {
+	window.onbeforeunload = function(e) {
+		localStorage.log = "f";
+	};
+}, 10000)
 
 if (localStorage.log != "V") {
 	window.location.href = "/TiendaVirtualApp";
@@ -375,6 +380,7 @@ function submitCreateUser() {
 	let valid = validateUsr();
 	if (valid) {
 		var url = '/TiendaVirtualApp/crearUsuario';
+
 		var params = "userDni=" + usrDni + "&" + "userName=" + usrName + "&" + "userEmail=" + usrEmail + "&" + "userNick=" + usrNick + "&" + "userPass=" + usrPass;
 		xhttpServer.open('POST', url, true);
 

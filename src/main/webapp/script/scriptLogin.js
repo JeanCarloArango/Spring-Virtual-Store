@@ -9,9 +9,12 @@ cancel.addEventListener("click", () => {
 	//cancelLogin();
 });
 
-window.onbeforeunload = function(e) {
-    localStorage.log = "f";
-};
+window.addEventListener("keyup", function(event) {
+	if (event.keyCode === 13) {
+		event.preventDefault()
+		loginUser()
+	}
+});
 
 function loginUser() {
 	const userNick = document.getElementById("txtName").value.trim();

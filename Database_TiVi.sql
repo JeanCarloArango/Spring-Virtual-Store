@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `database_TiVi`.`usuarios` (
   `cedula` VARCHAR(45) NOT NULL,
   `email` VARCHAR(45) NOT NULL,
   `nombre` VARCHAR(20) NOT NULL,
-  `password` VARCHAR(20) NOT NULL,
+  `password` VARCHAR(99) NOT NULL,
   `usuario` VARCHAR(20) NOT NULL,
   `estado` VARCHAR(1) NOT NULL DEFAULT 'E',
   PRIMARY KEY (`id`),
@@ -150,3 +150,5 @@ ENGINE = InnoDB;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+INSERT INTO `database_TiVi`.`usuarios` (`cedula`, `email`, `nombre`, `password`, `usuario`) VALUES ('admininicial', 'admininicial@admin', 'admininicial', 'admininicial','admininicial');
