@@ -9,13 +9,14 @@ import com.tiendavirtual.dto.ProductsDTO;
 
 public class ProductsDAO {
 
-	private ConnectionDB con = new ConnectionDB();
+	private ConnectionDB con;
 	private PreparedStatement sentence;
 	private String sql;
 
 	public boolean createProducts(ProductsDTO products) {
 
 		try {
+			con = new ConnectionDB();
 			sql = "INSERT INTO productos (ivacompra, producto, precio_compra, precio_venta, proveedores_id) VALUES (?,?,?,?,?);";
 			sentence = this.con.pStimp(sql);
 			sentence.setDouble(1, products.getVatPurchase());
@@ -27,8 +28,8 @@ public class ProductsDAO {
 			Boolean res = false;
 			if (!sentence.execute()) {
 				res = true;
+				con.disconnect();
 			}
-			this.con.disconnect();
 			return res;
 		} catch (SQLException e) {
 			// TODO: handle exception
@@ -57,6 +58,7 @@ public class ProductsDAO {
 	}
 
 	public ProductsDTO searchProducts(String name) {
+		con = new ConnectionDB();
 		ResultSet productsFound = null;
 
 		try {
@@ -80,6 +82,7 @@ public class ProductsDAO {
 	}
 
 	public Boolean updateProducts(ProductsDTO products) {
+		con = new ConnectionDB();
 		try {
 			sql = "UPDATE productos SET ivacompra=?, producto=?, precio_compra=?, precio_venta=?, proveedores_id=? WHERE cedula = ?;";
 			sentence = this.con.pStimp(sql);
@@ -103,6 +106,7 @@ public class ProductsDAO {
 	}
 
 	public Boolean delUser(String cedula) {
+		con = new ConnectionDB();
 		try {
 			sql = "UPDATE productos SET estado='D' WHERE producto = ?;";
 			sentence = this.con.pStimp(sql);

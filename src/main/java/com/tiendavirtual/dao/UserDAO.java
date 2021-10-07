@@ -9,12 +9,12 @@ import com.tiendavirtual.dto.UserDTO;
 
 public class UserDAO {
 	
-	private ConnectionDB con = new ConnectionDB();
+	private ConnectionDB con;
 	private PreparedStatement sentence;
 	private String sql;
 	
 	public boolean createUser(UserDTO user) {
-
+		con = new ConnectionDB();
 		try {
 			sql = "INSERT INTO usuarios (cedula, email, nombre, password, usuario) VALUES (?,?,?,?,?);";
 			sentence = this.con.pStimp(sql);
@@ -38,6 +38,7 @@ public class UserDAO {
 	}
 	
 	public ArrayList<UserDTO> searchUser(String cedula) {
+		con = new ConnectionDB();
 		ArrayList<UserDTO> users = new ArrayList<UserDTO>();
 
 		try {
@@ -63,6 +64,7 @@ public class UserDAO {
 	}
 
 	public Boolean updateUser(UserDTO user) {
+		con = new ConnectionDB();
 		try {
 			sql = "UPDATE usuarios SET cedula=?, email=?, nombre=?, password=?, usuario=? WHERE cedula = ?;";
 			sentence = this.con.pStimp(sql);
@@ -87,6 +89,7 @@ public class UserDAO {
 	}
 
 	public Boolean delUser(String cedula) {
+		con = new ConnectionDB();
 		try {
 			sql = "UPDATE usuarios SET estado='D' WHERE cedula = ?;";
 			sentence = this.con.pStimp(sql);

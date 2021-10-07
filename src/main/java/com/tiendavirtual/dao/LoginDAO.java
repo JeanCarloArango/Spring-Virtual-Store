@@ -4,11 +4,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class LoginDAO {
-	private ConnectionDB con = new ConnectionDB();
+	private ConnectionDB con;
 	private PreparedStatement sentence;
 	private String sql;
 	
 	public boolean login(String userNick, String userPass) {
+		con = new ConnectionDB();
 		try {
 			sql = "SELECT * FROM usuarios WHERE usuario = ? AND password = ?;";
 			sentence = this.con.pStimp(sql);
@@ -18,12 +19,12 @@ public class LoginDAO {
 			ResultSet userFound = sentence.executeQuery();
 			
 			boolean res = false;
-			while (userFound.next()) {
-				this.con.disconnect();
-				userFound.close();
-				sentence.close();
-				return true;
+			if (userFound.next()) {				
+				res = true;
 			}
+			userFound.close();
+			sentence.close();
+			this.con.disconnect();
 			return res;
 		} catch (Exception e) {
 			System.out.println(e);

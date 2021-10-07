@@ -26,14 +26,10 @@ prLink.addEventListener("click", function() {
 		const senFile = document.getElementById("Button-sent");
 		inBtn.addEventListener("change", () => {
 			lblFile.textContent = inBtn.files[0].name;
-<<<<<<< HEAD
-		});
-=======
-		}),
-			senFile.addEventListener("click", () => {
-				CargarArchivo();
-			})
->>>>>>> refs/heads/camilo
+		})
+		senFile.addEventListener("click", () => {
+			CargarArchivo();
+		})
 	}, 1000);
 });
 
@@ -341,7 +337,7 @@ function submitSerUser() {
 	xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
 		if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
 			//alert(xhttpServer.responseText);
-			if(xhttpServer.responseText === "[]") {
+			if (xhttpServer.responseText === "[]") {
 				shErrors("Usuario con cedula " + usrDni + " no existe");
 				hideErrors();
 				return false;
@@ -476,11 +472,11 @@ function submitSerCustomer() {
 
 	xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
 		if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
-			if(xhttpServer.responseText === "[]") {
+			if (xhttpServer.responseText === "[]") {
 				shErrors("Cliente con cedula " + cstmrDni + " no existe");
 				hideErrors();
 				return false;
-			} else {				
+			} else {
 				shSuccess("Cliente encontrado");
 				CreateTableFromJSON(xhttpServer.responseText);
 				hideTable();
@@ -610,7 +606,7 @@ function submitSerSup() {
 
 	xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
 		if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
-			if(xhttpServer.responseText === "[]") {
+			if (xhttpServer.responseText === "[]") {
 				shErrors("Proveedor con nit " + supNit + " no existe");
 				hideErrors();
 				return false;

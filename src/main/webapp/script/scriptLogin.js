@@ -1,15 +1,10 @@
-<<<<<<< HEAD
-/**
- * 
- */
-=======
-
 const log = document.getElementById("log");
 const cancel = document.getElementById("cancel");
 
 log.addEventListener("click", () => {
 	loginUser()
 });
+
 cancel.addEventListener("click", () => {
 	//cancelLogin();
 });
@@ -20,18 +15,21 @@ function loginUser() {
 	const userPass = document.getElementById("txtPass").value.trim();
 	const xhttpServer = new XMLHttpRequest();
 
-	var url = '/loginUser';
-	var params = "userNick=" + userNick + "&" + "userPass=" + userPass;
+	let url = '/TiendaVirtualApp/loginUser';
+	let params = "userNick=" + userNick + "&" + "userPass=" + userPass;
 	xhttpServer.open('POST', url, true);
 
 	xhttpServer.setRequestHeader('Content-type',
-			'application/x-www-form-urlencoded');
-			
+		'application/x-www-form-urlencoded');
+
 	xhttpServer.send(params);
 
-	
-	
+	xhttpServer.onreadystatechange = (e) => {
+		if (!xhttpServer.responseText) {
+			console.log("Here")
+		}
+	}
+
 	return;
 
 }
->>>>>>> refs/heads/camilo

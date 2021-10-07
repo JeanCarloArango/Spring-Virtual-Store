@@ -9,11 +9,12 @@ import com.tiendavirtual.dto.CustomerDTO;
 
 public class CustomerDAO {
 	
-	private ConnectionDB con = new ConnectionDB();
+	private ConnectionDB con;
 	private PreparedStatement sentence;
 	private String sql;
 	
 	public Boolean createCustomer(CustomerDTO customer) {
+		con = new ConnectionDB();
 		try {
 			sql = "INSERT INTO clientes (cedula, direccion, email, nombre, telefono) VALUES (?,?,?,?,?);";
 			sentence = this.con.pStimp(sql);
@@ -35,6 +36,7 @@ public class CustomerDAO {
 	}
 	
 	public ArrayList<CustomerDTO> searchCustomer(String cedula) {
+		con = new ConnectionDB();
 		ArrayList<CustomerDTO> custoAr = new ArrayList<CustomerDTO>();
 		
 		try {
@@ -58,6 +60,7 @@ public class CustomerDAO {
 	}
 	
 	public Boolean updateCustomer(CustomerDTO customer) {
+		con = new ConnectionDB();
 		try {
 			sql = "UPDATE clientes SET cedula=?, direccion=?, email=?, nombre=?, telefono=? where cedula = ?;";
 			sentence = this.con.pStimp(sql);
@@ -82,6 +85,7 @@ public class CustomerDAO {
 	}
 	
 	public Boolean delCustomer(String cedula) {
+		con = new ConnectionDB();
 		try {
 			sql = "UPDATE clientes SET estado='D' where cedula = ?;";
 			sentence = this.con.pStimp(sql);
