@@ -2,6 +2,11 @@ const ajaxCont = document.getElementById("ajax");
 let alertSh = document.getElementById("alertCont");
 let divContainer = document.getElementById("shQueries");
 
+
+if (localStorage.log != "V") {
+	window.location.href = "/TiendaVirtualApp";
+}
+
 // Cargar Formularios
 const xhttpForms = new XMLHttpRequest;
 xhttpForms.onload = function() {

@@ -11,7 +11,7 @@ public class LoginDAO {
 	public boolean login(String userNick, String userPass) {
 		con = new ConnectionDB();
 		try {
-			sql = "SELECT * FROM usuarios WHERE usuario = ? AND password = ?;";
+			sql = "SELECT * FROM usuarios WHERE usuario = ? AND password = ? and estado = 'E';";
 			sentence = this.con.pStimp(sql);
 			sentence.setString(1, userNick);
 			sentence.setString(2, userPass);

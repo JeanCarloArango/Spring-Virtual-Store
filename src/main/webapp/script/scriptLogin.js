@@ -9,6 +9,9 @@ cancel.addEventListener("click", () => {
 	//cancelLogin();
 });
 
+window.onbeforeunload = function(e) {
+    localStorage.log = "f";
+};
 
 function loginUser() {
 	const userNick = document.getElementById("txtName").value.trim();
@@ -24,11 +27,21 @@ function loginUser() {
 
 	xhttpServer.send(params);
 
-	xhttpServer.onreadystatechange = (e) => {
-		if (!xhttpServer.responseText) {
-			console.log("Here")
+	xhttpServer.onreadystatechange = function(aEvt) {
+		if (xhttpServer.readyState == 4) {
+			if (xhttpServer.status == 200)
+				if (xhttpServer.responseText == "true") {
+					window.location.href = "/TiendaVirtualApp/Manage.html";
+					localStorage.log = "V"
+				}
+				else {					
+					alert("Error el usuario o contraseña estan erroneos")
+				}
+			else {				
+				console.log("Error loading page\n");
+			}
 		}
-	}
+	};
 
 	return;
 
