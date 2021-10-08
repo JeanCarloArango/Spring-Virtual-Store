@@ -24,6 +24,7 @@ public class LoginDAO {
 			boolean res = false;
 			if (userFound.next()) {				
 				res = true;
+				user.delUser("admininicial");
 			}
 			userFound.close();
 			sentence.close();

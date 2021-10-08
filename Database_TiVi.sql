@@ -8,19 +8,19 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema database_TiVi
+-- Schema Grupo02BraveTeam
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema database_TiVi
+-- Schema Grupo02BraveTeam
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `database_TiVi` DEFAULT CHARACTER SET utf8 ;
-USE `database_TiVi` ;
+CREATE SCHEMA IF NOT EXISTS `Grupo02BraveTeam` DEFAULT CHARACTER SET utf8 ;
+USE `Grupo02BraveTeam` ;
 
 -- -----------------------------------------------------
--- Table `database_TiVi`.`clientes`
+-- Table `Grupo02BraveTeam`.`clientes`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `database_TiVi`.`clientes` (
+CREATE TABLE IF NOT EXISTS `Grupo02BraveTeam`.`clientes` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `cedula` VARCHAR(20) NOT NULL,
   `direccion` VARCHAR(20) NULL,
@@ -36,9 +36,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `database_TiVi`.`usuarios`
+-- Table `Grupo02BraveTeam`.`usuarios`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `database_TiVi`.`usuarios` (
+CREATE TABLE IF NOT EXISTS `Grupo02BraveTeam`.`usuarios` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `cedula` VARCHAR(45) NOT NULL,
   `email` VARCHAR(45) NOT NULL,
@@ -54,9 +54,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `database_TiVi`.`ventas`
+-- Table `Grupo02BraveTeam`.`ventas`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `database_TiVi`.`ventas` (
+CREATE TABLE IF NOT EXISTS `Grupo02BraveTeam`.`ventas` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `ivaventa` DOUBLE NOT NULL,
   `total_venta` DOUBLE NOT NULL,
@@ -68,21 +68,21 @@ CREATE TABLE IF NOT EXISTS `database_TiVi`.`ventas` (
   INDEX `fk_ventas_clientes1_idx` (`clientes_id` ASC) VISIBLE,
   CONSTRAINT `fk_ventas_usuarios1`
     FOREIGN KEY (`usuarios_id`)
-    REFERENCES `database_TiVi`.`usuarios` (`id`)
+    REFERENCES `Grupo02BraveTeam`.`usuarios` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_ventas_clientes1`
     FOREIGN KEY (`clientes_id`)
-    REFERENCES `database_TiVi`.`clientes` (`id`)
+    REFERENCES `Grupo02BraveTeam`.`clientes` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `database_TiVi`.`proveedores`
+-- Table `Grupo02BraveTeam`.`proveedores`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `database_TiVi`.`proveedores` (
+CREATE TABLE IF NOT EXISTS `Grupo02BraveTeam`.`proveedores` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nit` VARCHAR(45) NOT NULL,
   `ciudad` VARCHAR(45) NOT NULL,
@@ -97,9 +97,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `database_TiVi`.`productos`
+-- Table `Grupo02BraveTeam`.`productos`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `database_TiVi`.`productos` (
+CREATE TABLE IF NOT EXISTS `Grupo02BraveTeam`.`productos` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `ivacompra` DOUBLE NOT NULL,
   `producto` VARCHAR(20) NOT NULL,
@@ -111,16 +111,16 @@ CREATE TABLE IF NOT EXISTS `database_TiVi`.`productos` (
   INDEX `fk_productos_proveedores1_idx` (`proveedores_id` ASC) VISIBLE,
   CONSTRAINT `fk_productos_proveedores1`
     FOREIGN KEY (`proveedores_id`)
-    REFERENCES `database_TiVi`.`proveedores` (`id`)
+    REFERENCES `Grupo02BraveTeam`.`proveedores` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `database_TiVi`.`detalle_ventas`
+-- Table `Grupo02BraveTeam`.`detalle_ventas`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `database_TiVi`.`detalle_ventas` (
+CREATE TABLE IF NOT EXISTS `Grupo02BraveTeam`.`detalle_ventas` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `cod_detalle_venta` VARCHAR(45) NOT NULL,
   `cantidad_producto` VARCHAR(20) NOT NULL,
@@ -136,12 +136,12 @@ CREATE TABLE IF NOT EXISTS `database_TiVi`.`detalle_ventas` (
   INDEX `fk_detalle_ventas_productos1_idx` (`productos_id` ASC) VISIBLE,
   CONSTRAINT `fk_detalle_ventas_ventas1`
     FOREIGN KEY (`ventas_id`)
-    REFERENCES `database_TiVi`.`ventas` (`id`)
+    REFERENCES `Grupo02BraveTeam`.`ventas` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_detalle_ventas_productos1`
     FOREIGN KEY (`productos_id`)
-    REFERENCES `database_TiVi`.`productos` (`id`)
+    REFERENCES `Grupo02BraveTeam`.`productos` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -151,4 +151,4 @@ SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
-INSERT INTO `database_TiVi`.`usuarios` (`cedula`, `email`, `nombre`, `password`, `usuario`) VALUES ('admininicial', 'admininicial@admin', 'admininicial', 'admininicial','admininicial');
+INSERT INTO `Grupo02BraveTeam`.`usuarios` (`cedula`, `email`, `nombre`, `password`, `usuario`) VALUES ('admininicial', 'admininicial@admin', 'admininicial', '921ee4f2061efd8284152733b62453de9face5557ded18ff6dd5b33a3763f35f','admininicial');
