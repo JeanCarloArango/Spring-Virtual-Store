@@ -3,17 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <title>Módulo de Gestión de Ventas</title>
+<link rel="stylesheet" href="Styles.css">
 </head>
 <body>
 
 	<div class="crud sales-cont">
-	
-		<div class="header">		
-			<input type="text" placeholder="Cédula" name="ctmrDni" id="txtDni" class="txt"> 
-			<input type="button" class="button" id="salesUsrSer" value="Consultar">
-			<span class="label" id="lblCustomer">Cliente</span>
-		</div>
-	
+
+		<header class="s-header">
+			<input type="text" placeholder="Cédula" class="txt" id="txtDniSer">
+			<input type="button" class="button" value="Consultar" id="btnCstmrSer">
+			<span class="label">Cliente</span>
+		</header>
+		
+		<div class="s-body" id="s-body"></div>
+
 	</div>
 
 </body>
