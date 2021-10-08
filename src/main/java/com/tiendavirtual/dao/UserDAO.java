@@ -40,7 +40,6 @@ public class UserDAO {
 	
 	public boolean createUser(UserDTO user) {
 		String pass = convertirSHA256(user.getUserPass());
-		System.out.println(pass);
 		con = new ConnectionDB();
 		try {
 			sql = "INSERT INTO usuarios (cedula, email, nombre, password, usuario) VALUES (?,?,?,?,?);";
@@ -91,6 +90,7 @@ public class UserDAO {
 	}
 
 	public Boolean updateUser(UserDTO user) {
+		String pass = convertirSHA256(user.getUserPass());
 		con = new ConnectionDB();
 		try {
 			sql = "UPDATE usuarios SET cedula=?, email=?, nombre=?, password=?, usuario=? WHERE cedula = ?;";
@@ -98,7 +98,7 @@ public class UserDAO {
 			sentence.setString(1, user.getUserDni());
 			sentence.setString(2, user.getUserEmail());
 			sentence.setString(3, user.getUserName());
-			sentence.setString(4, user.getUserPass());
+			sentence.setString(4, pass);
 			sentence.setString(5, user.getUserNick());
 			sentence.setString(6, user.getUserDni());
 			
