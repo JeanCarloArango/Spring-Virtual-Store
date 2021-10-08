@@ -1,72 +1,182 @@
 const ajaxCont = document.getElementById("ajax");
-let alertSh = document.createElement("div");
-alertSh.classList.add("alert-sh");;
+let alertSh = document.getElementById("alertCont");
+let divContainer = document.getElementById("shQueries");
+
+setTimeout(() => {
+	window.onbeforeunload = function(e) {
+		localStorage.log = "f";
+	};
+}, 10000)
+
+if (localStorage.log != "V") {
+	window.location.href = "/TiendaVirtualApp";
+}
 
 // Cargar Formularios
-const xhttp = new XMLHttpRequest;
-xhttp.onload = function() {
+const xhttpForms = new XMLHttpRequest;
+xhttpForms.onload = function() {
 	ajaxCont.innerHTML = this.responseText;
 }
 
-document.querySelectorAll(".link").forEach(el => {
-	el.addEventListener("click", e => {
+document.querySelectorAll(".link").forEach(function(el) {
+	el.addEventListener("click", function(e) {
 		let id = e.target.getAttribute("id");
-		xhttp.open("GET", id + ".html", true);
-		xhttp.send();
+		xhttpForms.open("GET", id + ".html", true);
+		xhttpForms.send();
 	});
 });
 
 // Nombre archivo subido
-
 const prLink = document.getElementById("Products_mgmt");
 
-prLink.addEventListener("click", () => {
+prLink.addEventListener("click", function() {
 	setTimeout(() => {
-		const inBtn = document.getElementById("file-input");
+		const inBtn = document.getElementById("fileupload");
 		const lblFile = document.getElementById("file-name");
+		const senFile = document.getElementById("Button-sent");
 		inBtn.addEventListener("change", () => {
-			// console.log(inBtn.files[0].name);
 			lblFile.textContent = inBtn.files[0].name;
 		})
+		senFile.addEventListener("click", () => {
+			CargarArchivo();
+		})
 	}, 1000);
-})
+});
+
+// file async 
+
+async function CargarArchivo() {
+	let formData = new FormData();
+	formData.append("file", fileupload.files[0]);
+	let response = await
+		fetch('/TiendaVirtualApp/cargarArchivo', {
+			method: "POST",
+			body: formData
+		});
+	if (response.status == 200) {
+		alert(response.responseText);
+	}
+};
 
 // Eventos AJAX
-
 const usrsLink = document.getElementById("CRUD_Users");
 const cstmrLink = document.getElementById("CRUD_Customers");
 const supLink = document.getElementById("CRUD_Suppliers");
 
 usrsLink.addEventListener("click", () => {
 	setTimeout(() => {
+		const usrsSerBtn = document.getElementById("usrSerBtn");
 		const usrsAddBtn = document.getElementById("usrAddBtn");
+		const usrsUpBtn = document.getElementById("usrUpBtn");
+		const usrsDelBtn = document.getElementById("usrDelBtn");
+		usrsSerBtn.addEventListener("click", () => {
+			submitSerUser();
+		});
 		usrsAddBtn.addEventListener("click", () => {
-			submitUser();
+			submitCreateUser();
+		});
+		usrsUpBtn.addEventListener("click", () => {
+			submitUpdateUser();
+		});
+		usrsDelBtn.addEventListener("click", () => {
+			submitDelUser();
 		});
 	}, 1000);
 });
 
 cstmrLink.addEventListener("click", () => {
 	setTimeout(() => {
+		const cstmrSerBtn = document.getElementById("cstmrSerBtn");
 		const cstmrAddBtn = document.getElementById("cstmrAddBtn");
+		const cstmrUpBtn = document.getElementById("cstmrUpBtn");
+		const cstmrDelBtn = document.getElementById("cstmrDelBtn");
+		cstmrSerBtn.addEventListener("click", () => {
+			submitSerCustomer();
+		});
 		cstmrAddBtn.addEventListener("click", () => {
-			validateCstmr();
+			submitCreateCstmr();
+		});
+		cstmrUpBtn.addEventListener("click", () => {
+			submitUpdateCstmr();
+		});
+		cstmrDelBtn.addEventListener("click", () => {
+			submitDelCstmr();
 		});
 	}, 1000);
 });
 
 supLink.addEventListener("click", () => {
 	setTimeout(() => {
+		const supSerBtn = document.getElementById("supSerBtn");
 		const supAddBtn = document.getElementById("supAddBtn");
+		const supUpBtn = document.getElementById("supUpBtn");
+		const supDelBtn = document.getElementById("supDelBtn");
+		supSerBtn.addEventListener("click", () => {
+			submitSerSup();
+		});
 		supAddBtn.addEventListener("click", () => {
-			errorSh.innerHTML = "";
-			validateSup();
+			submitCreateSup();
+		});
+		supUpBtn.addEventListener("click", () => {
+			submitUpdateSup();
+		});
+		supDelBtn.addEventListener("click", () => {
+			submitDelSup();
 		});
 	}, 1000);
 });
 
+// Creación tabla de consultas
+function CreateTableFromJSON(json_result) {
+
+	const json_arr = JSON.parse(json_result);
+
+	// EXTRACT VALUE FOR HTML HEADER. 	
+	let col = [];
+	for (let i = 0; i < json_arr.length; i++) {
+		for (let key in json_arr[i]) {
+			if (col.indexOf(key) === -1) {
+				col.push(key);
+			}
+		}
+	}
+
+	// CREATE DYNAMIC TABLE.
+	let table = document.createElement("table");
+	table.setAttribute("border", "1");
+
+	// CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE.
+
+	let tr = table.insertRow(-1); // TABLE ROW.
+
+
+	for (let i = 0; i < col.length; i++) {
+		let th = document.createElement("th"); // TABLE HEADER.
+		th.innerHTML = col[i];
+		tr.appendChild(th);
+	}
+
+	// ADD JSON DATA TO THE TABLE AS ROWS.
+	for (let i = 0; i < json_arr.length; i++) {
+
+		tr = table.insertRow(-1);
+
+		for (let j = 0; j < col.length; j++) {
+			let tabCell = tr.insertCell(-1);
+			tabCell.innerHTML = json_arr[i][col[j]];
+		}
+	}
+
+	// FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
+	divContainer.innerHTML = "";
+	divContainer.appendChild(table);
+	//alert(divContainer);
+
+}
+
 // Validaciones
 
+// Usuarios
 function validateUsr() {
 	const usrDni = document.getElementById("txtDni");
 	const usrName = document.getElementById("txtName");
@@ -96,15 +206,84 @@ function validateUsr() {
 		shErrors("Contraseña no puede estar vacío");
 		return false;
 	} else {
-		shSuccess();
+		return true;
+	}
+
+}
+
+// Clientes
+function validateCstmr() {
+	const cstmrDni = document.getElementById("txtDni");
+	const cstmrName = document.getElementById("txtName");
+	const cstmrAddr = document.getElementById("txtAddr");
+	const cstmrPhone = document.getElementById("txtPhone");
+	const cstmrEmail = document.getElementById("txtEmail");
+
+	hideErrors();
+	if (cstmrDni.value.trim().length == 0) {
+		cstmrDni.focus();
+		shErrors("Cédula no puede estar vacío");
+		return false;
+	} else if (cstmrName.value.trim().length == 0) {
+		cstmrName.focus();
+		shErrors("Nombre no puede estar vacío");
+		return false;
+	} else if (cstmrAddr.value.trim().length == 0) {
+		cstmrAddr.focus();
+		shErrors("Dirección no puede estar vacío");
+		return false;
+	} else if (cstmrPhone.value.trim().length == 0) {
+		cstmrPhone.focus();
+		shErrors("Teléfono no puede estar vacío");
+		return false;
+	} else if (cstmrEmail.value.trim().length == 0) {
+		cstmrEmail.focus();
+		shErrors("E-mail no puede estar vacío");
+		return false;
+	} else {
+		return true;
+	}
+
+}
+
+// Proveedores
+function validateSup() {
+	const supNit = document.getElementById("txtNit");
+	const supName = document.getElementById("txtName");
+	const supAddr = document.getElementById("txtAddr");
+	const supPhone = document.getElementById("txtPhone");
+	const supCity = document.getElementById("txtCity");
+
+	hideErrors();
+	if (supNit.value.trim().length == 0) {
+		supNit.focus();
+		shErrors("NIT no puede estar vacío");
+		return false;
+	} else if (supName.value.trim().length == 0) {
+		supName.focus();
+		shErrors("Nombre no puede estar vacío");
+		return false;
+	} else if (supAddr.value.trim().length == 0) {
+		supAddr.focus();
+		shErrors("Dirección no puede estar vacío");
+		return false;
+	} else if (supPhone.value.trim().length == 0) {
+		supPhone.focus();
+		shErrors("Teléfono no puede estar vacío");
+		return false;
+	} else if (supCity.value.trim().length == 0) {
+		supCity.focus();
+		shErrors("Ciudad no puede estar vacío");
+		return false;
+	} else {
 		return true;
 	}
 
 }
 
 // Errors Dialogs
-
 function shErrors(txtContent) {
+	alertSh.innerHTML = "";
 	let errorCont = document.createElement("div");
 	errorCont.classList.add("error-cont");
 	let errorMsg = document.createElement("span");
@@ -112,8 +291,7 @@ function shErrors(txtContent) {
 	let content = document.createTextNode(txtContent);
 	errorMsg.appendChild(content);
 	errorCont.appendChild(errorMsg);
-	alertSh.appendChild(errorCont)
-	ajaxCont.appendChild(alertSh);
+	alertSh.appendChild(errorCont);
 }
 
 function hideErrors() {
@@ -126,50 +304,438 @@ function hideErrors() {
 	});
 }
 
-// Success Dialogs
+function hideTable() {
+	const inputs = document.querySelectorAll(".txt");
+	// console.log(inputs);
+	inputs.forEach((input) => {
+		input.addEventListener("input", () => {
+			divContainer.innerHTML = "";
+		});
+	});
+}
 
-function shSuccess() {
+// Success Dialogs
+function shSuccess(txtContent) {
 	alertSh.innerHTML = "";
 	let successCont = document.createElement("div");
 	successCont.classList.add("success-cont");
 	let successMsg = document.createElement("span");
 	successMsg.classList.add("success-msg");
-	let content = document.createTextNode("Datos enviados con éxito");
+	let content = document.createTextNode(txtContent);
 	successMsg.appendChild(content);
 	successCont.appendChild(successMsg);
-	alertSh.appendChild(successCont)
-	ajaxCont.appendChild(alertSh);
-	const inputs = document.querySelectorAll(".txt");
-	// console.log(inputs);
-	inputs.forEach((input) => {
-		input.value = "";
+	alertSh.appendChild(successCont);
+	document.querySelectorAll(".txt").forEach((el) => {
+		el.value = "";
 	});
 }
 
 // Submit Forms
 
-function submitUser() {
+// Usuarios
+function submitSerUser() {
+	const usrDni = document.getElementById("txtDni").value.trim();
+	const xhttpServer = new XMLHttpRequest();
+
+	var url = '/TiendaVirtualApp/buscarUsuario';
+	var params = "cedula=" + usrDni;
+	xhttpServer.open('POST', url, true);
+
+	xhttpServer.setRequestHeader('Content-type',
+		'application/x-www-form-urlencoded');
+
+	xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
+		if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
+			//alert(xhttpServer.responseText);
+			if (xhttpServer.responseText === "[]") {
+				shErrors("Usuario con cedula " + usrDni + " no existe");
+				hideErrors();
+				return false;
+			} else {
+				shSuccess("Usuario encontrado");
+				CreateTableFromJSON(xhttpServer.responseText);
+				hideTable();
+				setTimeout(() => {
+					alertSh.innerHTML = "";
+				}, 4000);
+			}
+		} else {
+			shErrors("Datos no enviados");
+		}
+	}
+
+	xhttpServer.send(params);
+
+	return;
+
+}
+
+function submitCreateUser() {
 	const usrDni = document.getElementById("txtDni").value.trim();
 	const usrName = document.getElementById("txtName").value.trim();
 	const usrEmail = document.getElementById("txtEmail").value.trim();
 	const usrNick = document.getElementById("txtUsr").value.trim();
 	const usrPass = document.getElementById("txtPass").value.trim();
+	const xhttpServer = new XMLHttpRequest();
 	let valid = validateUsr();
 	if (valid) {
-		var url = 'http://localhost:8080/crearUsuario?';
-		var params = "userDni=" + usrDni + "&" + "userName=" + usrName + "&" + 
-			"userEmail=" + usrEmail + "&" + "userNick=" + usrNick + "&" + "userPass=" +
-		 	usrPass;
-		xhttp.open('POST', url, true);
+		var url = '/TiendaVirtualApp/crearUsuario';
 
-		xhttp.setRequestHeader('Content-type',
+		var params = "userDni=" + usrDni + "&" + "userName=" + usrName + "&" + "userEmail=" + usrEmail + "&" + "userNick=" + usrNick + "&" + "userPass=" + usrPass;
+		xhttpServer.open('POST', url, true);
+
+		xhttpServer.setRequestHeader('Content-type',
 			'application/x-www-form-urlencoded');
 
-		xhttp.onreadystatechange = function() {//Call a function when the state changes.
-			if (xhttp.readyState == 4 && xhttp.status == 200) {
-				shSuccess();
+		xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
+			if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
+				shSuccess("Usuario creado satisfactoriamente");
+				setTimeout(() => {
+					alertSh.innerHTML = "";
+				}, 4000);
+			} else {
+				shErrors("Datos no enviados");
 			}
 		}
-		xhttp.send(params);
+
+		xhttpServer.send(params);
+
 	}
+
+	return;
+
+}
+
+function submitUpdateUser() {
+	const usrDni = document.getElementById("txtDni").value.trim();
+	const usrName = document.getElementById("txtName").value.trim();
+	const usrEmail = document.getElementById("txtEmail").value.trim();
+	const usrNick = document.getElementById("txtUsr").value.trim();
+	const usrPass = document.getElementById("txtPass").value.trim();
+	const xhttpServer = new XMLHttpRequest();
+	let valid = validateUsr();
+	if (valid) {
+		var url = '/TiendaVirtualApp/actualizarUsuario';
+		var params = "userDni=" + usrDni + "&" + "userName=" + usrName + "&" + "userEmail=" + usrEmail + "&" + "userNick=" + usrNick + "&" + "userPass=" + usrPass;
+		xhttpServer.open('POST', url, true);
+
+		xhttpServer.setRequestHeader('Content-type',
+			'application/x-www-form-urlencoded');
+
+		xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
+			if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
+				shSuccess("Usuario actualizado con éxito");
+				setTimeout(() => {
+					alertSh.innerHTML = "";
+				}, 4000);
+			} else {
+				shErrors("Datos no enviados");
+			}
+		}
+
+		xhttpServer.send(params);
+
+	}
+
+	return;
+
+}
+
+function submitDelUser() {
+	const usrDni = document.getElementById("txtDni").value.trim();
+	const xhttpServer = new XMLHttpRequest();
+
+	var url = '/TiendaVirtualApp/eliminarUsuario';
+	var params = "cedula=" + usrDni;
+	xhttpServer.open('POST', url, true);
+
+	xhttpServer.setRequestHeader('Content-type',
+		'application/x-www-form-urlencoded');
+
+	xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
+		if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
+			shSuccess("Usuario eliminado con éxito");
+			setTimeout(() => {
+				alertSh.innerHTML = "";
+			}, 4000);
+		} else {
+			shErrors("Datos no enviados");
+		}
+	}
+
+	xhttpServer.send(params);
+
+	return;
+
+}
+
+// Clientes
+function submitSerCustomer() {
+	const cstmrDni = document.getElementById("txtDni").value.trim();
+	const xhttpServer = new XMLHttpRequest();
+
+	var url = '/TiendaVirtualApp/buscarCliente';
+	var params = "cedula=" + cstmrDni;
+	xhttpServer.open('POST', url, true);
+
+	xhttpServer.setRequestHeader('Content-type',
+		'application/x-www-form-urlencoded');
+
+	xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
+		if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
+			if (xhttpServer.responseText === "[]") {
+				shErrors("Cliente con cedula " + cstmrDni + " no existe");
+				hideErrors();
+				return false;
+			} else {
+				shSuccess("Cliente encontrado");
+				CreateTableFromJSON(xhttpServer.responseText);
+				hideTable();
+				setTimeout(() => {
+					alertSh.innerHTML = "";
+				}, 4000);
+			}
+		} else {
+			shErrors("Datos no enviados");
+		}
+	}
+
+	xhttpServer.send(params);
+
+	return;
+
+}
+
+function submitCreateCstmr() {
+	const cstmrDni = document.getElementById("txtDni").value.trim();
+	const cstmrName = document.getElementById("txtName").value.trim();
+	const cstmrAddr = document.getElementById("txtAddr").value.trim();
+	const cstmrPhone = document.getElementById("txtPhone").value.trim();
+	const cstmrEmail = document.getElementById("txtEmail").value.trim();
+	const xhttpServer = new XMLHttpRequest();
+	let valid = validateCstmr();
+	if (valid) {
+		var url = '/TiendaVirtualApp/crearCliente';
+		var params = "identifyCustomer=" + cstmrDni + "&" + "nameCustomer=" + cstmrName + "&" + "addressCustomer=" + cstmrAddr + "&" + "phoneCustomer=" + cstmrPhone + "&" + "emailCustomer=" + cstmrEmail;
+		xhttpServer.open('POST', url, true);
+
+		xhttpServer.setRequestHeader('Content-type',
+			'application/x-www-form-urlencoded');
+
+		xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
+			if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
+				shSuccess("Cliente creado satisfactoriamente");
+				setTimeout(() => {
+					alertSh.innerHTML = "";
+				}, 4000);
+			} else {
+				shErrors("Datos no enviados");
+			}
+		}
+
+		xhttpServer.send(params);
+
+	}
+
+	return;
+
+}
+
+function submitUpdateCstmr() {
+	const cstmrDni = document.getElementById("txtDni").value.trim();
+	const cstmrName = document.getElementById("txtName").value.trim();
+	const cstmrAddr = document.getElementById("txtAddr").value.trim();
+	const cstmrPhone = document.getElementById("txtPhone").value.trim();
+	const cstmrEmail = document.getElementById("txtEmail").value.trim();
+	const xhttpServer = new XMLHttpRequest();
+	let valid = validateCstmr();
+	if (valid) {
+		var url = '/TiendaVirtualApp/actualizarCliente';
+		var params = "identifyCustomer=" + cstmrDni + "&" + "nameCustomer=" + cstmrName + "&" + "addressCustomer=" + cstmrAddr + "&" + "phoneCustomer=" + cstmrPhone + "&" + "emailCustomer=" + cstmrEmail;
+		xhttpServer.open('POST', url, true);
+
+		xhttpServer.setRequestHeader('Content-type',
+			'application/x-www-form-urlencoded');
+
+		xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
+			if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
+				shSuccess("Cliente actualizado satisfactoriamente");
+				setTimeout(function() {
+					alertSh.innerHTML = "";
+				}, 4000);
+			} else {
+				shErrors("Datos no enviados");
+			};
+		}
+
+		xhttpServer.send(params);
+
+	}
+
+	return;
+
+}
+
+function submitDelCstmr() {
+	const cstmrDni = document.getElementById("txtDni").value.trim();
+	const xhttpServer = new XMLHttpRequest();
+	var url = '/TiendaVirtualApp/eliminarCliente';
+	var params = "cedula=" + cstmrDni;
+	xhttpServer.open('POST', url, true);
+
+	xhttpServer.setRequestHeader('Content-type',
+		'application/x-www-form-urlencoded');
+
+	xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
+		if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
+			shSuccess("Cliente eliminado satisfactoriamente");
+			setTimeout(() => {
+				alertSh.innerHTML = "";
+			}, 4000);
+		} else {
+			shErrors("Datos no enviados.");
+		}
+	}
+
+	xhttpServer.send(params);
+
+	return;
+
+}
+
+// Proveedores
+function submitSerSup() {
+	const supNit = document.getElementById("txtNit").value.trim();
+	const xhttpServer = new XMLHttpRequest();
+
+	var url = '/TiendaVirtualApp/buscarProveedor';
+	var params = "nit=" + supNit;
+	xhttpServer.open('POST', url, true);
+
+	xhttpServer.setRequestHeader('Content-type',
+		'application/x-www-form-urlencoded');
+
+	xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
+		if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
+			if (xhttpServer.responseText === "[]") {
+				shErrors("Proveedor con nit " + supNit + " no existe");
+				hideErrors();
+				return false;
+			} else {
+				shSuccess("Proveedor encontrado");
+				CreateTableFromJSON(xhttpServer.responseText);
+				hideTable();
+				setTimeout(() => {
+					alertSh.innerHTML = "";
+				}, 4000);
+			}
+		} else {
+			shErrors("Datos no enviados");
+		}
+	}
+
+	xhttpServer.send(params);
+
+	return;
+
+}
+
+function submitCreateSup() {
+	const supNit = document.getElementById("txtNit").value.trim();
+	const supName = document.getElementById("txtName").value.trim();
+	const supAddr = document.getElementById("txtAddr").value.trim();
+	const supPhone = document.getElementById("txtPhone").value.trim();
+	const supCity = document.getElementById("txtCity").value.trim();
+	const xhttpServer = new XMLHttpRequest();
+	let valid = validateSup();
+	if (valid) {
+		var url = '/TiendaVirtualApp/crearProveedor';
+		var params = "supplierNit=" + supNit + "&" + "supplierName=" + supName + "&" + "supplierAddress=" + supAddr + "&" + "supplierPhone=" + supPhone + "&" + "supplierCity=" + supCity;
+		xhttpServer.open('POST', url, true);
+
+		xhttpServer.setRequestHeader('Content-type',
+			'application/x-www-form-urlencoded');
+
+		xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
+			if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
+				shSuccess("Proveedor creado satisfactoriamente");
+				setTimeout(() => {
+					alertSh.innerHTML = "";
+				}, 4000);
+			} else {
+				shErrors("Datos no enviados");
+				setTimeout(() => {
+					alertSh.innerHTML = "";
+				}, 4000);
+			}
+		}
+
+		xhttpServer.send(params);
+
+	}
+
+	return;
+
+}
+
+function submitUpdateSup() {
+	const supNit = document.getElementById("txtNit").value.trim();
+	const supName = document.getElementById("txtName").value.trim();
+	const supAddr = document.getElementById("txtAddr").value.trim();
+	const supPhone = document.getElementById("txtPhone").value.trim();
+	const supCity = document.getElementById("txtCity").value.trim();
+	const xhttpServer = new XMLHttpRequest();
+	let valid = validateSup();
+	if (valid) {
+		var url = '/TiendaVirtualApp/actualizarProveedor';
+		var params = "supplierNit=" + supNit + "&" + "supplierName=" + supName + "&" + "supplierAddress=" + supAddr + "&" + "supplierPhone=" + supPhone + "&" + "supplierCity=" + supCity;
+		xhttpServer.open('POST', url, true);
+
+		xhttpServer.setRequestHeader('Content-type',
+			'application/x-www-form-urlencoded');
+
+		xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
+			if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
+				shSuccess("Proveedor actualizado satisfactoriamente");
+				setTimeout(() => {
+					alertSh.innerHTML = "";
+				}, 4000);
+			} else {
+				shErrors("Datos no enviados");
+			}
+		}
+
+		xhttpServer.send(params);
+
+	}
+
+	return;
+
+}
+
+function submitDelSup() {
+	const supNit = document.getElementById("txtNit").value.trim();
+	const xhttpServer = new XMLHttpRequest();
+	var url = '/TiendaVirtualApp/eliminarProveedor';
+	var params = "nit=" + supNit;
+	xhttpServer.open('POST', url, true);
+
+	xhttpServer.setRequestHeader('Content-type',
+		'application/x-www-form-urlencoded');
+
+	xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
+		if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
+			shSuccess("Proveedor eliminado satisfactoriamente");
+			setTimeout(() => {
+				alertSh.innerHTML = "";
+			}, 4000);
+		} else {
+			shErrors("Datos no enviados");
+		}
+	}
+
+	xhttpServer.send(params);
+
+	return;
+
 }

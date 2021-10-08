@@ -3,18 +3,18 @@ package com.tiendavirtual.dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.ArrayList;
 
 import com.tiendavirtual.dto.CustomerDTO;
-import com.tiendavirtual.dto.UserDTO;
 
 public class CustomerDAO {
 	
-	private ConnectionDB con = new ConnectionDB();
+	private ConnectionDB con;
 	private PreparedStatement sentence;
 	private String sql;
 	
 	public Boolean createCustomer(CustomerDTO customer) {
+		con = new ConnectionDB();
 		try {
 			sql = "INSERT INTO clientes (cedula, direccion, email, nombre, telefono) VALUES (?,?,?,?,?);";
 			sentence = this.con.pStimp(sql);
@@ -30,37 +30,37 @@ public class CustomerDAO {
 			}
 			return res;
 		} catch (SQLException e) {
-			// TODO: handle exception
 			System.out.println(e);
 			return false;
 		}
 	}
 	
-	public CustomerDTO searchCustomer(String cedula) {
-		ResultSet customerFound = null;
+	public ArrayList<CustomerDTO> searchCustomer(String cedula) {
+		con = new ConnectionDB();
+		ArrayList<CustomerDTO> custoAr = new ArrayList<CustomerDTO>();
 		
 		try {
 			sql = "SELECT * FROM clientes WHERE cedula = ?;";
+			sentence = this.con.pStimp(sql);
 			sentence.setString(1, cedula);
 			
-			customerFound = sentence.executeQuery();
-			CustomerDTO customer = null;
+			ResultSet customerFound = sentence.executeQuery();
 			while (customerFound.next()) {
-				customer = new CustomerDTO(customerFound.getString("cedula"), customerFound.getString("direccion"), 
+				CustomerDTO customer = new CustomerDTO(customerFound.getString("cedula"), customerFound.getString("direccion"), 
 						customerFound.getString("email"), customerFound.getString("nombre"), customerFound.getString("telefono"));
+				custoAr.add(customer);
 			}
-			System.out.println("Encontrado: "+ customer.getIdentifyCustomer() + customer.getAddressCustomer() + customer.getEmailCustomer() + 
-					customer.getNameCustomer() + customer.getPhoneCustomer());
+			customerFound.close();
+			sentence.close();
 			this.con.disconnect();
-			return customer;
 		} catch (SQLException e) {
-			// TODO: handle exception
 			e.printStackTrace();
-			return null;
 		}
+		return custoAr;
 	}
 	
 	public Boolean updateCustomer(CustomerDTO customer) {
+		con = new ConnectionDB();
 		try {
 			sql = "UPDATE clientes SET cedula=?, direccion=?, email=?, nombre=?, telefono=? where cedula = ?;";
 			sentence = this.con.pStimp(sql);
@@ -85,6 +85,7 @@ public class CustomerDAO {
 	}
 	
 	public Boolean delCustomer(String cedula) {
+		con = new ConnectionDB();
 		try {
 			sql = "UPDATE clientes SET estado='D' where cedula = ?;";
 			sentence = this.con.pStimp(sql);
@@ -102,6 +103,5 @@ public class CustomerDAO {
 			return false;
 		}
 	}
-
 
 }
