@@ -9,26 +9,27 @@ import com.tiendavirtual.dto.ProductsDTO;
 
 public class ProductsDAO {
 
-	private ConnectionDB con = new ConnectionDB();
+	private ConnectionDB con;
 	private PreparedStatement sentence;
 	private String sql;
 
 	public boolean createProducts(ProductsDTO products) {
 
 		try {
+			con = new ConnectionDB();
 			sql = "INSERT INTO productos (ivacompra, producto, precio_compra, precio_venta, proveedores_id) VALUES (?,?,?,?,?);";
 			sentence = this.con.pStimp(sql);
 			sentence.setDouble(1, products.getVatPurchase());
 			sentence.setString(2, products.getProductName());
 			sentence.setDouble(3, products.getPruchasePrice());
 			sentence.setDouble(4, products.getSellingPrice());
-			// sentence.setString(5, products.);
+			sentence.setInt(5, products.getIdProveedor());
 
 			Boolean res = false;
 			if (!sentence.execute()) {
 				res = true;
+				con.disconnect();
 			}
-			this.con.disconnect();
 			return res;
 		} catch (SQLException e) {
 			// TODO: handle exception
@@ -37,14 +38,14 @@ public class ProductsDAO {
 		}
 	}
 
-	public void fileUpload() {
+	public void fileUpload(File fileProduct) {
 		try {
-			FileReader file = new FileReader("");
+			FileReader file = new FileReader(fileProduct);
 			BufferedReader buffer = new BufferedReader(file);
 			String line;
 			while ((line = buffer.readLine()) != null) {
-				String[] tokens = line.replace("\"", "").split(",");
-				ProductsDTO z = new ProductsDTO(Double.parseDouble(tokens[0]), tokens[1], Double.parseDouble(tokens[2]), Double.parseDouble(tokens[3]));
+				String[] tokens = line.split(";");
+				ProductsDTO z = new ProductsDTO(Double.parseDouble(tokens[0]), tokens[1], Double.parseDouble(tokens[2]), Double.parseDouble(tokens[3]), Integer.parseInt(tokens[4]));
 				this.createProducts(z);
 			}
 			buffer.close();
@@ -57,20 +58,19 @@ public class ProductsDAO {
 	}
 
 	public ProductsDTO searchProducts(String name) {
+		con = new ConnectionDB();
 		ResultSet productsFound = null;
 
 		try {
-			sql = "SELECT * FROM productos WHERE producto = ?;";
+			sql = "SELECT pro.*, prove.nombre from productos pro join proveedores prove on pro.proveedores_id = prove.id;";
 
 			sentence = this.con.pStimp(sql);
 			sentence.setString(1, name);
 			productsFound = sentence.executeQuery();
 			ProductsDTO user = null;
 			while (productsFound.next()) {
-				// String userDni, String userName, String userEmail, String userNick, String
-				// userPass
 				user = new ProductsDTO(productsFound.getDouble("ivacompra"), productsFound.getString("producto"),
-						productsFound.getDouble("precio_compra"), productsFound.getDouble("precio_venta"));
+						productsFound.getDouble("precio_compra"), productsFound.getDouble("precio_venta"), productsFound.getInt("nombre"));
 			}
 			con.disconnect();
 			return user;
@@ -82,6 +82,7 @@ public class ProductsDAO {
 	}
 
 	public Boolean updateProducts(ProductsDTO products) {
+		con = new ConnectionDB();
 		try {
 			sql = "UPDATE productos SET ivacompra=?, producto=?, precio_compra=?, precio_venta=?, proveedores_id=? WHERE cedula = ?;";
 			sentence = this.con.pStimp(sql);
@@ -105,6 +106,7 @@ public class ProductsDAO {
 	}
 
 	public Boolean delUser(String cedula) {
+		con = new ConnectionDB();
 		try {
 			sql = "UPDATE productos SET estado='D' WHERE producto = ?;";
 			sentence = this.con.pStimp(sql);

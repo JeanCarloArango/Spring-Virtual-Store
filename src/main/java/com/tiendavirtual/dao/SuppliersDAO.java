@@ -10,11 +10,12 @@ import com.tiendavirtual.dto.SalesDetailsDTO;
 import com.tiendavirtual.dto.SuppliersDTO;
 
 public class SuppliersDAO {
-	private ConnectionDB con = new ConnectionDB();
+	private ConnectionDB con;
 	private PreparedStatement sentence;
 	private String sql;
 	
 	public Boolean createSupplier(SuppliersDTO supplier) {
+		con = new ConnectionDB();
 		try {
 			sql = "INSERT INTO proveedores (nit, ciudad, direccion, nombre, telefono) VALUES (?,?,?,?,?);";
 			sentence = this.con.pStimp(sql);
@@ -37,6 +38,7 @@ public class SuppliersDAO {
 	}
 	
 	public ArrayList<SuppliersDTO> searchSupplier(String nit) {
+		con = new ConnectionDB();
 		ArrayList<SuppliersDTO> suplierAr = new ArrayList<SuppliersDTO>();
 		
 		try {
@@ -60,6 +62,7 @@ public class SuppliersDAO {
 	}
 	
 	public Boolean updateSupplier(SuppliersDTO supplier) {
+		con = new ConnectionDB();
 		try {
 			sql = "UPDATE proveedores SET nit=?, ciudad=?, direccion=?, nombre=?, telefono=? where nit = ?;";
 			sentence = this.con.pStimp(sql);
@@ -84,6 +87,7 @@ public class SuppliersDAO {
 	}
 	
 	public Boolean delSupplier(String nit) {
+		con = new ConnectionDB();
 		try {
 			sql = "UPDATE proveedores SET estado='D' where nit = ?;";
 			sentence = this.con.pStimp(sql);

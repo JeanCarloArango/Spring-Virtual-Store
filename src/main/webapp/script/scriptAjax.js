@@ -2,6 +2,16 @@ const ajaxCont = document.getElementById("ajax");
 let alertSh = document.getElementById("alertCont");
 let divContainer = document.getElementById("shQueries");
 
+setTimeout(() => {
+	window.onbeforeunload = function(e) {
+		localStorage.log = "f";
+	};
+}, 10000)
+
+if (localStorage.log != "V") {
+	window.location.href = "/TiendaVirtualApp";
+}
+
 // Cargar Formularios
 const xhttpForms = new XMLHttpRequest;
 xhttpForms.onload = function() {
@@ -21,14 +31,32 @@ const prLink = document.getElementById("Products_mgmt");
 
 prLink.addEventListener("click", function() {
 	setTimeout(() => {
-		const inBtn = document.getElementById("file-input");
+		const inBtn = document.getElementById("fileupload");
 		const lblFile = document.getElementById("file-name");
+		const senFile = document.getElementById("Button-sent");
 		inBtn.addEventListener("change", () => {
-			// console.log(inBtn.files[0].name);
 			lblFile.textContent = inBtn.files[0].name;
-		});
+		})
+		senFile.addEventListener("click", () => {
+			CargarArchivo();
+		})
 	}, 1000);
 });
+
+// file async 
+
+async function CargarArchivo() {
+	let formData = new FormData();
+	formData.append("file", fileupload.files[0]);
+	let response = await
+		fetch('/TiendaVirtualApp/cargarArchivo', {
+			method: "POST",
+			body: formData
+		});
+	if (response.status == 200) {
+		alert(response.responseText);
+	}
+};
 
 // Eventos AJAX
 const usrsLink = document.getElementById("CRUD_Users");
@@ -319,7 +347,7 @@ function submitSerUser() {
 	xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
 		if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
 			//alert(xhttpServer.responseText);
-			if(xhttpServer.responseText === "[]") {
+			if (xhttpServer.responseText === "[]") {
 				shErrors("Usuario con cedula " + usrDni + " no existe");
 				hideErrors();
 				return false;
@@ -352,6 +380,7 @@ function submitCreateUser() {
 	let valid = validateUsr();
 	if (valid) {
 		var url = '/TiendaVirtualApp/crearUsuario';
+
 		var params = "userDni=" + usrDni + "&" + "userName=" + usrName + "&" + "userEmail=" + usrEmail + "&" + "userNick=" + usrNick + "&" + "userPass=" + usrPass;
 		xhttpServer.open('POST', url, true);
 
@@ -454,11 +483,11 @@ function submitSerCustomer() {
 
 	xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
 		if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
-			if(xhttpServer.responseText === "[]") {
+			if (xhttpServer.responseText === "[]") {
 				shErrors("Cliente con cedula " + cstmrDni + " no existe");
 				hideErrors();
 				return false;
-			} else {				
+			} else {
 				shSuccess("Cliente encontrado");
 				CreateTableFromJSON(xhttpServer.responseText);
 				hideTable();
@@ -588,7 +617,7 @@ function submitSerSup() {
 
 	xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
 		if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
-			if(xhttpServer.responseText === "[]") {
+			if (xhttpServer.responseText === "[]") {
 				shErrors("Proveedor con nit " + supNit + " no existe");
 				hideErrors();
 				return false;

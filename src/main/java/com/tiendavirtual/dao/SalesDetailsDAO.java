@@ -7,11 +7,12 @@ import java.sql.SQLException;
 import com.tiendavirtual.dto.SalesDetailsDTO;
 
 public class SalesDetailsDAO {
-	private ConnectionDB con = new ConnectionDB();
+	private ConnectionDB con;
 	private PreparedStatement sentence;
 	private String sql;
 	
 	public Boolean createSalesDetails(SalesDetailsDTO details) {
+		con = new ConnectionDB();
 		try {
 			sql = "INSERT INTO detalle_ventas (cod_detalle_venta, cantidad_producto, valor_total, valor_venta, valor_iva, ventas_id, productos_ud) VALUES (?,?,?,?,?,?,?);";
 			sentence = this.con.pStimp(sql);
@@ -36,6 +37,7 @@ public class SalesDetailsDAO {
 	}
 	
 	public SalesDetailsDTO searchSalesDetails(String cedula) {
+		con = new ConnectionDB();
 		ResultSet detailsFound = null;
 		
 		try {
@@ -58,6 +60,7 @@ public class SalesDetailsDAO {
 	}
 	
 	public Boolean updateSalesDetails(SalesDetailsDAO customer) {
+		con = new ConnectionDB();
 		try {
 			sql = "UPDATE detalle_ventas SET cedula=?, direccion=?, email=?, nombre=?, telefono=? where cedula = ?;";
 			sentence = this.con.pStimp(sql);
@@ -76,6 +79,7 @@ public class SalesDetailsDAO {
 	}
 	
 	public Boolean delSalesDetails(String cedula) {
+		con = new ConnectionDB();
 		try {
 			sql = "UPDATE detalle_ventas SET estado='D' where cedula = ?;";
 			sentence = this.con.pStimp(sql);
