@@ -9,7 +9,7 @@ public class ConnectionDB {
 	private String password = "admin";
 	private String url = "jdbc:mysql://localhost/" + bd;*/
 	
-	private String bd = "Grupo02";
+	private String bd = "Grupo02BraveTeam";
 	private String login = "admin";
 	private String password = "MisionTIC2022GRUPO02";
 	private String url = "jdbc:mysql://misiontic2022grupo02.czo3ixoe3xoe.us-east-1.rds.amazonaws.com/" + bd;
