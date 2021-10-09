@@ -180,7 +180,7 @@ th {
 	padding-top: 5%;
 }
 
-.s-header {
+.s-header, .pr-row {
 	display: flex;
 	width: 100%;
 	justify-content: center;
@@ -190,4 +190,8 @@ th {
 }
 .s-header .txt {
 	width: 30%;
+}
+.s-body {
+	height: 40%;
+	overflow: scroll;
 }
