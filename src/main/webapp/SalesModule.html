@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Módulo de Gestión de Ventas</title>
-<link rel="stylesheet" href="Styles.css">
+
 </head>
 <body>
 
@@ -15,8 +15,19 @@
 			<span class="label">Cliente</span>
 		</header>
 		
-		<div class="s-body" id="s-body"></div>
-
+		<div class="s-body" id="s-body">
+			<span class="label">Cod. Producto</span>
+			<input type="text" placeholder="Nombre Producto" class="txt" id="txtPrName">
+			<input type="number" placeholder="Cantidad" class="txt" id="txtCanti">
+			<span class="label">Valor total</span>
+			<input type="button" class="button" value="Consultar" id="btnCons">
+		</div>
+		<footer class="footer">
+			<input type="button" class="button" value="Comprar" id="btnConf">
+			<span class="label">Total Venta</span>		
+			<span class="label">Valor IVA</span>		
+			<span class="label">Total a Pagar</span>		
+		</footer>
 	</div>
 
 </body>
