@@ -1,16 +1,42 @@
+/* Variables Globales */
+
 const ajaxCont = document.getElementById("ajax");
 let alertSh = document.getElementById("alertCont");
 let divContainer = document.getElementById("shQueries");
+let timerWait = 120;
+let timer = 0;
 
-setTimeout(() => {
-	window.onbeforeunload = function(e) {
-		localStorage.log = "f";
-	};
-}, 10000)
+/* Funcion de recarga durante periodo inactivo */
+window.addEventListener("click", () => {
+	timer = 0;	
+});
 
-if (localStorage.log != "V") {
-	window.location.href = "/TiendaVirtualApp";
+window.addEventListener("mousemove", () => {
+	timer = 0;	
+});
+
+window.addEventListener("keypress", () => {
+	timer = 0;	
+});
+
+let reloadInactive = function() {
+	
+	timer++;
+	console.log(timer);
+	if(timer > timerWait) {
+		window.onbeforeunload = function() {
+			localStorage.log = "f";
+		};
+		location.reload();	
+	}
+	
+	if (localStorage.log != "V") {
+		window.location.href = "/TiendaVirtualApp";
+	}
+	
 }
+
+window.setInterval(reloadInactive, 1000);
 
 // Cargar Formularios
 const xhttpForms = new XMLHttpRequest;
