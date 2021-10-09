@@ -33,10 +33,13 @@ body {
 }
 label, .label{
 	width: 30%;
-	margin-left: 5%;
     font-size: larger;
     font-weight: bold;
     float: left;
+    text-align: center;
+    padding: 1%;
+	border: 2px solid rgba(0,0,0,.5);
+	color: rgba(0,0,0,.5);
 }
 .txt {
 	width: 80%;
@@ -112,15 +115,11 @@ label, .label{
 	justify-content: center;
 	align-items: center;
 }
-.label {
-	padding: 1%;
-	border: 2px solid rgba(0,0,0,.5);
+.pr-request .label {
 	margin-right: 2%;
-	color: rgba(0,0,0,.5);
 }
 
 /* Estilos de cuadro de errores */
-
 
 .alert-sh {
 	position: absolute;
@@ -175,11 +174,20 @@ th {
 
 /* Estilos Módulo de ventas */
 
+.sales-cont {
+	display: grid;
+	text-align: center;
+	padding-top: 5%;
+}
 
 .s-header {
 	display: flex;
-	justify-content: center;
-	align-items: center;
 	width: 100%;
-		
+	justify-content: center;
+}
+.s-header * {
+	margin: 1%;
+}
+.s-header .txt {
+	width: 30%;
 }
