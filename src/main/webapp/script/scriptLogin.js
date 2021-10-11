@@ -21,7 +21,7 @@ function loginUser() {
 	const userPass = document.getElementById("txtPass").value.trim();
 	const xhttpServer = new XMLHttpRequest();
 
-	let url = '/TiendaVirtualApp/loginUser';
+	let url = '/BraveTeamApp/loginUser';
 	let params = "userNick=" + userNick + "&" + "userPass=" + userPass;
 	xhttpServer.open('POST', url, true);
 
@@ -34,7 +34,7 @@ function loginUser() {
 		if (xhttpServer.readyState == 4) {
 			if (xhttpServer.status == 200)
 				if (xhttpServer.responseText == "true") {
-					window.location.href = "/TiendaVirtualApp/Manage.html";
+					window.location.href = "/BraveTeamApp/Manage.html";
 					localStorage.log = "V"
 				}
 				else {					
