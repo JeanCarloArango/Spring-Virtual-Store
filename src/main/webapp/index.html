@@ -1,28 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Inicio de sesión</title>
-<link rel="stylesheet" href="Styles.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administración Tienda</title>
+    <link rel="stylesheet" href="Styles.css">
 </head>
-<body>
 
-	<form class="login" action="">
+<body>    
+    <header>
+        <h2 class="head-title">Tienda Genérica</h2>
+        <nav class="nav" id="menu">
+            <a href="#" id="CRUD_Users" class="link">Usuarios</a>
+            <a href="#" id="CRUD_Customers" class="link">Clientes</a>
+            <a href="#" id="CRUD_Suppliers" class="link">Proveedores</a>
+            <a href="#" id="Products_mgmt" class="link">Productos</a>
+            <a href="#" id="SalesModule" class="link">Ventas</a>
+            <a href="#" id="CRUD_Logs" class="link">Reportes</a>
+        </nav>
+    </header>
+    
+    <div class="ajax" id="ajax"></div>
+    <div class="alert-sh" id="alertCont"></div>
+    <br>
+   	<div class="sh-queries" id="shQueries"></div>
 
-		<h1>Bienvenidos a nuestra Tienda Virtual</h1>
-		<br><br>
-		<input type="text" placeholder="Usuario 🕴" name="usrName" id="txtName" class="txt txtLogin">
-		<br><br>
-		<input type="password" placeholder="Contraseña 🔐" name="usrPass" id="txtPass" class="txt txtLogin">
-		<br><br>
-		<input type="button" value="Aceptar" class="button" id="log">
-		<input type="button" value="Cancelar" class="button" id="cancel">
-
-	</form>
-	
-	<script src="script/scriptLogin.js"></script>
-	
+    <script src="./script/scriptDesign.js"></script>
+    <script src="./script/scriptAjax.js"></script>
+    
 </body>
+
 </html>
