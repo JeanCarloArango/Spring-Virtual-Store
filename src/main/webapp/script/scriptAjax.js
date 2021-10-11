@@ -7,7 +7,7 @@ let timerWait = 120;
 let timer = 0;
 
 /* Funcion de recarga durante periodo inactivo */
-window.addEventListener("click", () => {
+/*window.addEventListener("click", () => {
 	timer = 0;	
 });
 
@@ -22,7 +22,6 @@ window.addEventListener("keypress", () => {
 let reloadInactive = function() {
 	
 	timer++;
-	console.log(timer);
 	if(timer > timerWait) {
 		window.onbeforeunload = function() {
 			localStorage.log = "f";
@@ -36,7 +35,7 @@ let reloadInactive = function() {
 	
 }
 
-window.setInterval(reloadInactive, 1000);
+window.setInterval(reloadInactive, 1000);*/
 
 // Cargar Formularios
 const xhttpForms = new XMLHttpRequest;
