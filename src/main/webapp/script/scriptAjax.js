@@ -31,7 +31,7 @@ let reloadInactive = function() {
 	}
 	
 	if (localStorage.log != "V") {
-		window.location.href = "/TiendaVirtualApp";
+		window.location.href = "/BraveTeamApp";
 	}
 	
 }
