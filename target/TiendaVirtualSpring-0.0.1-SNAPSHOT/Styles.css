@@ -1,0 +1,197 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+	width: 100%;
+	height: 100vh;
+}
+
+/* Estilos Formularios */
+
+.login, .crud {
+    padding-top: 10%;
+    text-align: center;
+}
+.button {
+    border: none;
+    width: 20%;
+    padding: 1%;
+    font-size: large;
+    background-color: blue;
+    color: #ffffff;
+    border-radius: .5em;
+    cursor: pointer;
+}
+.button:hover {
+    color: #000000;
+    background-color: #ccc;
+}
+.del:hover {
+	color: #fff;
+	background-color: #ff0000;
+}
+label, .label{
+	width: 30%;
+    font-size: larger;
+    font-weight: bold;
+    float: left;
+    text-align: center;
+    padding: 1%;
+	border: 2px solid rgba(0,0,0,.5);
+	color: rgba(0,0,0,.5);
+}
+.txt {
+	width: 80%;
+	font-size: 1.5em;
+    padding: 1%;
+    background: trasparent;
+    border: none;
+    border-bottom: 2px solid #3e6de6;
+    outline: none;
+}
+.txtLogin {
+	width: 50%;
+}
+
+/* Estilos Administración */
+
+.head-title {
+    padding: 2%;
+    margin: 0;
+    background-color: #3e6de6;
+    color: #fff;
+}
+.nav {
+    padding: 1%;
+    background-color: #eee;
+    text-align: center;
+}
+.link {
+    padding: 1%;
+    font-size: larger;
+    text-decoration: none;
+    font-weight: 800;
+    color: #000;
+    
+}
+.link:hover, .active {
+    background-color: #3e6de6;
+    color: #fff;
+    text-decoration: underline;
+}
+
+/* Estilos CRUD */
+
+.grid-cont {
+    width: auto;
+    display: grid;
+    grid-template-columns: 50% 2fr;
+    grid-gap: .5em;
+    margin-bottom: 5%;
+}
+[class^="col"] {
+    margin: 1%;
+}
+
+/* Estilos Productos */
+
+.file-input {
+	position: absolute;
+	opacity: 0;
+	cursor: pointer;
+	width: 100%;
+	height: 100%;
+}
+.pr-request {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 5%;
+}
+.pr-request .button {
+	display: flex;
+	position: relative;
+	justify-content: center;
+	align-items: center;
+}
+.pr-request .label {
+	margin-right: 2%;
+}
+
+/* Estilos de cuadro de errores */
+
+.alert-sh {
+	position: absolute;
+	width: 30%;
+	max-height: 20%;
+	bottom: 1%;
+	right: 1%;
+}
+.error-cont {
+	width: 100% - 2em;
+	background-color: rgba(255, 0, 0, .3);
+	border: .2em solid #ff0000;
+	margin: 1em;
+}
+.error-cont .error-msg {
+	width: 100%;
+	display: block;
+	margin: 1em;
+	font-weight: bolder;
+	color: #ff0000;
+}
+.success-cont {
+	width: 100% - 2em;
+	background-color: rgba(0, 255, 0, .3);
+	border: .2em solid #00ff00;
+	margin: 1em;
+}
+.success-cont .success-msg {
+	width: 100%;
+	display: block;
+	margin: 1em;
+	font-weight: bolder;
+	color: #00ff00;
+}
+
+/* Estilos tabla de consultas */
+
+.sh-queries {
+	display: flex;
+	width: 100%;
+	max-height: 50%;
+	justify-content: center;
+	overflow: scroll;
+}
+th, td {
+	padding: 1em;
+}
+th {
+	background-color: #3e6de6;
+	color: #fff;
+}
+
+/* Estilos Módulo de ventas */
+
+.sales-cont {
+	display: grid;
+	text-align: center;
+	padding-top: 5%;
+}
+
+.s-header, .pr-row {
+	display: flex;
+	width: 100%;
+	justify-content: center;
+}
+.s-header * {
+	margin: 1%;
+}
+.s-header .txt {
+	width: 30%;
+}
+.s-body {
+	height: 40%;
+	overflow: scroll;
+}

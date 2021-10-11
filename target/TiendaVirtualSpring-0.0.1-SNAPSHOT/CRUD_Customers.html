@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD Customers</title>
+</head>
+<body>
+
+    <form class="crud" action="">
+
+        <div class="grid-cont">
+
+            <div class="col-1">
+            	<input type="text" placeholder="Cédula" name="ctmrDni" id="txtDni" class="txt">
+            	<br><br>
+            	<input type="text" placeholder="Nombre Completo" name="ctmrName" id="txtName" class="txt">
+                <br><br>
+            	<input type="text" placeholder="Dirección" name="ctmrAddress" id="txtAddr" class="txt">
+            </div>
+            
+            <div class="col-2">
+            	<input type="text" placeholder="Teléfono" name="ctmrPhone" id="txtPhone" class="txt">
+                <br><br>
+            	<input type="email" placeholder="Correo Electrónico" name="ctmrEmail" id="txtEmail" class="txt">
+            </div>
+
+        </div>
+
+        <input type="button" class="button" id="cstmrSerBtn" value="Consultar">
+        <input type="button" class="button" id="cstmrAddBtn" value="Crear">
+        <input type="button" class="button" id="cstmrUpBtn" value="Actualizar">
+        <input type="button" class="button del" id="cstmrDelBtn" value="Eliminar">
+
+    </form>
+    
+</body>
+</html>
