@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class TiendaVirtualSpringApplication {
 
 	public static void main(String[] args) {
-		System.setProperty("server.servlet.context-path", "/TiendaVirtualApp");
+		System.setProperty("server.servlet.context-path", "/BraveTeamApp");
 		SpringApplication.run(TiendaVirtualSpringApplication.class, args);
 	}
 
