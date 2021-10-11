@@ -7,7 +7,7 @@ let timerWait = 120;
 let timer = 0;
 
 /* Funcion de recarga durante periodo inactivo */
-window.addEventListener("click", () => {
+/*window.addEventListener("click", () => {
 	timer = 0;	
 });
 
@@ -22,7 +22,6 @@ window.addEventListener("keypress", () => {
 let reloadInactive = function() {
 	
 	timer++;
-	console.log(timer);
 	if(timer > timerWait) {
 		window.onbeforeunload = function() {
 			localStorage.log = "f";
@@ -31,12 +30,12 @@ let reloadInactive = function() {
 	}
 	
 	if (localStorage.log != "V") {
-		window.location.href = "/TiendaVirtualApp";
+		window.location.href = "/BraveTeamApp";
 	}
 	
 }
 
-window.setInterval(reloadInactive, 1000);
+window.setInterval(reloadInactive, 1000);*/
 
 // Cargar Formularios
 const xhttpForms = new XMLHttpRequest;
@@ -75,7 +74,7 @@ async function CargarArchivo() {
 	let formData = new FormData();
 	formData.append("file", fileupload.files[0]);
 	let response = await
-		fetch('/TiendaVirtualApp/cargarArchivo', {
+		fetch('/BraveTeamApp/cargarArchivo', {
 			method: "POST",
 			body: formData
 		});
@@ -363,7 +362,7 @@ function submitSerUser() {
 	const usrDni = document.getElementById("txtDni").value.trim();
 	const xhttpServer = new XMLHttpRequest();
 
-	var url = '/TiendaVirtualApp/buscarUsuario';
+	var url = '/BraveTeamApp/buscarUsuario';
 	var params = "cedula=" + usrDni;
 	xhttpServer.open('POST', url, true);
 
@@ -405,7 +404,7 @@ function submitCreateUser() {
 	const xhttpServer = new XMLHttpRequest();
 	let valid = validateUsr();
 	if (valid) {
-		var url = '/TiendaVirtualApp/crearUsuario';
+		var url = '/BraveTeamApp/crearUsuario';
 
 		var params = "userDni=" + usrDni + "&" + "userName=" + usrName + "&" + "userEmail=" + usrEmail + "&" + "userNick=" + usrNick + "&" + "userPass=" + usrPass;
 		xhttpServer.open('POST', url, true);
@@ -441,7 +440,7 @@ function submitUpdateUser() {
 	const xhttpServer = new XMLHttpRequest();
 	let valid = validateUsr();
 	if (valid) {
-		var url = '/TiendaVirtualApp/actualizarUsuario';
+		var url = '/BraveTeamApp/actualizarUsuario';
 		var params = "userDni=" + usrDni + "&" + "userName=" + usrName + "&" + "userEmail=" + usrEmail + "&" + "userNick=" + usrNick + "&" + "userPass=" + usrPass;
 		xhttpServer.open('POST', url, true);
 
@@ -471,7 +470,7 @@ function submitDelUser() {
 	const usrDni = document.getElementById("txtDni").value.trim();
 	const xhttpServer = new XMLHttpRequest();
 
-	var url = '/TiendaVirtualApp/eliminarUsuario';
+	var url = '/BraveTeamApp/eliminarUsuario';
 	var params = "cedula=" + usrDni;
 	xhttpServer.open('POST', url, true);
 
@@ -500,7 +499,7 @@ function submitSerCustomer() {
 	const cstmrDni = document.getElementById("txtDni").value.trim();
 	const xhttpServer = new XMLHttpRequest();
 
-	var url = '/TiendaVirtualApp/buscarCliente';
+	var url = '/BraveTeamApp/buscarCliente';
 	var params = "cedula=" + cstmrDni;
 	xhttpServer.open('POST', url, true);
 
@@ -541,7 +540,7 @@ function submitCreateCstmr() {
 	const xhttpServer = new XMLHttpRequest();
 	let valid = validateCstmr();
 	if (valid) {
-		var url = '/TiendaVirtualApp/crearCliente';
+		var url = '/BraveTeamApp/crearCliente';
 		var params = "identifyCustomer=" + cstmrDni + "&" + "nameCustomer=" + cstmrName + "&" + "addressCustomer=" + cstmrAddr + "&" + "phoneCustomer=" + cstmrPhone + "&" + "emailCustomer=" + cstmrEmail;
 		xhttpServer.open('POST', url, true);
 
@@ -576,7 +575,7 @@ function submitUpdateCstmr() {
 	const xhttpServer = new XMLHttpRequest();
 	let valid = validateCstmr();
 	if (valid) {
-		var url = '/TiendaVirtualApp/actualizarCliente';
+		var url = '/BraveTeamApp/actualizarCliente';
 		var params = "identifyCustomer=" + cstmrDni + "&" + "nameCustomer=" + cstmrName + "&" + "addressCustomer=" + cstmrAddr + "&" + "phoneCustomer=" + cstmrPhone + "&" + "emailCustomer=" + cstmrEmail;
 		xhttpServer.open('POST', url, true);
 
@@ -605,7 +604,7 @@ function submitUpdateCstmr() {
 function submitDelCstmr() {
 	const cstmrDni = document.getElementById("txtDni").value.trim();
 	const xhttpServer = new XMLHttpRequest();
-	var url = '/TiendaVirtualApp/eliminarCliente';
+	var url = '/BraveTeamApp/eliminarCliente';
 	var params = "cedula=" + cstmrDni;
 	xhttpServer.open('POST', url, true);
 
@@ -634,7 +633,7 @@ function submitSerSup() {
 	const supNit = document.getElementById("txtNit").value.trim();
 	const xhttpServer = new XMLHttpRequest();
 
-	var url = '/TiendaVirtualApp/buscarProveedor';
+	var url = '/BraveTeamApp/buscarProveedor';
 	var params = "nit=" + supNit;
 	xhttpServer.open('POST', url, true);
 
@@ -675,7 +674,7 @@ function submitCreateSup() {
 	const xhttpServer = new XMLHttpRequest();
 	let valid = validateSup();
 	if (valid) {
-		var url = '/TiendaVirtualApp/crearProveedor';
+		var url = '/BraveTeamApp/crearProveedor';
 		var params = "supplierNit=" + supNit + "&" + "supplierName=" + supName + "&" + "supplierAddress=" + supAddr + "&" + "supplierPhone=" + supPhone + "&" + "supplierCity=" + supCity;
 		xhttpServer.open('POST', url, true);
 
@@ -713,7 +712,7 @@ function submitUpdateSup() {
 	const xhttpServer = new XMLHttpRequest();
 	let valid = validateSup();
 	if (valid) {
-		var url = '/TiendaVirtualApp/actualizarProveedor';
+		var url = '/BraveTeamApp/actualizarProveedor';
 		var params = "supplierNit=" + supNit + "&" + "supplierName=" + supName + "&" + "supplierAddress=" + supAddr + "&" + "supplierPhone=" + supPhone + "&" + "supplierCity=" + supCity;
 		xhttpServer.open('POST', url, true);
 
@@ -742,7 +741,7 @@ function submitUpdateSup() {
 function submitDelSup() {
 	const supNit = document.getElementById("txtNit").value.trim();
 	const xhttpServer = new XMLHttpRequest();
-	var url = '/TiendaVirtualApp/eliminarProveedor';
+	var url = '/BraveTeamApp/eliminarProveedor';
 	var params = "nit=" + supNit;
 	xhttpServer.open('POST', url, true);
 
