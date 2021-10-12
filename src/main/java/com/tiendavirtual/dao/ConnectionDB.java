@@ -19,14 +19,14 @@ public class ConnectionDB {
 	
 	public ConnectionDB() {
 		try {
-			// Class.forName("com.mysql.cj.jdbc.Driver");
+			Class.forName("com.mysql.cj.jdbc.Driver");
 			connection = DriverManager.getConnection(url, login, password);
 			if (connection != null) {
 				System.out.println("Conexion a base de datos " + bd + " OK\n");
 			}
-		} /*catch (ClassNotFoundException ex) {
+		} catch (ClassNotFoundException ex) {
 			ex.printStackTrace();
-		}*/ catch (SQLException ex) {
+		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
 	}

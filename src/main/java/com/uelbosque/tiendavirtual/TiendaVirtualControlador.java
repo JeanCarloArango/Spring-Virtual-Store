@@ -34,14 +34,6 @@ public class TiendaVirtualControlador {
 	}
 	
 	//Usuarios
-
-	@RequestMapping("/testApp")
-	public String testCliente(String x) {
-		CustomerDTO c = new CustomerDTO("7", x, "7", "7", "7");
-		CustomerDAO cDao = new CustomerDAO();
-		cDao.createCustomer(c);
-		return "Microservicio de insersión de usuarios";
-	}
 	
 	@RequestMapping("/crearUsuario")
 	public String InsertarUsuario(UserDTO nUser) {
