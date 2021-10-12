@@ -4,11 +4,6 @@ import java.sql.*;
 
 public class ConnectionDB {
 	
-	/*private String bd = "database_tivi";
-	private String login = "root";
-	private String password = "admin";
-	private String url = "jdbc:mysql://localhost/" + bd;*/
-	
 	private String bd = "Grupo02BraveTeam";
 	private String login = "admin";
 	private String password = "MisionTIC2022GRUPO02";
@@ -19,14 +14,12 @@ public class ConnectionDB {
 	
 	public ConnectionDB() {
 		try {
-			// Class.forName("com.mysql.cj.jdbc.Driver");
+			Class.forName("org.mariadb.jdbc.Driver");
 			connection = DriverManager.getConnection(url, login, password);
 			if (connection != null) {
 				System.out.println("Conexion a base de datos " + bd + " OK\n");
 			}
-		} /*catch (ClassNotFoundException ex) {
-			ex.printStackTrace();
-		}*/ catch (SQLException ex) {
+		} catch (SQLException | ClassNotFoundException ex) {
 			ex.printStackTrace();
 		}
 	}

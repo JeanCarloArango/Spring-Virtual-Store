@@ -11,17 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.tiendavirtual.dao.CustomerDAO;
-import com.tiendavirtual.dao.LoginDAO;
-import com.tiendavirtual.dao.ProductsDAO;
-import com.tiendavirtual.dao.SalesDetailsDAO;
-import com.tiendavirtual.dao.SuppliersDAO;
-import com.tiendavirtual.dao.UserDAO;
-import com.tiendavirtual.dto.CustomerDTO;
-import com.tiendavirtual.dto.ProductsDTO;
-import com.tiendavirtual.dto.SalesDetailsDTO;
-import com.tiendavirtual.dto.SuppliersDTO;
-import com.tiendavirtual.dto.UserDTO;
+import com.tiendavirtual.dao.*;
+import com.tiendavirtual.dto.*;
 
 @RestController
 public class TiendaVirtualControlador {
@@ -34,14 +25,6 @@ public class TiendaVirtualControlador {
 	}
 	
 	//Usuarios
-
-	@RequestMapping("/testApp")
-	public String testCliente(String x) {
-		CustomerDTO c = new CustomerDTO("7", x, "7", "7", "7");
-		CustomerDAO cDao = new CustomerDAO();
-		cDao.createCustomer(c);
-		return "Microservicio de insersión de usuarios";
-	}
 	
 	@RequestMapping("/crearUsuario")
 	public String InsertarUsuario(UserDTO nUser) {
@@ -64,11 +47,9 @@ public class TiendaVirtualControlador {
 	}
 
 	@RequestMapping("/eliminarUsuario")
-	public String EliminarUsuario(String cedula) {
-		System.out.println(cedula);
+	public Boolean EliminarUsuario(String cedula) {
 		UserDAO uDao = new UserDAO();
-		uDao.delUser(cedula);
-		return "Microservicio eliminiar de usuarios";
+		return uDao.delUser(cedula);
 	}
 
 	// Clientes
