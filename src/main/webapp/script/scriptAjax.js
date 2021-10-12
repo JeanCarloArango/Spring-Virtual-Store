@@ -477,7 +477,7 @@ function submitDelUser() {
 	xhttpServer.setRequestHeader('Content-type',
 		'application/x-www-form-urlencoded');
 
-	xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
+	/*xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
 		if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
 			shSuccess("Usuario eliminado con éxito");
 			setTimeout(() => {
@@ -486,7 +486,7 @@ function submitDelUser() {
 		} else {
 			shErrors("Datos no enviados");
 		}
-	}
+	}*/
 
 	xhttpServer.send(params);
 
