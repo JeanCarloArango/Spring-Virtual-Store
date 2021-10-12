@@ -7,7 +7,7 @@ let timerWait = 120;
 let timer = 0;
 
 /* Funcion de recarga durante periodo inactivo */
-/*window.addEventListener("click", () => {
+window.addEventListener("click", () => {
 	timer = 0;	
 });
 
@@ -35,7 +35,7 @@ let reloadInactive = function() {
 	
 }
 
-window.setInterval(reloadInactive, 1000);*/
+window.setInterval(reloadInactive, 1000);
 
 // Cargar Formularios
 const xhttpForms = new XMLHttpRequest;
@@ -477,7 +477,7 @@ function submitDelUser() {
 	xhttpServer.setRequestHeader('Content-type',
 		'application/x-www-form-urlencoded');
 
-	xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
+	/*xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
 		if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
 			shSuccess("Usuario eliminado con éxito");
 			setTimeout(() => {
@@ -486,7 +486,7 @@ function submitDelUser() {
 		} else {
 			shErrors("Datos no enviados");
 		}
-	}
+	}*/
 
 	xhttpServer.send(params);
 

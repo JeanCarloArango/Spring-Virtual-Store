@@ -6,7 +6,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
-
 import com.tiendavirtual.dto.UserDTO;
 
 public class UserDAO {
@@ -15,7 +14,7 @@ public class UserDAO {
 	private PreparedStatement sentence;
 	private String sql;
 	
-	//Encriptado de contraseña
+	//Encriptado de contraseï¿½a
 	public String convertirSHA256(String password) {
 		MessageDigest md = null;
 		try {
@@ -36,8 +35,6 @@ public class UserDAO {
 		return sb.toString();
 	}
 	
-	
-	
 	public boolean createUser(UserDTO user) {
 		String pass = convertirSHA256(user.getUserPass());
 		con = new ConnectionDB();
@@ -54,6 +51,7 @@ public class UserDAO {
 			if (!sentence.execute()) {
 				res = true;
 			}
+			this.sentence.close();
 			this.con.disconnect();
 			return res;
 		} catch (SQLException e) {
@@ -106,6 +104,7 @@ public class UserDAO {
 			if (!sentence.execute()) {
 				res = true;
 			}
+			this.sentence.close();
 			this.con.disconnect();
 			return res;
 		} catch (SQLException e) {
@@ -126,6 +125,7 @@ public class UserDAO {
 			if (!sentence.execute()) {
 				res = true;
 			}
+			this.sentence.close();
 			this.con.disconnect();
 			return res;
 		} catch (SQLException e) {
