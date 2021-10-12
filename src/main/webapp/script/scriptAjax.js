@@ -7,7 +7,7 @@ let timerWait = 120;
 let timer = 0;
 
 /* Funcion de recarga durante periodo inactivo */
-/*window.addEventListener("click", () => {
+window.addEventListener("click", () => {
 	timer = 0;	
 });
 
@@ -35,7 +35,7 @@ let reloadInactive = function() {
 	
 }
 
-window.setInterval(reloadInactive, 1000);*/
+window.setInterval(reloadInactive, 1000);
 
 // Cargar Formularios
 const xhttpForms = new XMLHttpRequest;
