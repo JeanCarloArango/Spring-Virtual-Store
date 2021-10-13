@@ -1,5 +1,6 @@
 const log = document.getElementById("log");
 const cancel = document.getElementById("cancel");
+const alertSh = document.getElementById("alertCont");
 
 log.addEventListener("click", () => {
 	loginUser()
@@ -15,6 +16,32 @@ window.addEventListener("keyup", function(event) {
 		loginUser()
 	}
 });
+
+// Error Dialogs
+
+function shErrors(txtContent) {
+	alertSh.innerHTML = "";
+	let errorCont = document.createElement("div");
+	errorCont.classList.add("error-cont");
+	let errorMsg = document.createElement("span");
+	errorMsg.classList.add("error-msg");
+	let content = document.createTextNode(txtContent);
+	errorMsg.appendChild(content);
+	errorCont.appendChild(errorMsg);
+	alertSh.appendChild(errorCont);
+}
+
+function hideErrors() {
+	const inputs = document.querySelectorAll(".txt");
+	// console.log(inputs);
+	inputs.forEach((input) => {
+		input.addEventListener("input", () => {
+			alertSh.innerHTML = "";
+		});
+	});
+}
+
+// Login Functions
 
 function loginUser() {
 	const userNick = document.getElementById("txtName").value.trim();
@@ -38,7 +65,7 @@ function loginUser() {
 					localStorage.log = "V"
 				}
 				else {					
-					alert("Error el usuario o contraseña estan erroneos")
+					shErrors("Usuario o Contraseña");
 				}
 			else {				
 				console.log("Error loading page\n");
