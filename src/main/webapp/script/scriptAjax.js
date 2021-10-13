@@ -87,6 +87,7 @@ async function CargarArchivo() {
 const usrsLink = document.getElementById("CRUD_Users");
 const cstmrLink = document.getElementById("CRUD_Customers");
 const supLink = document.getElementById("CRUD_Suppliers");
+const salesLink = document.getElementById("SalesModule");
 
 usrsLink.addEventListener("click", () => {
 	setTimeout(() => {
@@ -148,6 +149,12 @@ supLink.addEventListener("click", () => {
 		supDelBtn.addEventListener("click", () => {
 			submitDelSup();
 		});
+	}, 1000);
+});
+
+salesLink.addEventListener("click", () => {
+	setTimeout(() => {
+		
 	}, 1000);
 });
 
@@ -764,3 +771,5 @@ function submitDelSup() {
 	return;
 
 }
+
+/* Sales logic */
