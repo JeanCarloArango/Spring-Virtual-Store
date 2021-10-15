@@ -47,6 +47,7 @@ function loginUser() {
 	const userNick = document.getElementById("txtName").value.trim();
 	const userPass = document.getElementById("txtPass").value.trim();
 	const xhttpServer = new XMLHttpRequest();
+	localStorage.log = "f";
 
 	let url = '/BraveTeamApp/loginUser';
 	let params = "userNick=" + userNick + "&" + "userPass=" + userPass;
@@ -57,12 +58,12 @@ function loginUser() {
 
 	xhttpServer.send(params);
 
-	xhttpServer.onreadystatechange = function(aEvt) {
+	xhttpServer.onreadystatechange = function() {
 		if (xhttpServer.readyState == 4) {
 			if (xhttpServer.status == 200)
 				if (xhttpServer.responseText == "true") {
 					window.location.href = "/BraveTeamApp/Manage.html";
-					localStorage.log = "V"
+					localStorage.log = "V";
 				}
 				else {					
 					shErrors("Usuario o Contraseña incorrectos");

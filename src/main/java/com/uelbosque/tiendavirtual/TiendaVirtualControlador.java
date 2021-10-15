@@ -125,8 +125,8 @@ public class TiendaVirtualControlador {
 		return ResponseEntity.ok("Archivo cargado con exito.");
 	}
 
-	@RequestMapping("/buscarProuductos")
-	public ProductsDTO ConsultarPrductos(String name) {
+	@RequestMapping("/buscarProductos")
+	public ArrayList<ProductsDTO> ConsultarPrductos(String name) {
 		ProductsDAO prDao = new ProductsDAO();
 		return prDao.searchProducts(name);
 	}

@@ -22,6 +22,7 @@ window.addEventListener("keypress", () => {
 let reloadInactive = function() {
 	
 	timer++;
+	//console.log(timer);
 	if(timer > timerWait) {
 		window.onbeforeunload = function() {
 			localStorage.log = "f";
@@ -154,9 +155,13 @@ supLink.addEventListener("click", () => {
 
 salesLink.addEventListener("click", () => {
 	setTimeout(() => {
-		const queryBtn = document.getElementById("btnCstmrSer"); 
-		queryBtn.addEventListener("click", () => {
-			serCustomerSales();
+		const salesSerCstmr = document.getElementById("btnCstmrSer");
+		const salesSerPr = document.getElementById("btnCons");
+		salesSerCstmr.addEventListener("click", () => {
+			serCstmrSales();
+		});
+		salesSerPr.addEventListener("click", () => {
+			serPrSales();
 		});
 	}, 1000);
 });
@@ -525,7 +530,7 @@ function submitSerCustomer() {
 				hideErrors();
 				return false;
 			} else {
-				shSuccess("Usuario encontrado");
+				shSuccess("Cliente encontrado");
 				CreateTableFromJSON(xhttpServer.responseText);
 				hideTable();
 				setTimeout(() => {
@@ -777,21 +782,63 @@ function submitDelSup() {
 
 }
 
-/* Sales logic */
+/* sales Module */
 
-function getValues(json_result){
+function getJsonCstmr(json_result) {
 	const json_arr = JSON.parse(json_result);
 	const lblCstmr = document.getElementById("cstmrLbl");
+	let rs;
+
+	let col = [];
+	for (let i = 0; i < json_arr.length; i++) {
+		for (let key in json_arr[i]) {
+			if (col.indexOf(key) === -1) {
+				col.push(key);
+			}
+		}
+	}
 	
-	alert(json_arr);
+	for (let i = 0; i < json_arr.length; i++) {
+		for (let j = 0; j < col.length; j++) {
+			rs = json_arr[i][col[3]];
+		}
+	}
+	
+	lblCstmr.innerHTML = rs;
+	
 }
 
-function serCustomerSales() {
-	const usrDni = document.getElementById("txtDniSer").value.trim();
+function getJsonPr(json_result) {
+	const json_arr = JSON.parse(json_result);
+	const lblPr = document.getElementById("lblProduct");
+	let rs;
+
+	let col = [];
+	for (let i = 0; i < json_arr.length; i++) {
+		for (let key in json_arr[i]) {
+			if (col.indexOf(key) === -1) {
+				col.push(key);
+			}
+		}
+	}
+	
+	for (let i = 0; i < json_arr.length; i++) {
+		for (let j = 0; j < col.length; j++) {
+			rs = json_arr[i][col[2]];
+		}
+	}
+	
+	calcProducts(rs);
+	lblPr.innerHTML = rs;
+	
+}
+
+function serCstmrSales() {
+	const cstmrDni = document.getElementById("txtDniSer").value.trim();
 	const xhttpServer = new XMLHttpRequest();
 
 	var url = '/BraveTeamApp/buscarCliente';
-	var params = "cedula=" + usrDni;
+	var params = "cedula=" + cstmrDni;
 	xhttpServer.open('POST', url, true);
 
 	xhttpServer.setRequestHeader('Content-type',
@@ -801,11 +848,15 @@ function serCustomerSales() {
 		if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
 			//alert(xhttpServer.responseText);
 			if (xhttpServer.responseText === "[]") {
-				shErrors("Cliente con cedula " + usrDni + " no existe");
+				shErrors("Cliente con cedula " + cstmrDni + " no existe");
 				hideErrors();
 				return false;
 			} else {
-				getValues(xhttpServer.responseText);
+				shSuccess("Cliente encontrado");
+				getJsonCstmr(xhttpServer.responseText);
+				setTimeout(() => {
+					alertSh.innerHTML = "";
+				}, 4000);
 			}
 		} else {
 			shErrors("Datos no enviados");
@@ -816,4 +867,51 @@ function serCustomerSales() {
 
 	return;
 
+}
+
+function serPrSales() {
+	const prName = document.getElementById("txtPrName").value.trim();
+	const xhttpServer = new XMLHttpRequest();
+
+	var url = '/BraveTeamApp/buscarProductos';
+	var params = "name=" + prName;
+	xhttpServer.open('POST', url, true);
+
+	xhttpServer.setRequestHeader('Content-type',
+		'application/x-www-form-urlencoded');
+
+	xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
+		if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
+			// alert(xhttpServer.responseText);
+			if (xhttpServer.responseText === "[]") {
+				shErrors("Producto " + prName + " no existe");
+				hideErrors();
+				return false;
+			} else {
+				getJsonPr(xhttpServer.responseText);
+				shSuccess("Producto encontrado");
+				setTimeout(() => {
+					alertSh.innerHTML = "";
+				}, 4000);
+			}
+		} else {
+			shErrors("Datos no enviados");
+		}
+	}
+
+	xhttpServer.send(params);
+
+	return;
+
+}
+
+function calcProducts(valPr) {
+	const lblVal = document.getElementById("valT");
+	const prCant = document.getElementById("txtCant");
+	
+	let valT = prCant.value.trim() * valPr;
+	
+	lblVal.innerHTML = valT;
+	
+	
 }

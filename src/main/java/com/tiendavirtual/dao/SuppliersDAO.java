@@ -5,8 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import com.tiendavirtual.dto.CustomerDTO;
-import com.tiendavirtual.dto.SalesDetailsDTO;
 import com.tiendavirtual.dto.SuppliersDTO;
 
 public class SuppliersDAO {
