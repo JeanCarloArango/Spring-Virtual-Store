@@ -65,7 +65,7 @@ function loginUser() {
 					localStorage.log = "V"
 				}
 				else {					
-					shErrors("Usuario o Contraseña");
+					shErrors("Usuario o Contraseña incorrectos");
 				}
 			else {				
 				console.log("Error loading page\n");

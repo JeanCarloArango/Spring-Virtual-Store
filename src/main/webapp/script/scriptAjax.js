@@ -154,7 +154,10 @@ supLink.addEventListener("click", () => {
 
 salesLink.addEventListener("click", () => {
 	setTimeout(() => {
-		
+		const queryBtn = document.getElementById("btnCstmrSer"); 
+		queryBtn.addEventListener("click", () => {
+			serCustomerSales();
+		});
 	}, 1000);
 });
 
@@ -484,7 +487,7 @@ function submitDelUser() {
 	xhttpServer.setRequestHeader('Content-type',
 		'application/x-www-form-urlencoded');
 
-	/*xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
+	xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
 		if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
 			shSuccess("Usuario eliminado con éxito");
 			setTimeout(() => {
@@ -493,7 +496,7 @@ function submitDelUser() {
 		} else {
 			shErrors("Datos no enviados");
 		}
-	}*/
+	}
 
 	xhttpServer.send(params);
 
@@ -502,12 +505,13 @@ function submitDelUser() {
 }
 
 // Clientes
+
 function submitSerCustomer() {
-	const cstmrDni = document.getElementById("txtDni").value.trim();
+	const usrDni = document.getElementById("txtDni").value.trim();
 	const xhttpServer = new XMLHttpRequest();
 
 	var url = '/BraveTeamApp/buscarCliente';
-	var params = "cedula=" + cstmrDni;
+	var params = "cedula=" + usrDni;
 	xhttpServer.open('POST', url, true);
 
 	xhttpServer.setRequestHeader('Content-type',
@@ -515,12 +519,13 @@ function submitSerCustomer() {
 
 	xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
 		if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
+			//alert(xhttpServer.responseText);
 			if (xhttpServer.responseText === "[]") {
-				shErrors("Cliente con cedula " + cstmrDni + " no existe");
+				shErrors("Cliente con cedula " + usrDni + " no existe");
 				hideErrors();
 				return false;
 			} else {
-				shSuccess("Cliente encontrado");
+				shSuccess("Usuario encontrado");
 				CreateTableFromJSON(xhttpServer.responseText);
 				hideTable();
 				setTimeout(() => {
@@ -773,3 +778,42 @@ function submitDelSup() {
 }
 
 /* Sales logic */
+
+function getValues(json_result){
+	const json_arr = JSON.parse(json_result);
+	const lblCstmr = document.getElementById("cstmrLbl");
+	
+	alert(json_arr);
+}
+
+function serCustomerSales() {
+	const usrDni = document.getElementById("txtDniSer").value.trim();
+	const xhttpServer = new XMLHttpRequest();
+
+	var url = '/BraveTeamApp/buscarCliente';
+	var params = "cedula=" + usrDni;
+	xhttpServer.open('POST', url, true);
+
+	xhttpServer.setRequestHeader('Content-type',
+		'application/x-www-form-urlencoded');
+
+	xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
+		if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
+			//alert(xhttpServer.responseText);
+			if (xhttpServer.responseText === "[]") {
+				shErrors("Cliente con cedula " + usrDni + " no existe");
+				hideErrors();
+				return false;
+			} else {
+				getValues(xhttpServer.responseText);
+			}
+		} else {
+			shErrors("Datos no enviados");
+		}
+	}
+
+	xhttpServer.send(params);
+
+	return;
+
+}
