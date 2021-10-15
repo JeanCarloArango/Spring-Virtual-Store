@@ -62,18 +62,19 @@ public class ProductsDAO {
 		ResultSet productsFound = null;
 
 		try {
-			sql = "SELECT pro.*, prove.nombre from productos pro join proveedores prove on pro.proveedores_id = prove.id;";
+			//sql = "SELECT pro.*, prove.nombre from productos pro join proveedores prove on pro.proveedores_id = prove.id;";
+			sql = "SELECT * FROM productos WHERE producto = ? AND estado = 'E';";
 
 			sentence = this.con.pStimp(sql);
 			sentence.setString(1, name);
 			productsFound = sentence.executeQuery();
-			ProductsDTO user = null;
+			ProductsDTO produts = null;
 			while (productsFound.next()) {
-				user = new ProductsDTO(productsFound.getDouble("ivacompra"), productsFound.getString("producto"),
-						productsFound.getDouble("precio_compra"), productsFound.getDouble("precio_venta"), productsFound.getInt("nombre"));
+				produts = new ProductsDTO(productsFound.getDouble("ivacompra"), productsFound.getString("producto"),
+						productsFound.getDouble("precio_compra"), productsFound.getDouble("precio_venta"), productsFound.getInt("proveedores_id"));
 			}
 			con.disconnect();
-			return user;
+			return produts;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

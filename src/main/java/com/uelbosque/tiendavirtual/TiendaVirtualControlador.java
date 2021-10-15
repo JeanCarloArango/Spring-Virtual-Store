@@ -115,10 +115,11 @@ public class TiendaVirtualControlador {
 	public ResponseEntity<?> handleFileUpload(@RequestParam("file") MultipartFile file) {
 		String fileName = file.getOriginalFilename();
 		try {
-			File fl = new File("C:\\ArchivosRecibidos\\" + fileName);
+			File fl = new File(fileName);
 			file.transferTo(fl);
 			ProductsDAO prDao = new ProductsDAO();
 			prDao.fileUpload(fl);
+			fl.delete();
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
