@@ -784,6 +784,8 @@ function submitDelSup() {
 
 /* sales Module */
 
+let values = [];
+
 function getJsonCstmr(json_result) {
 	const json_arr = JSON.parse(json_result);
 	const lblCstmr = document.getElementById("cstmrLbl");
@@ -811,7 +813,8 @@ function getJsonCstmr(json_result) {
 function getJsonPr(json_result) {
 	const json_arr = JSON.parse(json_result);
 	const lblPr = document.getElementById("lblProduct");
-	let rs;
+	let rsVal;
+	let rsName;
 
 	let col = [];
 	for (let i = 0; i < json_arr.length; i++) {
@@ -824,12 +827,18 @@ function getJsonPr(json_result) {
 	
 	for (let i = 0; i < json_arr.length; i++) {
 		for (let j = 0; j < col.length; j++) {
-			rs = json_arr[i][col[2]];
+			rsVal = json_arr[i][col[2]];
+		}
+	}
+
+	for (let i = 0; i < json_arr.length; i++) {
+		for (let j = 0; j < col.length; j++) {
+			rsName = json_arr[i][col[1]];
 		}
 	}
 	
-	calcProducts(rs);
-	lblPr.innerHTML = rs;
+	calcProducts(rsVal);
+	lblPr.innerHTML = rsName + " c/u " + "$" + rsVal;
 	
 }
 
@@ -907,11 +916,30 @@ function serPrSales() {
 
 function calcProducts(valPr) {
 	const lblVal = document.getElementById("valT");
+	const lblSaleTotal = document.getElementById("saleTotal");
+	const lblValIVA = document.getElementById("valIVA");
+	const lblFinalTot = document.getElementById("finalTotal");
 	const prCant = document.getElementById("txtCant");
+	let res = 0;
 	
 	let valT = prCant.value.trim() * valPr;
 	
-	lblVal.innerHTML = valT;
+	lblVal.innerHTML = "Cant: " + prCant.value.trim() + "<br>" + "$" + valT;
 	
+	values.push(valT);
 	
+	for(let i = 0; i < values.length; i++) {
+		res += values[i];
+	}
+			
+	lblSaleTotal.innerHTML = "$" + res;
+	
+	let valIVA = res * 0.19;
+	
+	lblValIVA.innerHTML = "$" + valIVA;
+	
+	let totSale = res + valIVA;
+	
+	lblFinalTot.innerHTML = "$" + totSale;
+		
 }
