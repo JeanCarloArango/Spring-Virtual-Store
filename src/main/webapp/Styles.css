@@ -159,7 +159,7 @@ label, .label{
 
 .sh-queries {
 	display: flex;
-	width: 100%;
+	width: auto;
 	max-height: 50%;
 	justify-content: center;
 	overflow: scroll;
