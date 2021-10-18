@@ -146,35 +146,23 @@ public class TiendaVirtualControlador {
 		return "Microservicio de eliminar  Productos";
 	}
 	
+	//Crear ventas
+	
+	@RequestMapping("/crearVenta")
+	public String InsertarProvedor(SalesDTO sales) {
+		SalesDAO pDao = new SalesDAO();
+		pDao.createSales(sales);
+		return "Microservicio de insersi�nn de Ventas";
+	}
+	
 	//Detalles Ventas
 	
-	
-	@RequestMapping("/crearDetVentas")
-	public String InsertSalesDetails(SalesDetailsDTO det) {
-		SalesDetailsDAO svDao = new SalesDetailsDAO();
-		svDao.createSalesDetails(det);
-		return "Microservicio de insersi�nn de Detalles de Ventas";
-	}
-
 	@RequestMapping("/buscarDetVentas")
-	public SalesDetailsDTO SearchSalesDetails(String cedula) {
+	public ArrayList<SalesDetailsDTO> SearchSalesDetails() {
 		SalesDetailsDAO svDao = new SalesDetailsDAO();
-		return svDao.searchSalesDetails(cedula);
+		return svDao.searchSalesDetails();
 	}
 
-	@RequestMapping("/actualizarDetVentas")
-	public String UpdateSalesDetails(SalesDetailsDAO customer) {
-		SalesDetailsDAO svDao = new SalesDetailsDAO();
-		svDao.updateSalesDetails(customer);
-		return "Microservicio de actualizaci�n de Detalles de Ventas";
-	}
-
-	@RequestMapping("/eliminarDetVentas")
-	public String DelSalesDetails(String cedula) {
-		SalesDetailsDAO prDao = new SalesDetailsDAO();
-		prDao.delSalesDetails(cedula);
-		return "Microservicio de eliminar  Detalles de Ventas";
-	}
 	
 
 }
