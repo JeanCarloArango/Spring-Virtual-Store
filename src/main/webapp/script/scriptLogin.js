@@ -1,5 +1,6 @@
 const log = document.getElementById("log");
 const cancel = document.getElementById("cancel");
+const alertSh = document.getElementById("alertCont");
 
 log.addEventListener("click", () => {
 	loginUser()
@@ -16,10 +17,37 @@ window.addEventListener("keyup", function(event) {
 	}
 });
 
+// Error Dialogs
+
+function shErrors(txtContent) {
+	alertSh.innerHTML = "";
+	let errorCont = document.createElement("div");
+	errorCont.classList.add("error-cont");
+	let errorMsg = document.createElement("span");
+	errorMsg.classList.add("error-msg");
+	let content = document.createTextNode(txtContent);
+	errorMsg.appendChild(content);
+	errorCont.appendChild(errorMsg);
+	alertSh.appendChild(errorCont);
+}
+
+function hideErrors() {
+	const inputs = document.querySelectorAll(".txt");
+	// console.log(inputs);
+	inputs.forEach((input) => {
+		input.addEventListener("input", () => {
+			alertSh.innerHTML = "";
+		});
+	});
+}
+
+// Login Functions
+
 function loginUser() {
 	const userNick = document.getElementById("txtName").value.trim();
 	const userPass = document.getElementById("txtPass").value.trim();
 	const xhttpServer = new XMLHttpRequest();
+	localStorage.log = "f";
 
 	let url = '/BraveTeamApp/loginUser';
 	let params = "userNick=" + userNick + "&" + "userPass=" + userPass;
@@ -30,15 +58,15 @@ function loginUser() {
 
 	xhttpServer.send(params);
 
-	xhttpServer.onreadystatechange = function(aEvt) {
+	xhttpServer.onreadystatechange = function() {
 		if (xhttpServer.readyState == 4) {
 			if (xhttpServer.status == 200)
 				if (xhttpServer.responseText == "true") {
 					window.location.href = "/BraveTeamApp/Manage.html";
-					localStorage.log = "V"
+					localStorage.log = "V";
 				}
 				else {					
-					alert("Error el usuario o contraseña estan erroneos")
+					shErrors("Usuario o Contraseña incorrectos");
 				}
 			else {				
 				console.log("Error loading page\n");

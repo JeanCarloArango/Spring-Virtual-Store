@@ -22,6 +22,7 @@ window.addEventListener("keypress", () => {
 let reloadInactive = function() {
 	
 	timer++;
+	//console.log(timer);
 	if(timer > timerWait) {
 		window.onbeforeunload = function() {
 			localStorage.log = "f";
@@ -87,6 +88,7 @@ async function CargarArchivo() {
 const usrsLink = document.getElementById("CRUD_Users");
 const cstmrLink = document.getElementById("CRUD_Customers");
 const supLink = document.getElementById("CRUD_Suppliers");
+const salesLink = document.getElementById("SalesModule");
 
 usrsLink.addEventListener("click", () => {
 	setTimeout(() => {
@@ -147,6 +149,19 @@ supLink.addEventListener("click", () => {
 		});
 		supDelBtn.addEventListener("click", () => {
 			submitDelSup();
+		});
+	}, 1000);
+});
+
+salesLink.addEventListener("click", () => {
+	setTimeout(() => {
+		const salesSerCstmr = document.getElementById("btnCstmrSer");
+		const salesSerPr = document.getElementById("btnCons");
+		salesSerCstmr.addEventListener("click", () => {
+			serCstmrSales();
+		});
+		salesSerPr.addEventListener("click", () => {
+			serPrSales();
 		});
 	}, 1000);
 });
@@ -477,7 +492,7 @@ function submitDelUser() {
 	xhttpServer.setRequestHeader('Content-type',
 		'application/x-www-form-urlencoded');
 
-	/*xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
+	xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
 		if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
 			shSuccess("Usuario eliminado con éxito");
 			setTimeout(() => {
@@ -486,7 +501,7 @@ function submitDelUser() {
 		} else {
 			shErrors("Datos no enviados");
 		}
-	}*/
+	}
 
 	xhttpServer.send(params);
 
@@ -495,12 +510,13 @@ function submitDelUser() {
 }
 
 // Clientes
+
 function submitSerCustomer() {
-	const cstmrDni = document.getElementById("txtDni").value.trim();
+	const usrDni = document.getElementById("txtDni").value.trim();
 	const xhttpServer = new XMLHttpRequest();
 
 	var url = '/BraveTeamApp/buscarCliente';
-	var params = "cedula=" + cstmrDni;
+	var params = "cedula=" + usrDni;
 	xhttpServer.open('POST', url, true);
 
 	xhttpServer.setRequestHeader('Content-type',
@@ -508,8 +524,9 @@ function submitSerCustomer() {
 
 	xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
 		if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
+			//alert(xhttpServer.responseText);
 			if (xhttpServer.responseText === "[]") {
-				shErrors("Cliente con cedula " + cstmrDni + " no existe");
+				shErrors("Cliente con cedula " + usrDni + " no existe");
 				hideErrors();
 				return false;
 			} else {
@@ -763,4 +780,166 @@ function submitDelSup() {
 
 	return;
 
+}
+
+/* sales Module */
+
+let values = [];
+
+function getJsonCstmr(json_result) {
+	const json_arr = JSON.parse(json_result);
+	const lblCstmr = document.getElementById("cstmrLbl");
+	let rs;
+
+	let col = [];
+	for (let i = 0; i < json_arr.length; i++) {
+		for (let key in json_arr[i]) {
+			if (col.indexOf(key) === -1) {
+				col.push(key);
+			}
+		}
+	}
+	
+	for (let i = 0; i < json_arr.length; i++) {
+		for (let j = 0; j < col.length; j++) {
+			rs = json_arr[i][col[3]];
+		}
+	}
+	
+	lblCstmr.innerHTML = rs;
+	
+}
+
+function getJsonPr(json_result) {
+	const json_arr = JSON.parse(json_result);
+	const lblPr = document.getElementById("lblProduct");
+	let rsVal;
+	let rsName;
+
+	let col = [];
+	for (let i = 0; i < json_arr.length; i++) {
+		for (let key in json_arr[i]) {
+			if (col.indexOf(key) === -1) {
+				col.push(key);
+			}
+		}
+	}
+	
+	for (let i = 0; i < json_arr.length; i++) {
+		for (let j = 0; j < col.length; j++) {
+			rsVal = json_arr[i][col[2]];
+		}
+	}
+
+	for (let i = 0; i < json_arr.length; i++) {
+		for (let j = 0; j < col.length; j++) {
+			rsName = json_arr[i][col[1]];
+		}
+	}
+	
+	calcProducts(rsVal);
+	lblPr.innerHTML = rsName + " c/u " + "$" + rsVal;
+	
+}
+
+function serCstmrSales() {
+	const cstmrDni = document.getElementById("txtDniSer").value.trim();
+	const xhttpServer = new XMLHttpRequest();
+
+	var url = '/BraveTeamApp/buscarCliente';
+	var params = "cedula=" + cstmrDni;
+	xhttpServer.open('POST', url, true);
+
+	xhttpServer.setRequestHeader('Content-type',
+		'application/x-www-form-urlencoded');
+
+	xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
+		if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
+			//alert(xhttpServer.responseText);
+			if (xhttpServer.responseText === "[]") {
+				shErrors("Cliente con cedula " + cstmrDni + " no existe");
+				hideErrors();
+				return false;
+			} else {
+				shSuccess("Cliente encontrado");
+				getJsonCstmr(xhttpServer.responseText);
+				setTimeout(() => {
+					alertSh.innerHTML = "";
+				}, 4000);
+			}
+		} else {
+			shErrors("Datos no enviados");
+		}
+	}
+
+	xhttpServer.send(params);
+
+	return;
+
+}
+
+function serPrSales() {
+	const prName = document.getElementById("txtPrName").value.trim();
+	const xhttpServer = new XMLHttpRequest();
+
+	var url = '/BraveTeamApp/buscarProductos';
+	var params = "name=" + prName;
+	xhttpServer.open('POST', url, true);
+
+	xhttpServer.setRequestHeader('Content-type',
+		'application/x-www-form-urlencoded');
+
+	xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
+		if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
+			// alert(xhttpServer.responseText);
+			if (xhttpServer.responseText === "[]") {
+				shErrors("Producto " + prName + " no existe");
+				hideErrors();
+				return false;
+			} else {
+				getJsonPr(xhttpServer.responseText);
+				shSuccess("Producto encontrado");
+				setTimeout(() => {
+					alertSh.innerHTML = "";
+				}, 4000);
+			}
+		} else {
+			shErrors("Datos no enviados");
+		}
+	}
+
+	xhttpServer.send(params);
+
+	return;
+
+}
+
+function calcProducts(valPr) {
+	const lblVal = document.getElementById("valT");
+	const lblSaleTotal = document.getElementById("saleTotal");
+	const lblValIVA = document.getElementById("valIVA");
+	const lblFinalTot = document.getElementById("finalTotal");
+	const prCant = document.getElementById("txtCant");
+	let res = 0;
+	
+	let valT = prCant.value.trim() * valPr;
+	
+	lblVal.innerHTML = "Cant: " + prCant.value.trim() + "<br>" + "$" + valT;
+	
+	values.push(valT);
+	
+	for(let i = 0; i < values.length; i++) {
+		res += values[i];
+	}
+			
+	lblSaleTotal.innerHTML = "$" + res;
+	
+	let valIVA = res * 0.19;
+	
+	lblValIVA.innerHTML = "$" + valIVA;
+	
+	let totSale = res + valIVA;
+	
+	lblFinalTot.innerHTML = "$" + totSale;
+		
 }
