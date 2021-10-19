@@ -127,7 +127,7 @@ public class TiendaVirtualControlador {
 	}
 
 	@RequestMapping("/buscarProductos")
-	public ProductsDTO ConsultarPrductos(String name) {
+	public ArrayList<ProductsDTO> ConsultarPrductos(String name) {
 		ProductsDAO prDao = new ProductsDAO();
 		return prDao.searchProducts(name);
 	}
