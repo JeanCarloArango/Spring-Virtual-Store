@@ -4,8 +4,10 @@ import java.io.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import com.tiendavirtual.dto.ProductsDTO;
+import com.tiendavirtual.dto.UserDTO;
 
 public class ProductsDAO {
 
@@ -57,9 +59,9 @@ public class ProductsDAO {
 		}
 	}
 
-	public ProductsDTO searchProducts(String name) {
+	public ArrayList<ProductsDTO> searchProducts(String name) {
 		con = new ConnectionDB();
-		ResultSet productsFound = null;
+		ArrayList<ProductsDTO> products = new ArrayList<ProductsDTO>();
 
 		try {
 			//sql = "SELECT pro.*, prove.nombre from productos pro join proveedores prove on pro.proveedores_id = prove.id;";
@@ -67,19 +69,20 @@ public class ProductsDAO {
 
 			sentence = this.con.pStimp(sql);
 			sentence.setString(1, name);
-			productsFound = sentence.executeQuery();
-			ProductsDTO produts = null;
+			ResultSet productsFound = sentence.executeQuery();
+			
 			while (productsFound.next()) {
-				produts = new ProductsDTO(productsFound.getDouble("ivacompra"), productsFound.getString("producto"),
+				ProductsDTO produt = new ProductsDTO(productsFound.getDouble("ivacompra"), productsFound.getString("producto"),
 						productsFound.getDouble("precio_compra"), productsFound.getDouble("precio_venta"), productsFound.getInt("proveedores_id"));
+				products.add(produt);
 			}
 			con.disconnect();
-			return produts;
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return null;
 		}
+		return products;
 	}
 
 	public Boolean updateProducts(ProductsDTO products) {
