@@ -2,28 +2,39 @@ package com.tiendavirtual.dto;
 
 public class SalesDTO {
 
-  private Double vatSale;
-  private Double totalSale;
-  private Double salesValue;
+	private int user;
+	private int customer;
+	private Double ivaSale;
+	private Double totalSale;
+	private Double valorFinal;
 
-  public SalesDTO() {}
+	public SalesDTO(int user, int customer, Double ivaSale, Double totalSale, Double valorFinal) {
+		super();
+		this.user = user;
+		this.customer = customer;
+		this.ivaSale = ivaSale;
+		this.totalSale = totalSale;
+		this.valorFinal = valorFinal;
+	}
 
-  public SalesDTO(Double vatSale, Double totalSale, Double salesValue) {
-    this.vatSale = vatSale;
-    this.totalSale = totalSale;
-    this.salesValue = salesValue;
-  }
+	public int getUser() {
+		return user;
+	}
 
-  public Double getVatSale() {
-    return vatSale;
-  }
+	public int getCustomer() {
+		return customer;
+	}
 
-  public Double getTotalSale() {
-    return totalSale;
-  }
+	public Double getIvaSale() {
+		return ivaSale;
+	}
 
-  public Double getSalesValue() {
-    return salesValue;
-  }
- 
+	public Double getTotalSale() {
+		return totalSale;
+	}
+
+	public Double getValorFinal() {
+		return valorFinal;
+	}
+
 }
