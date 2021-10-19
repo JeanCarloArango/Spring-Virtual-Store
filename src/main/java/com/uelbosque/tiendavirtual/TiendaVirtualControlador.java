@@ -149,7 +149,7 @@ public class TiendaVirtualControlador {
 	//Crear ventas
 	
 	@RequestMapping("/crearVenta")
-	public String InsertarProvedor(SalesDTO sales) {
+	public String InsertarVenta(SalesDTO sales) {
 		SalesDAO pDao = new SalesDAO();
 		pDao.createSales(sales);
 		return "Microservicio de insersi�nn de Ventas";
