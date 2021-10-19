@@ -14,7 +14,7 @@ public class SalesDetailsDAO {
 	
 	public ArrayList<SalesDetailsDTO> searchSalesDetails() {
 		con = new ConnectionDB();
-		ArrayList<SalesDetailsDTO> customer = new ArrayList<SalesDetailsDTO>();
+		ArrayList<SalesDetailsDTO> sales = new ArrayList<SalesDetailsDTO>();
 		
 		try {
 			sql = "SELECT cus.cedula, cus.nombre, ven.total_venta from ventas ven join clientes cus on ven.clientes_id = cus.id;";
@@ -24,9 +24,9 @@ public class SalesDetailsDAO {
 			while (detailsFound.next()) {
 				SalesDetailsDTO details = new SalesDetailsDTO(detailsFound.getString("cedula"),
 						detailsFound.getString("nombre"), Double.parseDouble(detailsFound.getString("total_venta")));
-				customer.add(details);
+				sales.add(details);
 			}
-			System.out.println(customer);
+			System.out.println(sales);
 			detailsFound.close();
 			sentence.close();
 			this.con.disconnect();
@@ -34,7 +34,7 @@ public class SalesDetailsDAO {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		return customer;
+		return sales;
 	}
 
 }
