@@ -4,7 +4,6 @@ import java.io.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import com.tiendavirtual.dto.ProductsDTO;
 
@@ -58,25 +57,24 @@ public class ProductsDAO {
 		}
 	}
 
-	public ArrayList<ProductsDTO> searchProducts(String name) {
+	public ProductsDTO searchProducts(String name) {
 		con = new ConnectionDB();
-		ArrayList<ProductsDTO> prArr = new ArrayList<ProductsDTO>();
+		ResultSet productsFound = null;
 
 		try {
-			// sql = "SELECT pro.*, prove.nombre from productos pro join proveedores prove on pro.proveedores_id = prove.id;";
+			//sql = "SELECT pro.*, prove.nombre from productos pro join proveedores prove on pro.proveedores_id = prove.id;";
 			sql = "SELECT * FROM productos WHERE producto = ? AND estado = 'E';";
 
 			sentence = this.con.pStimp(sql);
 			sentence.setString(1, name);
-			ResultSet productsFound = sentence.executeQuery();
-			ProductsDTO product = null;
+			productsFound = sentence.executeQuery();
+			ProductsDTO produts = null;
 			while (productsFound.next()) {
-				product = new ProductsDTO(productsFound.getDouble("ivacompra"), productsFound.getString("producto"),
+				produts = new ProductsDTO(productsFound.getDouble("ivacompra"), productsFound.getString("producto"),
 						productsFound.getDouble("precio_compra"), productsFound.getDouble("precio_venta"), productsFound.getInt("proveedores_id"));
-				prArr.add(product);
 			}
 			con.disconnect();
-			return prArr;
+			return produts;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

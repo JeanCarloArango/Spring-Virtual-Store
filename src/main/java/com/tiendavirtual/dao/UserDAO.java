@@ -80,7 +80,6 @@ public class UserDAO {
 			userFound.close();
 			sentence.close();
 			this.con.disconnect();
-			JOptionPane.showMessageDialog(null, "Usuario encontrado");
 		} catch (Exception e) {
 			System.out.println(e);
 		}
