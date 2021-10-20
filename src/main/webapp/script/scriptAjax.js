@@ -794,6 +794,7 @@ let tokens = [];
 function getJsonCstmr(json_result) {
 	const json_arr = JSON.parse(json_result);
 	const lblCstmr = document.getElementById("cstmrLbl");
+	// alert(json_result);
 	let rs = "";
 	let id = "";
 
@@ -964,7 +965,7 @@ function submitSales() {
 	var params = "customer=" + tokens[0] + "ivaSale=" + tokens[2] + "totalSale=" + tokens[1] + "valorFinal=" + tokens[3];
 	xhttpServer.open('POST', url, true);
 	
-	alert(tokens);
+	// alert(tokens);
 
 	xhttpServer.setRequestHeader('Content-type',
 		'application/x-www-form-urlencoded');
@@ -983,3 +984,5 @@ function submitSales() {
 	xhttpServer.send(params);
 	
 }
+
+// Logs Logic
