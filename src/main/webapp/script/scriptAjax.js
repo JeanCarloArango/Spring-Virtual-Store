@@ -967,7 +967,7 @@ function submitSales() {
 
 	xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
 		if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
-			shSuccess("Venta Creada");
+			shSuccess("Venta Creada Exitosamente");
 			setTimeout(() => {
 					alertSh.innerHTML = "";
 				}, 4000);
