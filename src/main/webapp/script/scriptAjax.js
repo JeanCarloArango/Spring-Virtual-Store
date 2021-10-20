@@ -789,7 +789,8 @@ let values = [];
 function getJsonCstmr(json_result) {
 	const json_arr = JSON.parse(json_result);
 	const lblCstmr = document.getElementById("cstmrLbl");
-	let rs;
+	let rs = "";
+	let boolCstmr = true;
 
 	let col = [];
 	for (let i = 0; i < json_arr.length; i++) {
@@ -806,7 +807,14 @@ function getJsonCstmr(json_result) {
 		}
 	}
 	
-	lblCstmr.innerHTML = rs;
+	if(rs === "") {
+		boolCstmr = false;
+	} else {
+		boolCstmr = true;
+		lblCstmr.innerHTML = rs;
+	}
+	
+	return boolCstmr;
 	
 }
 
@@ -942,4 +950,10 @@ function calcProducts(valPr) {
 	
 	lblFinalTot.innerHTML = "$" + totSale;
 		
+}
+
+function sendSales() {
+	const xhttpServer = new XMLHttpRequest();
+
+	var url = '/BraveTeamApp/crearVenta';
 }
