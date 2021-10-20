@@ -26,7 +26,6 @@ public class SalesDetailsDAO {
 						detailsFound.getString("nombre"), Double.parseDouble(detailsFound.getString("total_venta")));
 				sales.add(details);
 			}
-			System.out.println(sales);
 			detailsFound.close();
 			sentence.close();
 			this.con.disconnect();

@@ -987,3 +987,108 @@ function submitSales() {
 
 // Logs Logic
 
+const logsLink = document.getElementById("Logs");
+const empty = "";
+
+logsLink.addEventListener("click", function() {
+	setTimeout(() => {		
+		const usrLink = document.getElementById("usrList");
+		const cstmrLink = document.getElementById("cstmrList");
+		const salesLink = document.getElementById("saleList");
+		
+		usrLink.addEventListener("click", function() {
+			usersList();
+		});
+		cstmrLink.addEventListener("click", function() {
+			customersList();
+		});
+		salesLink.addEventListener("click", function() {
+			salesList();
+		});
+
+	}, 1000);
+});
+
+function usersList() {
+	const xhttpServer = new XMLHttpRequest();
+
+	var url = '/BraveTeamApp/buscarUsuario';
+	var params = "cedula=" + empty;
+	xhttpServer.open('POST', url, true);
+
+	xhttpServer.setRequestHeader('Content-type',
+		'application/x-www-form-urlencoded');
+
+	xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
+		if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
+			//alert(xhttpServer.responseText);
+			shSuccess("Listado de Usuarios");
+			CreateTableFromJSON(xhttpServer.responseText);
+			setTimeout(() => {
+				alertSh.innerHTML = "";
+			}, 4000);
+		} else {
+			shErrors("Datos no enviados");
+		}
+	}
+
+	xhttpServer.send(params);
+
+	return;
+
+}
+
+function customersList() {
+	const xhttpServer = new XMLHttpRequest();
+
+	var url = '/BraveTeamApp/buscarCliente';
+	var params = "cedula=" + empty;
+	xhttpServer.open('POST', url, true);
+
+	xhttpServer.setRequestHeader('Content-type',
+		'application/x-www-form-urlencoded');
+
+	xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
+		if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
+			//alert(xhttpServer.responseText);
+			shSuccess("Listado Clientes");
+			CreateTableFromJSON(xhttpServer.responseText);
+			setTimeout(() => {
+				alertSh.innerHTML = "";
+			}, 4000);
+		} else {
+			shErrors("Datos no enviados");
+		}
+	}
+
+	xhttpServer.send(params);
+
+	return;
+
+}
+
+function salesList() {
+	const xhttpServer = new XMLHttpRequest();
+
+	var url = '/BraveTeamApp/buscarDetVentas';
+	xhttpServer.open('POST', url, true);
+
+	xhttpServer.setRequestHeader('Content-type',
+		'application/x-www-form-urlencoded');
+
+	xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
+		if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
+			//alert(xhttpServer.responseText);
+			shSuccess("Listado Ventas");
+			CreateTableFromJSON(xhttpServer.responseText);
+			setTimeout(() => {
+				alertSh.innerHTML = "";
+			}, 4000);
+		} else {
+			shErrors("Datos no enviados");
+		}
+	}
+
+	return;
+
+}
