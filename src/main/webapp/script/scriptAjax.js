@@ -813,7 +813,7 @@ function getJsonCstmr(json_result) {
 			id = json_arr[i][col[0]];
 		}
 	}
-	
+		
 	lblCstmr.innerHTML = rs;
 	
 	tokens.push(id);
@@ -965,7 +965,7 @@ function submitSales() {
 	var params = "customer=" + tokens[0] + "ivaSale=" + tokens[2] + "totalSale=" + tokens[1] + "valorFinal=" + tokens[3];
 	xhttpServer.open('POST', url, true);
 	
-	// alert(tokens);
+	alert(tokens);
 
 	xhttpServer.setRequestHeader('Content-type',
 		'application/x-www-form-urlencoded');
