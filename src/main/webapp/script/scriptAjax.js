@@ -795,6 +795,7 @@ function getJsonCstmr(json_result) {
 	const json_arr = JSON.parse(json_result);
 	const lblCstmr = document.getElementById("cstmrLbl");
 	let rs = "";
+	let id = "";
 
 	let col = [];
 	for (let i = 0; i < json_arr.length; i++) {
@@ -808,12 +809,13 @@ function getJsonCstmr(json_result) {
 	for (let i = 0; i < json_arr.length; i++) {
 		for (let j = 0; j < col.length; j++) {
 			rs = json_arr[i][col[3]];
+			id = json_arr[i][col[0]];
 		}
 	}
 	
 	lblCstmr.innerHTML = rs;
 	
-	tokens.push(rs);
+	tokens.push(id);
 	
 }
 
@@ -961,6 +963,8 @@ function submitSales() {
 	var url = '/BraveTeamApp/crearVenta';
 	var params = "customer=" + tokens[0] + "ivaSale=" + tokens[2] + "totalSale=" + tokens[1] + "valorFinal=" + tokens[3];
 	xhttpServer.open('POST', url, true);
+	
+	alert(tokens);
 
 	xhttpServer.setRequestHeader('Content-type',
 		'application/x-www-form-urlencoded');
