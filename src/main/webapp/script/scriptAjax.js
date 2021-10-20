@@ -962,10 +962,10 @@ function submitSales() {
 	const xhttpServer = new XMLHttpRequest();
 	
 	var url = '/BraveTeamApp/crearVenta';
-	var params = "customer=" + tokens[0] + "ivaSale=" + tokens[2] + "totalSale=" + tokens[1] + "valorFinal=" + tokens[3];
+	var params = "customer=" + tokens[0] + "&ivaSale=" + tokens[2] + "&totalSale=" + tokens[1] + "&valorFinal=" + tokens[3];
 	xhttpServer.open('POST', url, true);
 	
-	// alert(tokens[0]);
+	alert(tokens);
 
 	xhttpServer.setRequestHeader('Content-type',
 		'application/x-www-form-urlencoded');
@@ -986,3 +986,4 @@ function submitSales() {
 }
 
 // Logs Logic
+
