@@ -40,9 +40,14 @@ public class CustomerDAO {
 		ArrayList<CustomerDTO> custoAr = new ArrayList<CustomerDTO>();
 		
 		try {
-			sql = "SELECT * FROM clientes WHERE cedula = ?;";
-			sentence = this.con.pStimp(sql);
-			sentence.setString(1, cedula);
+			if (cedula == "") {
+				sql = "SELECT * FROM clientes;";
+				sentence = this.con.pStimp(sql);
+			}else {
+				sql = "SELECT * FROM clientes WHERE cedula = ?;";
+				sentence = this.con.pStimp(sql);
+				sentence.setString(1, cedula);
+			}
 			
 			ResultSet customerFound = sentence.executeQuery();
 			while (customerFound.next()) {
