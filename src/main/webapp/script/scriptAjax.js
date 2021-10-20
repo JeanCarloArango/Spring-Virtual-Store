@@ -56,6 +56,7 @@ document.querySelectorAll(".link").forEach(function(el) {
 const prLink = document.getElementById("Products_mgmt");
 
 prLink.addEventListener("click", function() {
+	divContainer.innerHTML = "";
 	setTimeout(() => {
 		const inBtn = document.getElementById("fileupload");
 		const lblFile = document.getElementById("file-name");
@@ -91,6 +92,7 @@ const supLink = document.getElementById("CRUD_Suppliers");
 const salesLink = document.getElementById("SalesModule");
 
 usrsLink.addEventListener("click", () => {
+	divContainer.innerHTML = "";
 	setTimeout(() => {
 		const usrsSerBtn = document.getElementById("usrSerBtn");
 		const usrsAddBtn = document.getElementById("usrAddBtn");
@@ -112,6 +114,7 @@ usrsLink.addEventListener("click", () => {
 });
 
 cstmrLink.addEventListener("click", () => {
+	divContainer.innerHTML = "";
 	setTimeout(() => {
 		const cstmrSerBtn = document.getElementById("cstmrSerBtn");
 		const cstmrAddBtn = document.getElementById("cstmrAddBtn");
@@ -133,6 +136,7 @@ cstmrLink.addEventListener("click", () => {
 });
 
 supLink.addEventListener("click", () => {
+	divContainer.innerHTML = "";
 	setTimeout(() => {
 		const supSerBtn = document.getElementById("supSerBtn");
 		const supAddBtn = document.getElementById("supAddBtn");
@@ -154,6 +158,7 @@ supLink.addEventListener("click", () => {
 });
 
 salesLink.addEventListener("click", () => {
+	divContainer.innerHTML = "";
 	setTimeout(() => {
 		const salesSerCstmr = document.getElementById("btnCstmrSer");
 		const salesSerPr = document.getElementById("btnCons");
@@ -965,7 +970,7 @@ function submitSales() {
 	var params = "customer=" + tokens[0] + "&ivaSale=" + tokens[2] + "&totalSale=" + tokens[1] + "&valorFinal=" + tokens[3];
 	xhttpServer.open('POST', url, true);
 	
-	alert(tokens);
+	//alert(tokens);
 
 	xhttpServer.setRequestHeader('Content-type',
 		'application/x-www-form-urlencoded');
@@ -991,6 +996,7 @@ const logsLink = document.getElementById("Logs");
 const empty = "";
 
 logsLink.addEventListener("click", function() {
+	divContainer.innerHTML = "";
 	setTimeout(() => {		
 		const usrLink = document.getElementById("usrList");
 		const cstmrLink = document.getElementById("cstmrList");

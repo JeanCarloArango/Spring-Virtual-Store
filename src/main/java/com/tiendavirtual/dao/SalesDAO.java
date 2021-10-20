@@ -13,6 +13,7 @@ public class SalesDAO {
 	
 	public boolean createSales(SalesDTO sale) {
 		con = new ConnectionDB();
+		int id = cus.idCustomer(String.valueOf(sale.getCustomer()));
 		try {
 			sql = "INSERT INTO ventas (ivaventa, total_venta, valor_venta, usuarios_id, clientes_id) VALUES (?,?,?,?,?);";
 			sentence = this.con.pStimp(sql);
@@ -20,7 +21,7 @@ public class SalesDAO {
 			sentence.setDouble(2, sale.getTotalSale());
 			sentence.setDouble(3, sale.getValorFinal());
 			sentence.setInt(4, 3);
-			sentence.setInt(5, cus.idCustomer(String.valueOf(sale.getCustomer())));
+			sentence.setInt(5, id);
 			
 			Boolean res = false;
 			if (!sentence.execute()) {
