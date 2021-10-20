@@ -9,6 +9,7 @@ public class SalesDAO {
 	private ConnectionDB con;
 	private String sql;
 	private PreparedStatement sentence;
+	private CustomerDAO cus = new CustomerDAO();
 	
 	public boolean createSales(SalesDTO sale) {
 		con = new ConnectionDB();
@@ -19,7 +20,7 @@ public class SalesDAO {
 			sentence.setDouble(2, sale.getTotalSale());
 			sentence.setDouble(3, sale.getValorFinal());
 			sentence.setInt(4, 3);
-			sentence.setInt(5, sale.getCustomer());
+			sentence.setInt(5, cus.idCustomer(String.valueOf(sale.getCustomer())));
 			
 			Boolean res = false;
 			if (!sentence.execute()) {

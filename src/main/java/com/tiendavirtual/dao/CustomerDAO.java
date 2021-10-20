@@ -58,6 +58,28 @@ public class CustomerDAO {
 		}
 		return custoAr;
 	}
+	//Method return id customer
+	public int idCustomer(String ced) {
+		con = new ConnectionDB();
+		int id = 0;
+		
+		try {
+			sql = "SELECT id FROM clientes WHERE cedula = ?;";
+			sentence = this.con.pStimp(sql);
+			sentence.setString(1, ced);
+			
+			ResultSet customerFound = sentence.executeQuery();
+			while (customerFound.next()) {
+				return id = customerFound.getInt("id");
+			}
+			customerFound.close();
+			sentence.close();
+			this.con.disconnect();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return id;
+	}
 	
 	public Boolean updateCustomer(CustomerDTO customer) {
 		con = new ConnectionDB();
