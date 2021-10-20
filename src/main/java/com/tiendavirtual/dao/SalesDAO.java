@@ -18,7 +18,7 @@ public class SalesDAO {
 			sentence.setDouble(1, sale.getIvaSale());
 			sentence.setDouble(2, sale.getTotalSale());
 			sentence.setDouble(3, sale.getValorFinal());
-			sentence.setInt(4, sale.getUser());
+			sentence.setInt(4, 1);
 			sentence.setInt(5, sale.getCustomer());
 			
 			Boolean res = false;

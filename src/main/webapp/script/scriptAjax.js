@@ -157,11 +157,15 @@ salesLink.addEventListener("click", () => {
 	setTimeout(() => {
 		const salesSerCstmr = document.getElementById("btnCstmrSer");
 		const salesSerPr = document.getElementById("btnCons");
+		const sendSales = document.getElementById("btnBuy");
 		salesSerCstmr.addEventListener("click", () => {
 			serCstmrSales();
 		});
 		salesSerPr.addEventListener("click", () => {
 			serPrSales();
+		});
+		sendSales.addEventListener("click", () => {
+			submitSales();
 		});
 	}, 1000);
 });
@@ -785,12 +789,12 @@ function submitDelSup() {
 /* sales Module */
 
 let values = [];
+let tokens = [];
 
 function getJsonCstmr(json_result) {
 	const json_arr = JSON.parse(json_result);
 	const lblCstmr = document.getElementById("cstmrLbl");
 	let rs = "";
-	let boolCstmr = true;
 
 	let col = [];
 	for (let i = 0; i < json_arr.length; i++) {
@@ -807,14 +811,9 @@ function getJsonCstmr(json_result) {
 		}
 	}
 	
-	if(rs === "") {
-		boolCstmr = false;
-	} else {
-		boolCstmr = true;
-		lblCstmr.innerHTML = rs;
-	}
+	lblCstmr.innerHTML = rs;
 	
-	return boolCstmr;
+	tokens.push(rs);
 	
 }
 
@@ -949,11 +948,34 @@ function calcProducts(valPr) {
 	let totSale = res + valIVA;
 	
 	lblFinalTot.innerHTML = "$" + totSale;
+	
+	tokens.push(res);
+	tokens.push(valIVA);
+	tokens.push(totSale);
 		
 }
 
-function sendSales() {
+function submitSales() {
 	const xhttpServer = new XMLHttpRequest();
-
+	
 	var url = '/BraveTeamApp/crearVenta';
+	var params = "customer=" + tokens[0] + "ivaSale=" + tokens[2] + "totalSale=" + tokens[1] + "valorFinal=" + tokens[3];
+	xhttpServer.open('POST', url, true);
+
+	xhttpServer.setRequestHeader('Content-type',
+		'application/x-www-form-urlencoded');
+
+	xhttpServer.onreadystatechange = function() {//Call a function when the state changes.
+		if (xhttpServer.readyState == 4 && xhttpServer.status == 200) {
+			shSuccess("Venta Creada");
+			setTimeout(() => {
+					alertSh.innerHTML = "";
+				}, 4000);
+		} else {
+			shErrors("Datos no enviados");
+		}
+	}
+
+	xhttpServer.send(params);
+	
 }
