@@ -1069,6 +1069,8 @@ function customersList() {
 
 function salesList() {
 	const xhttpServer = new XMLHttpRequest();
+	
+	var params = "";
 
 	var url = '/BraveTeamApp/buscarDetVentas';
 	xhttpServer.open('POST', url, true);
@@ -1088,6 +1090,8 @@ function salesList() {
 			shErrors("Datos no enviados");
 		}
 	}
+	
+	xhttpServer.send(params);
 
 	return;
 

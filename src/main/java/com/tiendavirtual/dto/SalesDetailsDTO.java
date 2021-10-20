@@ -6,18 +6,19 @@ public class SalesDetailsDTO {
 	private String nameCustomer;
 	private Double totalSale;
 
-	public SalesDetailsDTO(String ccUser, String nameUser, Double totalSale) {
+	public SalesDetailsDTO(String ccCustomer, String nameCustomer, Double totalSale) {
 		super();
-		this.ccCustomer = ccUser;
-		this.nameCustomer = nameUser;
+		this.ccCustomer = ccCustomer;
+		this.nameCustomer = nameCustomer;
 		this.totalSale = totalSale;
 	}
 
-	public String getCcUser() {
+	public String getCcCustomer() {
 		return ccCustomer;
 	}
 
-	public String getNameUser() {
+
+	public String getNameCustomer() {
 		return nameCustomer;
 	}
 
