@@ -115,7 +115,7 @@ public class TiendaVirtualControlador {
 	public ResponseEntity<?> handleFileUpload(@RequestParam("file") MultipartFile file) {
 		String fileName = file.getOriginalFilename();
 		try {
-			File fl = new File("C:\\WebDeveloped\\" + fileName);
+			File fl = new File("/Files" + fileName);
 			file.transferTo(fl);
 			ProductsDAO prDao = new ProductsDAO();
 			prDao.fileUpload(fl);
